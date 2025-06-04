@@ -7,8 +7,8 @@ baseurl: ""
 # Author information
 author:
   name: Kevin Park
-  email: kevin@realcoding.blog
-  github: realcoding
+  email: kevinpark@okyc.kr
+  github: realcoding2003
   linkedin: kevinpark
 
 # Build settings
@@ -55,7 +55,7 @@ paginate: 10
 paginate_path: "/page:num/"
 
 # Social media
-github_username: realcoding
+github_username: realcoding2003
 linkedin_username: kevinpark
 
 # Google Analytics (나중에 설정)
@@ -65,6 +65,6 @@ linkedin_username: kevinpark
 comments:
   provider: utterances
   utterances:
-    repo: realcoding/realcoding.github.io
+    repo: realcoding2003/realcoding2003.github.io
     issue_term: pathname
-    theme: github-light
+    theme: github-dark

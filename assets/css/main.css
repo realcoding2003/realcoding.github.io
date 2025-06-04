@@ -330,6 +330,218 @@ a:hover {
     background: var(--background);
 }
 
+/* Post and Page Headers - 상단 간격 개선 */
+.post-header,
+.page-header {
+    padding: var(--spacing-3xl) 0 var(--spacing-2xl);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.post-title,
+.page-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+}
+
+.page-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+/* Post Content and Page Content */
+.post-content,
+.page-content {
+    padding: 0 0 var(--spacing-2xl);
+}
+
+.post-content .container,
+.page-content .container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Post Meta */
+.post-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.post-meta span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.post-meta a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.post-meta a:hover {
+    text-decoration: underline;
+}
+
+/* Post Tags */
+.post-tags {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-md);
+}
+
+.post-tags .tag {
+    background: var(--primary-color);
+    color: white;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    text-decoration: none;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.post-tags .tag:hover {
+    background: var(--secondary-color);
+    text-decoration: none;
+}
+
+/* Post Footer */
+.post-footer {
+    border-top: 1px solid var(--border);
+    padding: var(--spacing-2xl) 0;
+    background: var(--surface);
+}
+
+/* Post Navigation */
+.post-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-2xl);
+    gap: var(--spacing-lg);
+}
+
+.nav-previous,
+.nav-next {
+    flex: 1;
+    max-width: 45%;
+}
+
+.nav-next {
+    text-align: right;
+}
+
+.post-navigation a {
+    display: block;
+    padding: var(--spacing-lg);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.post-navigation a:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+}
+
+.nav-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-title {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.post-navigation a:hover .nav-label,
+.post-navigation a:hover .nav-title {
+    color: white;
+}
+
+/* Post Share */
+.post-share {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.post-share h4 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-lg);
+}
+
+.share-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.share-btn.twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.share-btn.facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.share-btn.linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.share-btn.copy-link {
+    background: var(--text-muted);
+    color: white;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow);
+    text-decoration: none;
+}
+
+/* Post Comments */
+.post-comments {
+    margin-top: var(--spacing-2xl);
+}
+
 .blog-layout {
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -804,6 +1016,32 @@ a:hover {
         gap: var(--spacing-sm);
     }
     
+    /* 모바일에서 포스트/페이지 헤더 간격 조정 */
+    .post-header,
+    .page-header {
+        padding: var(--spacing-2xl) 0 var(--spacing-xl);
+    }
+    
+    .post-title,
+    .page-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .post-navigation {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .nav-previous,
+    .nav-next {
+        max-width: 100%;
+        text-align: left;
+    }
+    
+    .share-buttons {
+        justify-content: center;
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
@@ -830,5 +1068,16 @@ a:hover {
     
     .blog-layout {
         gap: var(--spacing-lg);
+    }
+    
+    /* 작은 화면에서 더 간결한 간격 */
+    .post-header,
+    .page-header {
+        padding: var(--spacing-xl) 0 var(--spacing-lg);
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
     }
 }

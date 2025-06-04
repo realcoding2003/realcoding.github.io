@@ -56,8 +56,8 @@ permalink: /about/
 
 궁금한 점이 있거나 협업을 원하신다면 언제든 연락해주세요!
 
-- **이메일**: kevin@realcoding.blog
-- **GitHub**: [@realcoding](https://github.com/realcoding)
+- **이메일**: kevinpark@okyc.kr
+- **GitHub**: [@realcoding2003](https://github.com/realcoding2003)
 - **LinkedIn**: [Kevin Park](https://linkedin.com/in/kevinpark)
 
 ## 💡 블로그 정보
@@ -69,7 +69,7 @@ permalink: /about/
 - **Custom Theme** - 직접 제작한 반응형 테마
 - **Utterances** - GitHub 이슈 기반 댓글 시스템
 
-소스 코드는 [GitHub 저장소](https://github.com/realcoding/realcoding.github.io)에서 확인하실 수 있습니다.
+소스 코드는 [GitHub 저장소](https://github.com/realcoding2003/realcoding2003.github.io)에서 확인하실 수 있습니다.
 
 ---
 
