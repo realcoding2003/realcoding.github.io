@@ -1,12 +1,6 @@
 // Main JavaScript functionality for the blog
 
 document.addEventListener('DOMContentLoaded', function() {
-    // HTTPS 리다이렉트 (프로덕션에서만)
-    if (location.protocol !== 'https:' && location.hostname === 'realcoding.blog') {
-        location.replace('https:' + window.location.href.substring(window.location.protocol.length));
-        return;
-    }
-    
     // Initialize all features
     initMobileMenu();
     initThemeToggle();
