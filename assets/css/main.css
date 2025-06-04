@@ -170,6 +170,7 @@ a:hover {
 /* Header */
 .site-header {
     background: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 20px var(--shadow);
     position: sticky;
@@ -380,6 +381,241 @@ a:hover {
 .page-content .container {
     max-width: 800px;
     margin: 0 auto;
+}
+
+/* Post Content Typography - 포스트 콘텐츠 내 타이포그래피 개선 */
+.post-content h1:first-child,
+.page-content h1:first-child {
+    margin-top: 0;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6,
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5,
+.page-content h6 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.post-content h2,
+.page-content h2 {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+/* Lists - 목록 스타일 개선 */
+.post-content ul,
+.post-content ol,
+.page-content ul,
+.page-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+    color: var(--text-secondary);
+}
+
+.post-content ul ul,
+.post-content ol ol,
+.post-content ul ol,
+.post-content ol ul,
+.page-content ul ul,
+.page-content ol ol,
+.page-content ul ol,
+.page-content ol ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.post-content li,
+.page-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+
+.post-content li:last-child,
+.page-content li:last-child {
+    margin-bottom: 0;
+}
+
+.post-content li p,
+.page-content li p {
+    margin-bottom: 0.5rem;
+}
+
+.post-content li strong,
+.page-content li strong {
+    color: var(--text-primary);
+}
+
+/* Ordered lists styling */
+.post-content ol,
+.page-content ol {
+    counter-reset: list-counter;
+    list-style: none;
+}
+
+.post-content ol > li,
+.page-content ol > li {
+    counter-increment: list-counter;
+    position: relative;
+}
+
+.post-content ol > li::before,
+.page-content ol > li::before {
+    content: counter(list-counter) ".";
+    position: absolute;
+    left: -2rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+/* Unordered lists styling */
+.post-content ul > li,
+.page-content ul > li {
+    position: relative;
+}
+
+.post-content ul > li::before,
+.page-content ul > li::before {
+    content: "•";
+    position: absolute;
+    left: -1.2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Nested list bullets */
+.post-content ul ul > li::before,
+.page-content ul ul > li::before {
+    content: "◦";
+    color: var(--text-muted);
+}
+
+.post-content ul ul ul > li::before,
+.page-content ul ul ul > li::before {
+    content: "▪";
+    color: var(--text-muted);
+}
+
+/* Blockquotes - 인용문 스타일 개선 */
+.post-content blockquote,
+.page-content blockquote {
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid var(--primary-color);
+    background: var(--surface);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.post-content blockquote p:last-child,
+.page-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Code blocks - 코드 블록 스타일 개선 */
+.post-content pre,
+.page-content pre {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--dark-surface);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    border: 1px solid var(--border);
+}
+
+.post-content code,
+.page-content code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+}
+
+.post-content p code,
+.page-content p code {
+    background: var(--surface);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    border: 1px solid var(--border);
+}
+
+/* Tables - 테이블 스타일 개선 */
+.post-content table,
+.page-content table {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.post-content th,
+.post-content td,
+.page-content th,
+.page-content td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-content th,
+.page-content th {
+    background: var(--surface);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.post-content tr:last-child td,
+.page-content tr:last-child td {
+    border-bottom: none;
+}
+
+/* Images - 이미지 스타일 개선 */
+.post-content img,
+.page-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+/* Horizontal rules */
+.post-content hr,
+.page-content hr {
+    margin: 3rem 0;
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-sm);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .post-content blockquote,
+[data-theme="dark"] .page-content blockquote {
+    background: var(--dark-card-surface);
+    border-left-color: var(--primary-color);
+}
+
+[data-theme="dark"] .post-content p code,
+[data-theme="dark"] .page-content p code {
+    background: var(--dark-card-surface);
+    color: var(--accent-color);
+}
+
+[data-theme="dark"] .post-content th,
+[data-theme="dark"] .page-content th {
+    background: var(--dark-card-surface);
 }
 
 /* About Page Hero */
