@@ -6,7 +6,7 @@ permalink: /about/
 ---
 
 <div class="about-hero">
-  <img src="/assets/images/avatar.svg" alt="Kevin Park" class="about-avatar-large">
+  <img src="/assets/images/character.svg" alt="Kevin Park" class="about-avatar-large">
 </div>
 
 안녕하세요! 저는 **Kevin Park**입니다. 실무에서 쌓은 개발 경험과 새로 배운 기술들을 이 블로그를 통해 공유하고 있습니다.
