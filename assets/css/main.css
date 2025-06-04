@@ -239,7 +239,6 @@ a:hover {
     gap: var(--spacing-sm);
 }
 
-.search-toggle,
 .theme-toggle {
     background: none;
     border: none;
@@ -251,7 +250,6 @@ a:hover {
     transition: var(--transition);
 }
 
-.search-toggle:hover,
 .theme-toggle:hover {
     background: var(--surface);
     color: var(--primary-color);

@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
     initMobileMenu();
     initThemeToggle();
-    initSearch();
     initScrollToTop();
     initSmoothScrolling();
 });
@@ -73,74 +72,6 @@ function updateThemeIcon(theme) {
             icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
     }
-}
-
-// Search functionality
-function initSearch() {
-    const searchToggle = document.getElementById('searchToggle');
-    const searchModal = document.getElementById('searchModal');
-    const searchClose = document.getElementById('searchClose');
-    const searchInput = document.getElementById('searchInput');
-    
-    if (searchToggle && searchModal) {
-        searchToggle.addEventListener('click', function() {
-            searchModal.classList.add('active');
-            if (searchInput) {
-                setTimeout(() => searchInput.focus(), 100);
-            }
-        });
-    }
-    
-    if (searchClose && searchModal) {
-        searchClose.addEventListener('click', function() {
-            searchModal.classList.remove('active');
-        });
-    }
-    
-    if (searchModal) {
-        searchModal.addEventListener('click', function(e) {
-            if (e.target === searchModal) {
-                searchModal.classList.remove('active');
-            }
-        });
-    }
-    
-    // Escape key to close search
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && searchModal && searchModal.classList.contains('active')) {
-            searchModal.classList.remove('active');
-        }
-    });
-    
-    // Simple search functionality (you can enhance this)
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            performSearch(query);
-        });
-    }
-}
-
-function performSearch(query) {
-    const searchResults = document.getElementById('searchResults');
-    if (!searchResults) return;
-    
-    if (query.length < 2) {
-        searchResults.innerHTML = '';
-        return;
-    }
-    
-    // This is a simple implementation. In a real blog, you'd want to:
-    // 1. Use a search index (like Lunr.js)
-    // 2. Search through all posts
-    // 3. Implement proper highlighting
-    
-    searchResults.innerHTML = `
-        <div class="search-message">
-            <p>검색 기능은 현재 개발 중입니다.</p>
-            <p>"${query}"에 대한 결과를 준비하고 있습니다.</p>
-        </div>
-    `;
 }
 
 // Scroll to top functionality
