@@ -1,8 +1,8 @@
 # Site settings
 title: Real Coding Blog
 description: 실무에서 배운 개발 노하우와 기술적 인사이트를 공유합니다
-url: "https://realcoding.blog"
-baseurl: ""
+url: "https://realcoding2003.github.io"
+baseurl: "/realcoding.github.io"
 
 # Author information
 author:
