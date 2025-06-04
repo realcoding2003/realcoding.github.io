@@ -1,0 +1,132 @@
+---
+layout: default
+---
+
+<article class="post">
+    <header class="post-header">
+        <div class="container">
+            <h1 class="post-title">{{ page.title }}</h1>
+            <div class="post-meta">
+                <span class="post-date">
+                    <i class="far fa-calendar"></i>
+                    <time datetime="{{ page.date | date_to_xmlschema }}">
+                        {{ page.date | date: "%Y년 %m월 %d일" }}
+                    </time>
+                </span>
+                {% if page.author %}
+                    <span class="post-author">
+                        <i class="far fa-user"></i>
+                        {{ page.author }}
+                    </span>
+                {% endif %}
+                {% if page.categories %}
+                    <span class="post-categories">
+                        <i class="far fa-folder"></i>
+                        {% for category in page.categories %}
+                            <a href="/categories#{{ category | slugify }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                <span class="reading-time">
+                    <i class="far fa-clock"></i>
+                    {% assign words = content | number_of_words %}
+                    {% if words < 360 %}
+                        1분 읽기
+                    {% else %}
+                        {{ words | divided_by: 180 }}분 읽기
+                    {% endif %}
+                </span>
+            </div>
+            
+            {% if page.tags %}
+                <div class="post-tags">
+                    {% for tag in page.tags %}
+                        <a href="/tags#{{ tag | slugify }}" class="tag">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="post-content">
+        <div class="container">
+            {{ content }}
+        </div>
+    </div>
+
+    <footer class="post-footer">
+        <div class="container">
+            <!-- 네비게이션 -->
+            <nav class="post-navigation">
+                {% if page.previous.url %}
+                    <div class="nav-previous">
+                        <a href="{{ page.previous.url | relative_url }}">
+                            <span class="nav-label">이전 포스트</span>
+                            <span class="nav-title">{{ page.previous.title }}</span>
+                        </a>
+                    </div>
+                {% endif %}
+                
+                {% if page.next.url %}
+                    <div class="nav-next">
+                        <a href="{{ page.next.url | relative_url }}">
+                            <span class="nav-label">다음 포스트</span>
+                            <span class="nav-title">{{ page.next.title }}</span>
+                        </a>
+                    </div>
+                {% endif %}
+            </nav>
+
+            <!-- 공유 버튼 -->
+            <div class="post-share">
+                <h4>이 포스트 공유하기</h4>
+                <div class="share-buttons">
+                    <a href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ site.url }}{{ page.url }}" 
+                       class="share-btn twitter" target="_blank" rel="noopener">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" 
+                       class="share-btn facebook" target="_blank" rel="noopener">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ page.url }}" 
+                       class="share-btn linkedin" target="_blank" rel="noopener">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+                    <button class="share-btn copy-link" onclick="copyToClipboard('{{ site.url }}{{ page.url }}')">
+                        <i class="fas fa-link"></i> 링크 복사
+                    </button>
+                </div>
+            </div>
+
+            <!-- 댓글 섹션 -->
+            {% if site.comments.provider == "utterances" %}
+                <div class="post-comments">
+                    <script src="https://utteranc.es/client.js"
+                            repo="{{ site.comments.utterances.repo }}"
+                            issue-term="{{ site.comments.utterances.issue_term }}"
+                            theme="{{ site.comments.utterances.theme }}"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                </div>
+            {% endif %}
+        </div>
+    </footer>
+</article>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            const btn = document.querySelector('.copy-link');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 복사됨!';
+            btn.style.backgroundColor = '#28a745';
+            
+            setTimeout(function() {
+                btn.innerHTML = originalText;
+                btn.style.backgroundColor = '';
+            }, 2000);
+        });
+    }
+</script>

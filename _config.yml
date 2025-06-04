@@ -1,0 +1,70 @@
+# Site settings
+title: Real Coding Blog
+description: 실무에서 배운 개발 노하우와 기술적 인사이트를 공유합니다
+url: "https://realcoding.github.io"
+baseurl: ""
+
+# Author information
+author:
+  name: Kevin Park
+  email: kevin@realcoding.blog
+  github: realcoding
+  linkedin: kevinpark
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Kevin Park"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Timezone
+timezone: Asia/Seoul
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Social media
+github_username: realcoding
+linkedin_username: kevinpark
+
+# Google Analytics (나중에 설정)
+# google_analytics: G-XXXXXXXXXX
+
+# Comments (utterances 사용)
+comments:
+  provider: utterances
+  utterances:
+    repo: realcoding/realcoding.github.io
+    issue_term: pathname
+    theme: github-light

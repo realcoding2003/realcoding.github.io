@@ -1,0 +1,77 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>{{ site.title }}</h3>
+                <p>{{ site.description }}</p>
+                <div class="social-links">
+                    {% if site.github_username %}
+                        <a href="https://github.com/{{ site.github_username }}" class="social-link" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    {% endif %}
+                    {% if site.linkedin_username %}
+                        <a href="https://linkedin.com/in/{{ site.linkedin_username }}" class="social-link" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    {% endif %}
+                    {% if site.author.email %}
+                        <a href="mailto:{{ site.author.email }}" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    {% endif %}
+                    <a href="{{ '/feed.xml' | relative_url }}" class="social-link" title="RSS Feed">
+                        <i class="fas fa-rss"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>카테고리</h4>
+                <ul class="footer-links">
+                    {% assign categories = site.categories | sort %}
+                    {% for category in categories limit:5 %}
+                        <li>
+                            <a href="/categories#{{ category[0] | slugify }}">
+                                {{ category[0] }} ({{ category[1].size }})
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>최근 포스트</h4>
+                <ul class="footer-links">
+                    {% for post in site.posts limit:5 %}
+                        <li>
+                            <a href="{{ post.url | relative_url }}">
+                                {{ post.title | truncate: 30 }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>정보</h4>
+                <ul class="footer-links">
+                    <li><a href="{{ '/about' | relative_url }}">소개</a></li>
+                    <li><a href="{{ '/archive' | relative_url }}">아카이브</a></li>
+                    <li><a href="{{ '/sitemap.xml' | relative_url }}">사이트맵</a></li>
+                    <li><a href="{{ '/feed.xml' | relative_url }}">RSS 피드</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. 모든 권리 보유.</p>
+                <p>
+                    <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>과 
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>로 제작
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

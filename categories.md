@@ -1,0 +1,204 @@
+---
+layout: page
+title: 카테고리
+subtitle: 주제별로 포스트 찾기
+permalink: /categories/
+---
+
+<div class="categories-container">
+  {% assign categories = site.categories | sort %}
+  
+  <div class="categories-overview">
+    <h2>전체 카테고리</h2>
+    <div class="categories-grid">
+      {% for category in categories %}
+        <div class="category-card">
+          <h3><a href="#{{ category[0] | slugify }}">{{ category[0] }}</a></h3>
+          <p>{{ category[1].size }}개 포스트</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="categories-detail">
+    {% for category in categories %}
+      <div class="category-section" id="{{ category[0] | slugify }}">
+        <h2 class="category-title">{{ category[0] }}</h2>
+        <p class="category-description">{{ category[1].size }}개의 포스트</p>
+        
+        <div class="category-posts">
+          {% for post in category[1] %}
+            <article class="category-post">
+              <div class="post-meta">
+                <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+              </div>
+              <h3 class="post-title">
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </h3>
+              {% if post.excerpt %}
+                <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 150 }}</p>
+              {% endif %}
+              {% if post.tags %}
+                <div class="post-tags">
+                  {% for tag in post.tags limit: 3 %}
+                    <span class="tag">{{ tag }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.categories-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.categories-overview {
+  margin-bottom: 4rem;
+}
+
+.categories-overview h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-card {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px var(--shadow);
+}
+
+.category-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.category-card h3 a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.category-card h3 a:hover {
+  text-decoration: underline;
+}
+
+.category-card p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.category-section {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.category-section:last-child {
+  border-bottom: none;
+}
+
+.category-title {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.category-description {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.category-posts {
+  display: grid;
+  gap: 2rem;
+}
+
+.category-post {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.category-post:hover {
+  box-shadow: 0 4px 15px var(--shadow);
+}
+
+.category-post .post-meta {
+  margin-bottom: 0.5rem;
+}
+
+.category-post .post-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.category-post .post-title {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.category-post .post-title a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.category-post .post-title a:hover {
+  color: var(--primary-color);
+}
+
+.category-post .post-excerpt {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.category-post .post-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.category-post .tag {
+  background: var(--background);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .category-title {
+    font-size: 1.5rem;
+  }
+}
+</style>

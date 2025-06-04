@@ -1,0 +1,79 @@
+<header class="site-header">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="{{ '/' | relative_url }}" class="site-logo">
+                    <i class="fas fa-code"></i>
+                    <span>{{ site.title }}</span>
+                </a>
+            </div>
+
+            <div class="navbar-menu" id="navbarMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">
+                            <i class="fas fa-home"></i> 홈
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ '/about' | relative_url }}" class="nav-link {% if page.url == '/about/' %}active{% endif %}">
+                            <i class="fas fa-user"></i> 소개
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ '/archive' | relative_url }}" class="nav-link {% if page.url == '/archive/' %}active{% endif %}">
+                            <i class="fas fa-archive"></i> 아카이브
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ '/categories' | relative_url }}" class="nav-link {% if page.url == '/categories/' %}active{% endif %}">
+                            <i class="fas fa-folder"></i> 카테고리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ '/tags' | relative_url }}" class="nav-link {% if page.url == '/tags/' %}active{% endif %}">
+                            <i class="fas fa-tags"></i> 태그
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="navbar-extras">
+                    <!-- 검색 버튼 -->
+                    <button class="search-toggle" id="searchToggle">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    
+                    <!-- 다크모드 토글 -->
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <!-- RSS 피드 -->
+                    <a href="{{ '/feed.xml' | relative_url }}" class="rss-link" title="RSS Feed">
+                        <i class="fas fa-rss"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 모바일 메뉴 토글 -->
+            <button class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 검색 모달 -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="검색어를 입력하세요...">
+                <button class="search-close" id="searchClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+</header>

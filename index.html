@@ -1,0 +1,78 @@
+---
+layout: default
+title: Home
+---
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>{{ site.title }}</h1>
+    <p>{{ site.description }}</p>
+    <div class="hero-buttons">
+      <a href="#latest-posts" class="btn btn-primary">최신 포스트 보기</a>
+      <a href="/about" class="btn btn-secondary">소개</a>
+    </div>
+  </div>
+</div>
+
+<section id="latest-posts" class="posts-section">
+  <div class="container">
+    <h2>최신 포스트</h2>
+    <div class="posts-grid">
+      {% for post in site.posts limit:6 %}
+        <article class="post-card">
+          <div class="post-header">
+            <h3><a href="{{ post.url | relative_url }}" class="post-title">{{ post.title }}</a></h3>
+            <div class="post-meta">
+              <span class="post-date">
+                <i class="far fa-calendar"></i>
+                {{ post.date | date: "%Y.%m.%d" }}
+              </span>
+              {% if post.author %}
+                <span class="post-author">
+                  <i class="far fa-user"></i>
+                  {{ post.author }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+          
+          {% if post.excerpt %}
+            <div class="post-excerpt">
+              {{ post.excerpt | strip_html | truncate: 150 }}
+            </div>
+          {% endif %}
+          
+          {% if post.tags %}
+            <div class="post-tags">
+              {% for tag in post.tags limit:3 %}
+                <a href="/tags#{{ tag | slugify }}" class="tag">{{ tag }}</a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+    
+    {% if site.posts.size > 6 %}
+      <div class="text-center">
+        <a href="/archive" class="btn btn-outline">모든 포스트 보기</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="categories-section">
+  <div class="container">
+    <h2>카테고리별 포스트</h2>
+    <div class="categories-grid">
+      {% assign categories = site.categories | sort %}
+      {% for category in categories limit:4 %}
+        <div class="category-card">
+          <h3>{{ category[0] }}</h3>
+          <p>{{ category[1].size }}개 포스트</p>
+          <a href="/categories#{{ category[0] | slugify }}" class="category-link">보기</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

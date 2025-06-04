@@ -1,0 +1,241 @@
+---
+layout: page
+title: 태그
+subtitle: 태그로 포스트 찾기
+permalink: /tags/
+---
+
+<div class="tags-container">
+  {% assign tags = site.tags | sort %}
+  
+  <div class="tags-cloud">
+    <h2>태그 클라우드</h2>
+    <div class="cloud">
+      {% for tag in tags %}
+        {% assign tag_size = tag[1].size %}
+        {% if tag_size > 5 %}
+          {% assign size_class = 'tag-xl' %}
+        {% elsif tag_size > 3 %}
+          {% assign size_class = 'tag-lg' %}
+        {% elsif tag_size > 1 %}
+          {% assign size_class = 'tag-md' %}
+        {% else %}
+          {% assign size_class = 'tag-sm' %}
+        {% endif %}
+        
+        <a href="#{{ tag[0] | slugify }}" class="cloud-tag {{ size_class }}">
+          {{ tag[0] }} ({{ tag[1].size }})
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="tags-detail">
+    {% for tag in tags %}
+      <div class="tag-section" id="{{ tag[0] | slugify }}">
+        <h2 class="tag-title"># {{ tag[0] }}</h2>
+        <p class="tag-description">{{ tag[1].size }}개의 포스트</p>
+        
+        <div class="tag-posts">
+          {% for post in tag[1] %}
+            <article class="tag-post">
+              <div class="post-header">
+                <h3 class="post-title">
+                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h3>
+                <div class="post-meta">
+                  <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+                  {% if post.categories %}
+                    <span class="post-category">{{ post.categories | first }}</span>
+                  {% endif %}
+                </div>
+              </div>
+              {% if post.excerpt %}
+                <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.tags-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tags-cloud {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.tags-cloud h2 {
+  margin-bottom: 2rem;
+}
+
+.cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.cloud-tag {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--background);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  color: var(--text-secondary);
+}
+
+.cloud-tag:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.cloud-tag.tag-xl {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.cloud-tag.tag-lg {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.cloud-tag.tag-md {
+  font-size: 1rem;
+}
+
+.cloud-tag.tag-sm {
+  font-size: 0.9rem;
+}
+
+.tag-section {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tag-section:last-child {
+  border-bottom: none;
+}
+
+.tag-title {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.tag-description {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.tag-posts {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tag-post {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.tag-post:hover {
+  box-shadow: 0 4px 15px var(--shadow);
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.tag-post .post-title {
+  margin-bottom: 0;
+  font-size: 1.2rem;
+  flex: 1;
+}
+
+.tag-post .post-title a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.tag-post .post-title a:hover {
+  color: var(--primary-color);
+}
+
+.tag-post .post-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.tag-post .post-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tag-post .post-category {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.tag-post .post-excerpt {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .cloud {
+    padding: 1rem;
+  }
+  
+  .cloud-tag {
+    font-size: 0.9rem !important;
+  }
+  
+  .tag-title {
+    font-size: 1.5rem;
+  }
+  
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .tag-post .post-meta {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+</style>
