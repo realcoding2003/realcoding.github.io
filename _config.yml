@@ -9,7 +9,7 @@ author:
   name: Kevin Park
   email: kevinpark@okyc.kr
   github: realcoding2003
-  linkedin: kevinpark
+  linkedin: realcoding
 
 # Build settings
 markdown: kramdown
@@ -56,7 +56,7 @@ paginate_path: "/page:num/"
 
 # Social media
 github_username: realcoding2003
-linkedin_username: kevinpark
+linkedin_username: realcoding
 
 # Google Analytics (나중에 설정)
 # google_analytics: G-XXXXXXXXXX

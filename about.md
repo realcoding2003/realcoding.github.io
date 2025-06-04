@@ -58,7 +58,7 @@ permalink: /about/
 
 - **이메일**: kevinpark@okyc.kr
 - **GitHub**: [@realcoding2003](https://github.com/realcoding2003)
-- **LinkedIn**: [Kevin Park](https://linkedin.com/in/kevinpark)
+- **LinkedIn**: [Kevin Park](https://www.linkedin.com/in/realcoding/)
 
 ## 💡 블로그 정보
 
