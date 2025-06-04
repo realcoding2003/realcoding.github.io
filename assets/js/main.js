@@ -46,7 +46,8 @@ function initMobileMenu() {
 // Theme toggle functionality
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
-    const currentTheme = localStorage.getItem('theme') || 'light';
+    // 다크모드를 기본값으로 설정
+    const currentTheme = localStorage.getItem('theme') || 'dark';
     
     // Set initial theme
     document.documentElement.setAttribute('data-theme', currentTheme);

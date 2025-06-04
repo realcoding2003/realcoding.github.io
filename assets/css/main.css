@@ -21,12 +21,15 @@
     --border: #e2e8f0;
     --shadow: rgba(0, 0, 0, 0.1);
     
-    /* Dark mode colors */
-    --dark-background: #1a202c;
-    --dark-surface: #2d3748;
-    --dark-text-primary: #f7fafc;
-    --dark-text-secondary: #e2e8f0;
-    --dark-border: #4a5568;
+    /* Dark mode colors - 더 나은 다크모드 색상 */
+    --dark-background: #0f1419;
+    --dark-surface: #1a1f2e;
+    --dark-card-surface: #242938;
+    --dark-text-primary: #e6e6e6;
+    --dark-text-secondary: #a0a0a0;
+    --dark-text-muted: #6b7280;
+    --dark-border: #374151;
+    --dark-shadow: rgba(0, 0, 0, 0.4);
     
     /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -58,14 +61,15 @@
     --transition: all 0.3s ease;
 }
 
-/* Dark mode */
+/* Dark mode - 개선된 다크모드 색상 */
 [data-theme="dark"] {
     --text-primary: var(--dark-text-primary);
     --text-secondary: var(--dark-text-secondary);
+    --text-muted: var(--dark-text-muted);
     --background: var(--dark-background);
     --surface: var(--dark-surface);
     --border: var(--dark-border);
-    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow: var(--dark-shadow);
 }
 
 body {
@@ -484,6 +488,15 @@ a:hover {
     padding: var(--spacing-lg);
 }
 
+/* 다크모드에서 더 나은 카드 배경 */
+[data-theme="dark"] .sidebar-widget {
+    background: var(--dark-card-surface);
+}
+
+[data-theme="dark"] .post-item:hover {
+    background: var(--dark-card-surface);
+}
+
 .sidebar-widget h3 {
     color: var(--text-primary);
     font-size: var(--font-size-lg);
@@ -541,6 +554,11 @@ a:hover {
     text-decoration: none;
 }
 
+/* 다크모드에서 카테고리 링크 호버 */
+[data-theme="dark"] .category-link:hover {
+    background: var(--dark-background);
+}
+
 .category-name {
     font-weight: 500;
 }
@@ -552,6 +570,12 @@ a:hover {
     border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 500;
+}
+
+/* 다크모드에서 카테고리 카운트 */
+[data-theme="dark"] .category-count {
+    background: var(--dark-border);
+    color: var(--dark-text-muted);
 }
 
 .view-all-categories {
@@ -589,6 +613,13 @@ a:hover {
     color: white;
     text-decoration: none;
     border-color: var(--primary-color);
+}
+
+/* 다크모드에서 태그 스타일 */
+[data-theme="dark"] .tag-cloud-item {
+    background: var(--dark-background);
+    color: var(--dark-text-secondary);
+    border-color: var(--dark-border);
 }
 
 /* Footer */
