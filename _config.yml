@@ -61,6 +61,9 @@ linkedin_username: realcoding
 # Google Analytics (나중에 설정)
 # google_analytics: G-XXXXXXXXXX
 
+# Google AdSense
+google_adsense: ca-pub-9012129960393497
+
 # Comments (utterances 사용)
 comments:
   provider: utterances
