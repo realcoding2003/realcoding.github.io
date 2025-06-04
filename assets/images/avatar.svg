@@ -1,0 +1,28 @@
+<!-- Kevin Park Avatar -->
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="50" fill="#667eea"/>
+  
+  <!-- Head -->
+  <circle cx="50" cy="35" r="15" fill="#fdbcb4"/>
+  
+  <!-- Glasses -->
+  <circle cx="45" cy="32" r="5" fill="none" stroke="#333" stroke-width="2"/>
+  <circle cx="55" cy="32" r="5" fill="none" stroke="#333" stroke-width="2"/>
+  <line x1="50" y1="32" x2="50" y2="32" stroke="#333" stroke-width="2"/>
+  
+  <!-- Hair -->
+  <path d="M 35 25 Q 35 20 50 20 Q 65 20 65 25 Q 65 30 60 30 L 40 30 Q 35 30 35 25" fill="#4a3728"/>
+  
+  <!-- Laptop -->
+  <rect x="30" y="55" width="40" height="25" rx="2" fill="#c0c0c0"/>
+  <rect x="32" y="57" width="36" height="20" fill="#000"/>
+  <circle cx="50" cy="67" r="1" fill="#c0c0c0"/>
+  
+  <!-- Body -->
+  <rect x="35" y="45" width="30" height="35" rx="15" fill="#4285f4"/>
+  
+  <!-- Arms -->
+  <ellipse cx="25" cy="60" rx="8" ry="15" fill="#fdbcb4"/>
+  <ellipse cx="75" cy="60" rx="8" ry="15" fill="#fdbcb4"/>
+</svg>
