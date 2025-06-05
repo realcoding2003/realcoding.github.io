@@ -1,119 +1,100 @@
-# Real Coding Blog
+# 🚀 실전코딩 기술 블로그
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://realcoding.github.io)
-[![Jekyll](https://img.shields.io/badge/Jekyll-4.3-red)](https://jekyllrb.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Website](https://img.shields.io/website?url=https%3A//realcoding.blog&up_message=online&up_color=brightgreen)](https://realcoding.blog)
+[![GitHub Stars](https://img.shields.io/github/stars/realcoding2003/realcoding2003.github.io?style=social)](https://github.com/realcoding2003/realcoding2003.github.io/stargazers)
+[![GitHub Followers](https://img.shields.io/github/followers/realcoding2003?style=social)](https://github.com/realcoding2003)
 
-실무에서 배운 개발 노하우와 기술적 인사이트를 공유하는 기술 블로그입니다.
+> **실무에서 배운 개발 노하우와 기술적 인사이트를 공유하는 개발자 Kevin Park의 기술 블로그입니다.**
 
-## 🌟 주요 기능
-
-- **반응형 디자인** - 모든 기기에서 최적화된 경험
-- **다크모드 지원** - 사용자 환경에 맞는 테마 선택
-- **빠른 검색** - 포스트와 태그를 빠르게 찾기
-- **코드 하이라이팅** - 예쁜 문법 강조와 복사 기능
-- **댓글 시스템** - Utterances를 통한 GitHub 기반 댓글
-- **SEO 최적화** - 검색 엔진 친화적인 구조
-
-## 🛠 기술 스택
-
-- **Jekyll** - 정적 사이트 생성기
-- **GitHub Pages** - 무료 호스팅
-- **HTML5/CSS3** - 모던 웹 표준
-- **JavaScript (ES6+)** - 인터랙티브 기능
-- **Prism.js** - 코드 문법 강조
-- **Font Awesome** - 아이콘
-
-## 🚀 로컬 개발 환경 설정
-
-### 1. 저장소 클론
-```bash
-git clone https://github.com/realcoding/realcoding.github.io.git
-cd realcoding.github.io
-```
-
-### 2. Ruby와 Jekyll 설치
-```bash
-# macOS (Homebrew 사용)
-brew install ruby
-gem install bundler jekyll
-
-# Ubuntu
-sudo apt-get install ruby-full build-essential zlib1g-dev
-gem install bundler jekyll
-```
-
-### 3. 의존성 설치
-```bash
-bundle install
-```
-
-### 4. 로컬 서버 실행
-```bash
-bundle exec jekyll serve
-```
-
-브라우저에서 `http://localhost:4000`으로 접속하여 블로그를 확인할 수 있습니다.
-
-## 📝 포스트 작성하기
-
-### 새 포스트 생성
-`_posts` 디렉토리에 `YYYY-MM-DD-제목.md` 형식으로 파일을 생성합니다.
-
-### Front Matter 작성
-```markdown
----
-layout: post
-title: "포스트 제목"
-date: 2025-06-04 14:30:00 +0900
-categories: [카테고리1, 카테고리2]
-tags: [태그1, 태그2, 태그3]
-author: "Kevin Park"
-excerpt: "포스트에 대한 간단한 설명입니다."
----
-
-여기에 포스트 내용을 작성합니다.
-```
-
-## 🎨 커스터마이징
-
-### 색상 테마 변경
-`assets/css/main.css`에서 CSS 변수를 수정합니다:
-
-```css
-:root {
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --accent-color: #f093fb;
-}
-```
-
-### 소셜 링크 설정
-`_config.yml`에서 사용자 정보를 설정합니다:
-
-```yaml
-github_username: your-username
-linkedin_username: your-linkedin
-```
-
-## 🚀 배포하기
-
-### GitHub Pages 자동 배포
-1. GitHub에 코드를 푸시합니다
-2. 저장소 Settings → Pages로 이동
-3. Source를 "Deploy from a branch"로 설정
-4. Branch를 "main"으로 선택
-5. 몇 분 후 `https://username.github.io`에서 사이트 확인
-
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
-
-## 🙋‍♂️ 문의하기
-
-- **이메일**: kevin@realcoding.blog
-- **GitHub**: [@realcoding](https://github.com/realcoding)
+## 🌐 [📖 블로그 바로가기 →](https://realcoding.blog)
 
 ---
 
-⭐ 이 블로그가 도움이 되셨다면 별표를 눌러주세요!
+## ✨ 블로그 특징
+
+- 🎯 **실무 중심** - 현업에서 직접 겪은 문제와 해결 과정
+- 🔧 **다양한 기술 스택** - Frontend, Backend, DevOps, 클라우드
+- 📱 **반응형 디자인** - 어떤 기기에서든 편리한 읽기 경험
+- 🌙 **다크모드 지원** - 개발자 친화적인 UI/UX
+- 💬 **GitHub 댓글** - 자유로운 토론과 질문
+- 🔍 **빠른 검색** - 태그와 카테고리로 원하는 글 빠르게 찾기
+
+## 📚 주요 콘텐츠 카테고리
+
+### 🖥️ **Backend & Server**
+- Linux 서버 관리 및 최적화
+- AWS 클라우드 서비스 활용
+- 데이터베이스 설정 및 튜닝
+- Docker & 컨테이너 기술
+
+### 🌐 **Frontend & Web**
+- JavaScript/TypeScript 실전 팁
+- React, Vue.js 개발 경험
+- CSS 고급 기법 및 최적화
+- 웹 성능 향상 기술
+
+### 🔧 **DevOps & Tools**
+- Git 워크플로우 및 협업
+- CI/CD 파이프라인 구축
+- 개발 환경 세팅
+- 유용한 개발 도구들
+
+### 🤖 **AI & Automation**
+- 업무 자동화 스크립트
+- AI 도구 활용법
+- 생산성 향상 팁
+
+## 🔥 인기 포스트
+
+- **[Claude MCP로 기술 블로그 만들기](https://realcoding.blog/2025/06/04/building-tech-blog-with-claude-mcp/)** - AI와 함께하는 블로그 개발기
+- **[AWS 서버리스로 네이버 블로그 자동화](https://realcoding.blog/2024/04/10/aws-serverless-naver-blog-automation/)** - Lambda와 CloudWatch를 활용한 자동화
+- **[ThemePress 애드온 아키텍처 설계](https://realcoding.blog/2023/03/20/themepress-addon-architecture/)** - 확장 가능한 플러그인 시스템 구축
+- **[Linux SSH 키 생성 완벽 가이드](https://realcoding.blog/2024/05/10/linux-ssh-keygen/)** - 보안 강화를 위한 SSH 설정
+
+## 👨‍💻 저자 소개
+
+**Kevin Park** - 실무 경험을 바탕으로 한 개발 노하우를 공유하는 것을 좋아하는 개발자입니다.
+
+- 🔧 **주요 기술**: JavaScript/TypeScript, Python, AWS, Docker
+- 📈 **관심 분야**: 웹 성능 최적화, 클라우드 아키텍처, 개발자 경험(DX)
+- 🎯 **블로그 목표**: 다른 개발자들에게 실질적인 도움이 되는 콘텐츠 제공
+
+## 🤝 커뮤니티 참여
+
+이 블로그가 도움이 되셨다면:
+
+- ⭐ **[GitHub 스타 누르기](https://github.com/realcoding2003/realcoding2003.github.io)** - 블로그 응원하기
+- 👥 **[GitHub 팔로우](https://github.com/realcoding2003)** - 새로운 프로젝트 소식 받기
+- 💬 **댓글 남기기** - 포스트에 대한 의견이나 질문 공유
+- 🔗 **공유하기** - 동료 개발자들에게 유용한 글 공유
+
+## 📊 블로그 통계
+
+- 📝 **포스트 수**: 25개+ (지속 업데이트)
+- 🏷️ **주요 태그**: JavaScript, AWS, Linux, Docker, Python
+- 📅 **업데이트**: 정기적으로 새로운 포스트 발행
+- 🌍 **언어**: 한국어 (Korean)
+
+## 📞 연락처
+
+- **📧 이메일**: [kevinpark@okyc.kr](mailto:kevinpark@okyc.kr)
+- **🐙 GitHub**: [@realcoding2003](https://github.com/realcoding2003)
+- **💼 LinkedIn**: [Kevin Park](https://www.linkedin.com/in/realcoding/)
+- **🌐 웹사이트**: [realcoding.blog](https://realcoding.blog)
+
+---
+
+## 🛠️ 기술 정보
+
+이 블로그는 **Jekyll**과 **GitHub Pages**로 구축되었으며, 완전히 오픈소스입니다.
+
+- **🎨 디자인**: 커스텀 반응형 테마
+- **⚡ 성능**: 정적 사이트 생성으로 빠른 로딩
+- **🔒 보안**: HTTPS 기본 지원
+- **📱 모바일**: 모든 디바이스 최적화
+
+---
+
+**💡 "더 나은 코드, 더 나은 개발자가 되기 위한 여정을 함께 해요!"**
+
+⭐ **이 저장소가 도움이 되셨다면 스타를 눌러주세요!**
