@@ -140,7 +140,7 @@
         activationBorderColor: '#a78bfa',
         
         // 간트 차트 (개선된 텍스트 가시성)
-        gridColor: '#6b7280',
+        gridColor: '#4b5563',
         section0: '#a78bfa',
         section1: '#c084fc',
         section2: '#fbbf24',
@@ -148,14 +148,13 @@
         cScale0: '#a78bfa',
         cScale1: '#c084fc',
         cScale2: '#fbbf24',
-        taskBkgColor: 'rgba(167, 139, 250, 0.8)',
+        taskBkgColor: '#6366f1',
         taskTextColor: '#ffffff',
         taskTextOutsideColor: '#ffffff',
         taskTextLightColor: '#ffffff',
         taskTextDarkColor: '#1a202c',
-        activeTaskBkgColor: '#c084fc',
+        activeTaskBkgColor: '#8b5cf6',
         activeTaskBorderColor: '#a78bfa',
-        gridColor: '#4b5563',
         todayLineColor: '#fbbf24',
         
         // 파이 차트
@@ -221,12 +220,12 @@
         cScale0: '#667eea',
         cScale1: '#764ba2',
         cScale2: '#f093fb',
-        taskBkgColor: 'rgba(102, 126, 234, 0.8)',
+        taskBkgColor: '#4f46e5',
         taskTextColor: '#ffffff',
         taskTextOutsideColor: '#2d3748',
         taskTextLightColor: '#2d3748',
         taskTextDarkColor: '#ffffff',
-        activeTaskBkgColor: '#764ba2',
+        activeTaskBkgColor: '#6d28d9',
         activeTaskBorderColor: '#667eea',
         todayLineColor: '#f59e0b',
         section0: '#667eea',
@@ -435,7 +434,6 @@
   .mermaid .nodeLabel {
     color: #ffffff !important;
     font-weight: 600 !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   }
   
   /* 시퀀스 다이어그램 텍스트 강화 */
@@ -467,7 +465,6 @@
   .mermaid .taskText3 {
     font-weight: 600 !important;
     fill: #ffffff !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   }
   
   .mermaid .gridLabel {
@@ -483,6 +480,21 @@
   
   .mermaid .label {
     font-weight: 600 !important;
+  }
+  
+  /* 노드 배경 강화로 텍스트 가독성 향상 */
+  .mermaid .node rect,
+  .mermaid .node circle,
+  .mermaid .node polygon {
+    opacity: 0.95 !important;
+  }
+  
+  /* 에지 라벨 배경 추가 */
+  .mermaid .edgeLabel rect {
+    fill: var(--background, #ffffff) !important;
+    stroke: var(--border, #e2e8f0) !important;
+    stroke-width: 1px !important;
+    opacity: 0.9 !important;
   }
   
   /* 그라데이션 정의 */
@@ -563,6 +575,13 @@
     fill: #f7fafc !important;
   }
   
+  /* 다크모드 에지 라벨 배경 */
+  [data-theme="dark"] .mermaid .edgeLabel rect,
+  .dark .mermaid .edgeLabel rect {
+    fill: var(--dark-surface, #1a202c) !important;
+    stroke: var(--border, #4a5568) !important;
+  }
+  
   @media (prefers-color-scheme: dark) {
     .mermaid {
       border: 1px solid rgba(139, 124, 248, 0.3);
@@ -594,6 +613,11 @@
     
     .mermaid .gridLabel {
       fill: #f7fafc !important;
+    }
+    
+    .mermaid .edgeLabel rect {
+      fill: var(--dark-surface, #1a202c) !important;
+      stroke: var(--border, #4a5568) !important;
     }
   }
   
