@@ -47,10 +47,7 @@ graph TD
     K --> L[프로덕션 배포]
     L --> M[모니터링 & 운영]
     
-    style A fill:#667eea,stroke:#5a67d8,color:#fff
-    style B fill:#764ba2,stroke:#6b46c1,color:#fff
-    style L fill:#f093fb,stroke:#e879f9,color:#1a202c
-    style M fill:#4ade80,stroke:#22c55e,color:#1a202c
+
 ```
 
 ## 🔄 **시퀀스 다이어그램 - API 인증 플로우**

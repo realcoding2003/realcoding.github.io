@@ -2,76 +2,7 @@
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
-  // 사이트 색상 체계에 맞는 커스텀 테마 설정
-  const siteThemeVariables = {
-    // 기본 색상 (사이트 CSS 변수와 매칭)
-    primaryColor: '#667eea',
-    primaryTextColor: '#ffffff',
-    primaryBorderColor: '#5a67d8',
-    
-    secondaryColor: '#764ba2',
-    secondaryTextColor: '#ffffff',
-    secondaryBorderColor: '#6b46c1',
-    
-    tertiaryColor: '#f093fb',
-    tertiaryTextColor: '#1a202c',
-    tertiaryBorderColor: '#e879f9',
-    
-    // 배경 및 표면
-    background: '#ffffff',
-    mainBkg: '#f7fafc',
-    secondaryBkg: '#e2e8f0',
-    tertiaryBkg: '#fed7e2',
-    
-    // 텍스트 색상
-    textColor: '#2d3748',
-    lineColor: '#cbd5e0',
-    
-    // 특별한 색상들
-    noteBkgColor: '#ebf8ff',
-    noteTextColor: '#2d3748',
-    noteBorderColor: '#667eea',
-    
-    // 폰트 설정
-    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: '14px',
-    
-    // 플로우차트 전용
-    nodeBorder: '#5a67d8',
-    clusterBkg: '#fed7e2',
-    clusterBorder: '#e879f9',
-    defaultLinkColor: '#667eea',
-    titleColor: '#2d3748',
-    nodeTextColor: '#2d3748',
-    
-    // 시퀀스 다이어그램
-    actorBkg: 'linear-gradient(135deg, #667eea, #764ba2)',
-    actorBorder: '#5a67d8',
-    actorTextColor: '#ffffff',
-    signalColor: '#667eea',
-    signalTextColor: '#2d3748',
-    
-    // 간트 차트
-    gridColor: '#e2e8f0',
-    section0: '#667eea',
-    section1: '#764ba2',
-    section2: '#f093fb',
-    section3: '#4ade80',
-    
-    // 파이 차트
-    pie1: '#667eea',
-    pie2: '#764ba2', 
-    pie3: '#f093fb',
-    pie4: '#4ade80',
-    pie5: '#fbbf24',
-    pie6: '#f87171',
-    pie7: '#a78bfa',
-    pie8: '#34d399',
-    pie9: '#60a5fa',
-    pie10: '#fb7185',
-    pie11: '#c084fc',
-    pie12: '#22d3ee'
-  };
+
 
   // 다크모드 감지 함수
   const detectDarkMode = () => {
@@ -81,187 +12,16 @@
            document.documentElement.classList.contains('dark');
   };
 
-  // 테마에 따른 변수 설정 함수
-  const getThemeVariables = (isDark) => {
-      const baseVariables = {
-    // 완전 투명 배경 설정
-    background: 'transparent',
-    mainBkg: 'transparent',
-    secondaryBkg: 'transparent',
-    tertiaryBkg: 'transparent',
-    
-    // 폰트 설정
-    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: '14px',
-  };
-
-    if (isDark) {
-      return {
-        ...baseVariables,
-        // 다크모드 색상 (더 밝고 선명하게)
-        primaryColor: '#a78bfa',
-        primaryTextColor: '#ffffff',
-        primaryBorderColor: '#8b7cf8',
-        
-        secondaryColor: '#c084fc',
-        secondaryTextColor: '#ffffff',
-        secondaryBorderColor: '#a78bfa',
-        
-        tertiaryColor: '#fbbf24',
-        tertiaryTextColor: '#1a202c',
-        tertiaryBorderColor: '#f59e0b',
-        
-        // 텍스트 색상 (다크모드 - 더 밝게)
-        textColor: '#ffffff',
-        lineColor: '#8b7cf8',
-        
-        // 노트 색상
-        noteBkgColor: 'rgba(167, 139, 250, 0.1)',
-        noteTextColor: '#ffffff',
-        noteBorderColor: '#a78bfa',
-        
-        // 플로우차트
-        nodeBorder: '#a78bfa',
-        clusterBkg: 'rgba(167, 139, 250, 0.05)',
-        clusterBorder: '#c084fc',
-        defaultLinkColor: '#a78bfa',
-        titleColor: '#ffffff',
-        nodeTextColor: '#ffffff',
-        
-        // 시퀀스 다이어그램 (개선된 가시성)
-        actorBkg: 'rgba(31, 41, 55, 0.8)',
-        actorBorder: '#a78bfa',
-        actorTextColor: '#ffffff',
-        signalColor: '#a78bfa',
-        signalTextColor: '#ffffff',
-        labelBoxBkgColor: 'rgba(55, 65, 81, 0.8)',
-        labelTextColor: '#ffffff',
-        activationBkgColor: 'rgba(167, 139, 250, 0.2)',
-        activationBorderColor: '#a78bfa',
-        
-        // 간트 차트 (개선된 텍스트 가시성)
-        gridColor: '#4b5563',
-        section0: '#a78bfa',
-        section1: '#c084fc',
-        section2: '#fbbf24',
-        section3: '#34d399',
-        cScale0: '#a78bfa',
-        cScale1: '#c084fc',
-        cScale2: '#fbbf24',
-        taskBkgColor: '#6366f1',
-        taskTextColor: '#ffffff',
-        taskTextOutsideColor: '#ffffff',
-        taskTextLightColor: '#ffffff',
-        taskTextDarkColor: '#1a202c',
-        activeTaskBkgColor: '#8b5cf6',
-        activeTaskBorderColor: '#a78bfa',
-        todayLineColor: '#fbbf24',
-        
-        // 파이 차트
-        pie1: '#a78bfa',
-        pie2: '#c084fc',
-        pie3: '#fbbf24',
-        pie4: '#34d399',
-        pie5: '#f87171',
-        pie6: '#60a5fa',
-        pie7: '#e879f9',
-        pie8: '#22d3ee',
-        pie9: '#fb7185',
-        pie10: '#4ade80',
-        pie11: '#8b7cf8',
-        pie12: '#f472b6'
-      };
-    } else {
-      return {
-        ...baseVariables,
-        // 라이트모드 색상
-        primaryColor: '#667eea',
-        primaryTextColor: '#ffffff',
-        primaryBorderColor: '#5a67d8',
-        
-        secondaryColor: '#764ba2',
-        secondaryTextColor: '#ffffff',
-        secondaryBorderColor: '#6b46c1',
-        
-        tertiaryColor: '#f093fb',
-        tertiaryTextColor: '#1a202c',
-        tertiaryBorderColor: '#e879f9',
-        
-        // 텍스트 색상 (라이트모드)
-        textColor: '#2d3748',
-        lineColor: '#667eea',
-        
-        // 노트 색상
-        noteBkgColor: 'rgba(102, 126, 234, 0.1)',
-        noteTextColor: '#2d3748',
-        noteBorderColor: '#667eea',
-        
-        // 플로우차트
-        nodeBorder: '#5a67d8',
-        clusterBkg: 'rgba(102, 126, 234, 0.05)',
-        clusterBorder: '#e879f9',
-        defaultLinkColor: '#667eea',
-        titleColor: '#2d3748',
-        nodeTextColor: '#ffffff',
-        
-        // 시퀀스 다이어그램 (개선된 가시성)
-        actorBkg: 'rgba(247, 250, 252, 0.9)',
-        actorBorder: '#5a67d8',
-        actorTextColor: '#2d3748',
-        signalColor: '#667eea',
-        signalTextColor: '#2d3748',
-        labelBoxBkgColor: 'rgba(229, 231, 235, 0.9)',
-        labelTextColor: '#2d3748',
-        activationBkgColor: 'rgba(102, 126, 234, 0.15)',
-        activationBorderColor: '#667eea',
-        
-        // 간트 차트 (개선된 텍스트 가시성)
-        gridColor: '#e2e8f0',
-        cScale0: '#667eea',
-        cScale1: '#764ba2',
-        cScale2: '#f093fb',
-        taskBkgColor: '#4f46e5',
-        taskTextColor: '#ffffff',
-        taskTextOutsideColor: '#2d3748',
-        taskTextLightColor: '#2d3748',
-        taskTextDarkColor: '#ffffff',
-        activeTaskBkgColor: '#6d28d9',
-        activeTaskBorderColor: '#667eea',
-        todayLineColor: '#f59e0b',
-        section0: '#667eea',
-        section1: '#764ba2',
-        section2: '#f093fb',
-        section3: '#4ade80',
-        
-        // 파이 차트
-        pie1: '#667eea',
-        pie2: '#764ba2',
-        pie3: '#f093fb',
-        pie4: '#4ade80',
-        pie5: '#fbbf24',
-        pie6: '#f87171',
-        pie7: '#a78bfa',
-        pie8: '#34d399',
-        pie9: '#60a5fa',
-        pie10: '#fb7185',
-        pie11: '#c084fc',
-        pie12: '#22d3ee'
-      };
-    }
-  };
-
-  // 초기 테마 감지 및 변수 설정
+  // 초기 테마 감지
   let isDarkMode = detectDarkMode();
-  let themeVariables = getThemeVariables(isDarkMode);
 
-  // Mermaid 초기화 함수
-  const initializeMermaid = (themeVars) => {
+  // Mermaid 초기화 함수 (기본 테마 사용)
+  const initializeMermaid = (isDark) => {
     mermaid.initialize({ 
       startOnLoad: true,
-      theme: 'base',
+      theme: isDark ? 'dark' : 'default',
       securityLevel: 'loose',
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-      themeVariables: themeVars,
       
       // 각 다이어그램별 세부 설정
       flowchart: {
@@ -295,17 +55,16 @@
   };
 
   // 초기 Mermaid 설정
-  initializeMermaid(themeVariables);
+  initializeMermaid(isDarkMode);
 
   // 테마 변경 감지 및 다이어그램 다시 렌더링
   const handleThemeChange = async () => {
     const newIsDarkMode = detectDarkMode();
     if (newIsDarkMode !== isDarkMode) {
       isDarkMode = newIsDarkMode;
-      themeVariables = getThemeVariables(isDarkMode);
       
       // Mermaid 재초기화
-      initializeMermaid(themeVariables);
+      initializeMermaid(isDarkMode);
       
       // 기존 다이어그램 다시 렌더링
       const mermaidElements = document.querySelectorAll('.mermaid');
@@ -365,30 +124,16 @@
   });
 </script>
 
-<!-- Mermaid 다이어그램 스타일 최적화 -->
+<!-- 기본 Mermaid 스타일 -->
 <style>
   .mermaid {
     text-align: center;
     margin: 2rem 0;
     background: transparent;
-    border: none;
-    overflow: visible;
-    padding: 1.5rem;
+    border: 1px solid var(--border, #e2e8f0);
     border-radius: var(--radius-lg, 0.75rem);
-    transition: var(--transition, all 0.3s ease);
-    position: relative;
-  }
-  
-  /* 라이트모드 배경 */
-  .mermaid {
-    border: 1px solid var(--border, rgba(102, 126, 234, 0.2));
-    box-shadow: 0 2px 8px var(--shadow, rgba(102, 126, 234, 0.1));
-  }
-  
-  .mermaid:hover {
-    box-shadow: 0 4px 16px var(--shadow, rgba(102, 126, 234, 0.15));
-    border-color: var(--primary-color, #667eea);
-    transform: translateY(-1px);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadow, rgba(0, 0, 0, 0.1));
   }
   
   .mermaid svg {
@@ -396,352 +141,22 @@
     height: auto;
     display: block;
     margin: 0 auto;
-    font-family: var(--font-family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
-    background: transparent !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
-  /* 다이어그램 제목 스타일링 */
-  .mermaid .titleText {
-    font-weight: 600;
-    font-size: 1.25rem;
-    fill: var(--text-primary, #2d3748);
-    font-family: var(--font-family, 'Inter', sans-serif);
+  /* 다크모드 테두리 조정 */
+  [data-theme="dark"] .mermaid {
+    border-color: var(--dark-border, #374151);
+    box-shadow: 0 2px 8px var(--dark-shadow, rgba(0, 0, 0, 0.3));
   }
   
-  /* 노드 그라데이션 스타일 */
-  .mermaid .node rect,
-  .mermaid .node circle,
-  .mermaid .node polygon {
-    fill: url(#siteGradient) !important;
-    stroke: var(--primary-color, #667eea) !important;
-    stroke-width: 2px !important;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-  }
-  
-  /* SVG 배경 강제 투명 처리 */
-  .mermaid svg rect[fill="#ffffff"],
-  .mermaid svg rect[fill="white"],
-  .mermaid svg rect[style*="fill: #ffffff"],
-  .mermaid svg rect[style*="fill: white"],
-  .mermaid svg rect[fill="#1a202c"],
-  .mermaid svg rect[fill="#000000"],
-  .mermaid svg rect[style*="fill: #1a202c"],
-  .mermaid svg rect[style*="fill: #000000"] {
-    fill: transparent !important;
-  }
-  
-  /* 노드 라벨 색상 강제 적용 */
-  .mermaid .nodeLabel {
-    color: #ffffff !important;
-    font-weight: 600 !important;
-  }
-  
-  /* 라이트모드 기본 - 시퀀스 다이어그램 Actor 텍스트 */
-  .mermaid .actor {
-    font-weight: 600 !important;
-    fill: #2d3748 !important;
-  }
-  
-  .mermaid .actor-box {
-    fill: var(--surface, rgba(247, 250, 252, 0.9)) !important;
-    stroke: var(--primary-color, #667eea) !important;
-    stroke-width: 2px !important;
-  }
-  
-  /* 라이트모드 기본 - 시퀀스 다이어그램 텍스트 */
-  .mermaid .messageText {
-    font-weight: 500 !important;
-    fill: #2d3748 !important;
-  }
-  
-  .mermaid .labelText {
-    font-weight: 600 !important;
-    fill: #2d3748 !important;
-  }
-  
-  /* 간트 차트 텍스트 강화 */
-  .mermaid .taskText,
-  .mermaid .taskText0,
-  .mermaid .taskText1,
-  .mermaid .taskText2,
-  .mermaid .taskText3 {
-    font-weight: 600 !important;
-    fill: #ffffff !important;
-  }
-  
-  /* 라이트모드 기본 - 간트 차트 그리드 라벨 */
-  .mermaid .gridLabel {
-    font-weight: 500 !important;
-    fill: #2d3748 !important;
-  }
-  
-  /* 모든 텍스트 요소 기본 강화 */
-  .mermaid text {
-    font-family: var(--font-family, 'Inter', sans-serif) !important;
-    font-weight: 500;
-  }
-  
-  .mermaid .label {
-    font-weight: 600 !important;
-  }
-  
-  /* 노드 배경 강화로 텍스트 가독성 향상 */
-  .mermaid .node rect,
-  .mermaid .node circle,
-  .mermaid .node polygon {
-    opacity: 0.95 !important;
-  }
-  
-  /* 에지 라벨 배경 추가 */
-  .mermaid .edgeLabel rect {
-    fill: var(--background, #ffffff) !important;
-    stroke: var(--border, #e2e8f0) !important;
-    stroke-width: 1px !important;
-    opacity: 0.9 !important;
-  }
-  
-  /* 그라데이션 정의 */
-  .mermaid svg defs {
-    background: transparent;
-  }
-  
-  /* 화살표와 연결선 스타일 */
-  .mermaid .edgePath path,
-  .mermaid .edgePath line {
-    stroke: var(--primary-color, #667eea);
-    stroke-width: 2px;
-  }
-  
-  .mermaid .arrowheadPath {
-    fill: var(--primary-color, #667eea);
-    stroke: var(--primary-color, #667eea);
-  }
-  
-  /* 텍스트 스타일 */
-  .mermaid .nodeLabel,
-  .mermaid .edgeLabel {
-    font-family: var(--font-family, 'Inter', sans-serif);
-    font-weight: 600;
-    font-size: 14px;
-  }
-  
-  /* 에지 라벨 배경 투명 처리 */
-  .mermaid .edgeLabel rect {
-    fill: transparent !important;
-  }
-  
-  /* 에지 라벨 텍스트 색상 */
-  .mermaid .edgeLabel .label {
-    color: var(--text-primary, #2d3748) !important;
-  }
-  
-  /* 다크모드 대응 */
-  [data-theme="dark"] .mermaid,
-  .dark .mermaid {
-    border: 1px solid rgba(139, 124, 248, 0.3);
-    box-shadow: 0 2px 8px rgba(139, 124, 248, 0.1);
-  }
-  
-  [data-theme="dark"] .mermaid:hover,
-  .dark .mermaid:hover {
-    box-shadow: 0 4px 16px rgba(139, 124, 248, 0.2);
-    border-color: #8b7cf8;
-  }
-  
-  [data-theme="dark"] .mermaid .titleText,
-  .dark .mermaid .titleText {
-    fill: #f7fafc;
-  }
-  
-  [data-theme="dark"] .mermaid .edgeLabel .label,
-  .dark .mermaid .edgeLabel .label {
-    color: #f7fafc !important;
-  }
-  
-  /* 다크모드 시퀀스 다이어그램 최적화 */
-  [data-theme="dark"] .mermaid .actor-box,
-  .dark .mermaid .actor-box {
-    fill: rgba(31, 41, 55, 0.8) !important;
-    stroke: #a78bfa !important;
-  }
-  
-  /* 다크모드 - 시퀀스 다이어그램 텍스트 흰색 강제 적용 */
-  [data-theme="dark"] .mermaid .messageText,
-  [data-theme="dark"] .mermaid .labelText,
-  .dark .mermaid .messageText,
-  .dark .mermaid .labelText {
-    fill: #ffffff !important;
-  }
-  
-  /* 다크모드 - Actor 텍스트도 흰색 */
-  [data-theme="dark"] .mermaid .actor,
-  .dark .mermaid .actor {
-    fill: #ffffff !important;
-  }
-  
-  /* 다크모드 간트 차트 최적화 */
-  [data-theme="dark"] .mermaid .gridLabel,
-  .dark .mermaid .gridLabel {
-    fill: #f7fafc !important;
-  }
-  
-  /* 다크모드 에지 라벨 배경 */
-  [data-theme="dark"] .mermaid .edgeLabel rect,
-  .dark .mermaid .edgeLabel rect {
-    fill: var(--dark-surface, #1a202c) !important;
-    stroke: var(--border, #4a5568) !important;
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .mermaid {
-      border: 1px solid rgba(139, 124, 248, 0.3);
-      box-shadow: 0 2px 8px rgba(139, 124, 248, 0.1);
-    }
-    
-    .mermaid:hover {
-      box-shadow: 0 4px 16px rgba(139, 124, 248, 0.2);
-      border-color: #8b7cf8;
-    }
-    
-    .mermaid .titleText {
-      fill: #f7fafc;
-    }
-    
-    .mermaid .edgeLabel .label {
-      color: #f7fafc !important;
-    }
-    
-    .mermaid .actor-box {
-      fill: rgba(31, 41, 55, 0.8) !important;
-      stroke: #a78bfa !important;
-    }
-    
-    .mermaid .messageText,
-    .mermaid .labelText,
-    .mermaid .actor {
-      fill: #ffffff !important;
-    }
-    
-    .mermaid .gridLabel {
-      fill: #f7fafc !important;
-    }
-    
-    .mermaid .edgeLabel rect {
-      fill: var(--dark-surface, #1a202c) !important;
-      stroke: var(--border, #4a5568) !important;
-    }
-  }
-  
-  /* 반응형 대응 */
+  /* 반응형 */
   @media (max-width: 768px) {
     .mermaid {
       margin: 1.5rem 0;
-      padding: 0.75rem;
-      font-size: 0.9rem;
-    }
-    
-    .mermaid svg {
-      font-size: 12px;
-    }
-  }
-  
-  /* 인쇄용 스타일 */
-  @media print {
-    .mermaid {
-      box-shadow: none;
-      border: 1px solid #ccc;
-      background: white;
-    }
-    
-    .mermaid:hover {
-      transform: none;
-      box-shadow: none;
-    }
-  }
-  
-  /* 접근성 개선 */
-  @media (prefers-reduced-motion: reduce) {
-    .mermaid {
-      transition: none;
-    }
-    
-    .mermaid:hover {
-      transform: none;
+      padding: 1rem;
     }
   }
 </style>
 
-<!-- 테마별 그라데이션을 Mermaid에 적용하기 위한 SVG 정의 -->
-<script type="module">
-  // DOM 로드 후 그라데이션 정의 추가
-  document.addEventListener('DOMContentLoaded', function() {
-    const addThemeGradientToMermaid = () => {
-      const mermaidElements = document.querySelectorAll('.mermaid svg');
-      const currentIsDark = detectDarkMode();
-      
-      mermaidElements.forEach(svg => {
-        // 기존 그라데이션 제거
-        const existingGradient = svg.querySelector('#siteGradient');
-        if (existingGradient) {
-          existingGradient.remove();
-        }
-        
-        // defs 요소 생성 또는 가져오기
-        let defs = svg.querySelector('defs');
-        if (!defs) {
-          defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-          svg.insertBefore(defs, svg.firstChild);
-        }
-        
-        // 테마에 따른 그라데이션 정의
-        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-        gradient.setAttribute('id', 'siteGradient');
-        gradient.setAttribute('x1', '0%');
-        gradient.setAttribute('y1', '0%');
-        gradient.setAttribute('x2', '100%');
-        gradient.setAttribute('y2', '100%');
-        
-        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        
-        stop1.setAttribute('offset', '0%');
-        stop2.setAttribute('offset', '100%');
-        
-        if (currentIsDark) {
-          // 다크모드 그라데이션
-          stop1.setAttribute('stop-color', '#8b7cf8');
-          stop2.setAttribute('stop-color', '#a78bfa');
-        } else {
-          // 라이트모드 그라데이션
-          stop1.setAttribute('stop-color', '#667eea');
-          stop2.setAttribute('stop-color', '#764ba2');
-        }
-        
-        gradient.appendChild(stop1);
-        gradient.appendChild(stop2);
-        defs.appendChild(gradient);
-      });
-    };
-    
-    // Mermaid 렌더링 완료 후 그라데이션 적용
-    setTimeout(addThemeGradientToMermaid, 500);
-    
-    // 동적으로 생성되는 다이어그램에도 적용
-    const gradientObserver = new MutationObserver(addThemeGradientToMermaid);
-    gradientObserver.observe(document.body, { childList: true, subtree: true });
-    
-    // 테마 변경 시 그라데이션 업데이트
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', addThemeGradientToMermaid);
-    
-    // data-theme 속성 변경 감지
-    const themeGradientObserver = new MutationObserver(addThemeGradientToMermaid);
-    themeGradientObserver.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['data-theme', 'class'] 
-    });
-    themeGradientObserver.observe(document.body, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
-    });
-  });
-</script> 
+ 

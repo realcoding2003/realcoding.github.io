@@ -212,8 +212,7 @@ graph TD
     J --> L[완료]
     K --> L
     
-    style A fill:#667eea,stroke:#5a67d8,color:#fff
-    style L fill:#4ade80,stroke:#22c55e,color:#1a202c
+
 ```
 
 #### 1. 프롬프트 엔지니어링
