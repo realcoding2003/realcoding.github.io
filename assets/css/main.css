@@ -522,15 +522,49 @@ a:hover {
     margin-bottom: 0;
 }
 
-/* Code blocks - 코드 블록 스타일 개선 */
-.post-content pre,
-.page-content pre {
+/* Code blocks - 코드 블록 스타일 개선 (Mermaid 제외) */
+.post-content pre:not(.mermaid),
+.page-content pre:not(.mermaid) {
     margin: 2rem 0;
     padding: 1.5rem;
     background: var(--dark-surface);
     border-radius: var(--radius-md);
     overflow-x: auto;
     border: 1px solid var(--border);
+}
+
+/* Mermaid 다이어그램 전용 스타일 - 코드 블록 스타일 오버라이드 */
+.post-content pre.mermaid,
+.page-content pre.mermaid {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: transparent !important;
+    border-radius: var(--radius-lg);
+    overflow: visible;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.post-content pre.mermaid:hover,
+.page-content pre.mermaid:hover {
+    box-shadow: 0 4px 16px var(--shadow);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+/* 다크모드 Mermaid 스타일 */
+[data-theme="dark"] .post-content pre.mermaid,
+[data-theme="dark"] .page-content pre.mermaid {
+    border: 1px solid rgba(139, 124, 248, 0.3);
+    box-shadow: 0 2px 8px rgba(139, 124, 248, 0.1);
+}
+
+[data-theme="dark"] .post-content pre.mermaid:hover,
+[data-theme="dark"] .page-content pre.mermaid:hover {
+    box-shadow: 0 4px 16px rgba(139, 124, 248, 0.2);
+    border-color: #8b7cf8;
 }
 
 .post-content code,
@@ -1335,6 +1369,14 @@ a:hover {
         justify-content: center;
     }
     
+    /* Mermaid 모바일 최적화 */
+    .post-content pre.mermaid,
+    .page-content pre.mermaid {
+        margin: 1.5rem 0;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
@@ -1372,5 +1414,13 @@ a:hover {
     .post-meta {
         flex-direction: column;
         gap: var(--spacing-sm);
+    }
+    
+    /* Mermaid 작은 모바일 최적화 */
+    .post-content pre.mermaid,
+    .page-content pre.mermaid {
+        margin: 1rem 0;
+        padding: 0.75rem;
+        font-size: 0.8rem;
     }
 }
