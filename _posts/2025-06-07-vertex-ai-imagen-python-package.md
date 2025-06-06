@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "vertex-ai-imagen: Google Vertex AI Imagen을 위한 간편한 Python 패키지"
-date: 2025-06-07 12:00:00 +0900
+date: 2025-06-07 00:00:00 +0900
 categories: [Development, Package]
 tags: [python, vertex-ai, imagen, ai, image-generation, google-cloud, pypi]
 author: "Kevin Park"
