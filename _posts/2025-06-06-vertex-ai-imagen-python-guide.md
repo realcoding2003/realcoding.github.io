@@ -190,6 +190,32 @@ batch_results = generate_batch_images(prompts)
 ![프로덕션 환경 아키텍처](/assets/images/posts/vertex-ai-imagen-diagram-architecture.png)
 *Vertex AI Imagen을 활용한 프로덕션 시스템 아키텍처*
 
+#### Vertex AI Imagen 워크플로우
+
+```mermaid
+graph TD
+    A[Python 애플리케이션] --> B[Vertex AI 인증]
+    B --> C[ImageGenerationModel 로드]
+    C --> D[프롬프트 입력]
+    D --> E{배치 처리?}
+    
+    E -->|단일| F[단일 이미지 생성]
+    E -->|배치| G[배치 이미지 생성]
+    
+    F --> H[이미지 후처리]
+    G --> I[배치 결과 수집]
+    I --> H
+    
+    H --> J[로컬 저장]
+    H --> K[Cloud Storage 업로드]
+    
+    J --> L[완료]
+    K --> L
+    
+    style A fill:#667eea,stroke:#5a67d8,color:#fff
+    style L fill:#4ade80,stroke:#22c55e,color:#1a202c
+```
+
 #### 1. 프롬프트 엔지니어링
 
 ```python

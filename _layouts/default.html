@@ -68,10 +68,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
     
-    <!-- Mermaid 다이어그램 지원 (조건부 로드) -->
-    {% if page.mermaid %}
-        {% include mermaid.html %}
-    {% endif %}
+    <!-- Mermaid 다이어그램 지원 (전체 적용) -->
+    {% include mermaid.html %}
     
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T3KNH95M"

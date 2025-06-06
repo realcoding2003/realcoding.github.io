@@ -128,6 +128,78 @@ aws logs put-metric-filter \
 
 ### 아키텍처 상세 설계
 
+#### AWS 서버리스 아키텍처 전체 구조
+
+```mermaid
+graph TB
+    subgraph "외부 트리거"
+        A[CloudWatch Events<br/>스케줄 기반]
+        B[S3 Event<br/>파일 업로드]
+        C[API Gateway<br/>수동 트리거]
+    end
+    
+    subgraph "AWS 서버리스 서비스"
+        D[Lambda Function<br/>네이버 블로그 포스팅]
+        E[S3 Bucket<br/>콘텐츠 & 이미지 저장]
+        F[CloudWatch<br/>로그 & 메트릭]
+        G[SNS<br/>알림 서비스]
+    end
+    
+    subgraph "외부 서비스"
+        H[네이버 블로그<br/>Selenium 자동화]
+        I[이메일/슬랙<br/>알림 수신]
+    end
+    
+    A --> D
+    B --> D
+    C --> D
+    
+    D <--> E
+    D --> F
+    D --> G
+    D --> H
+    
+    G --> I
+    
+    style D fill:#667eea,stroke:#5a67d8,color:#fff
+    style H fill:#f093fb,stroke:#e879f9,color:#1a202c
+    style I fill:#4ade80,stroke:#22c55e,color:#1a202c
+```
+
+#### 포스팅 프로세스 플로우
+
+```mermaid
+sequenceDiagram
+    participant CW as CloudWatch Events
+    participant Lambda as Lambda Function
+    participant S3 as S3 Bucket
+    participant Selenium as Selenium Driver
+    participant Naver as 네이버 블로그
+    participant SNS as SNS 알림
+    participant User as 사용자
+
+    CW->>Lambda: 스케줄 트리거 (예: 매일 오전 9시)
+    Lambda->>S3: 포스팅 데이터 조회
+    S3-->>Lambda: JSON 데이터 반환
+    
+    Lambda->>Selenium: Chrome 드라이버 시작
+    Selenium->>Naver: 로그인 & 포스팅 페이지 접근
+    Selenium->>Naver: 제목, 내용, 이미지 입력
+    Selenium->>Naver: 포스팅 게시
+    Naver-->>Selenium: 게시 완료 확인
+    Selenium-->>Lambda: 결과 반환
+    
+    alt 성공 시
+        Lambda->>S3: 상태 업데이트 (completed)
+        Lambda->>SNS: 성공 알림 발송
+        SNS->>User: 이메일/슬랙 알림
+    else 실패 시
+        Lambda->>S3: 에러 로그 저장
+        Lambda->>SNS: 실패 알림 발송
+        SNS->>User: 에러 알림
+    end
+```
+
 #### 1. S3 기반 콘텐츠 관리
 ```json
 {

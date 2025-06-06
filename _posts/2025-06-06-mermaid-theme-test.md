@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mermaid 다크모드/라이트모드 자동 대응 테스트"
-date: 2025-06-07 00:00:00 +0900
+date: 2025-06-06 00:00:00 +0900
 categories: [Test, Theme]
 tags: [mermaid, dark-mode, light-mode, responsive-design]
 author: "Kevin Park"
