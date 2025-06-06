@@ -44,9 +44,6 @@ graph TD
     J --> K
     
     K --> L[최적의 사용자 경험]
-    
-    style A fill:#667eea,stroke:#5a67d8,color:#fff
-    style L fill:#f093fb,stroke:#e879f9,color:#1a202c
 ```
 
 ## 🔄 **시퀀스 다이어그램 - 테마 변경 프로세스**
