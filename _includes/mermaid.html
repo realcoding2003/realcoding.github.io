@@ -2,100 +2,18 @@
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
-
-
-  // 다크모드 감지 함수
-  const detectDarkMode = () => {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches || 
-           document.documentElement.getAttribute('data-theme') === 'dark' ||
-           document.body.classList.contains('dark') ||
-           document.documentElement.classList.contains('dark');
-  };
-
-  // 초기 테마 감지
-  let isDarkMode = detectDarkMode();
-
-  // Mermaid 초기화 함수 (기본 테마 사용)
-  const initializeMermaid = (isDark) => {
-    mermaid.initialize({ 
-      startOnLoad: true,
-      theme: isDark ? 'dark' : 'default',
-      securityLevel: 'loose',
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-      
-      // 각 다이어그램별 세부 설정
-      flowchart: {
-        curve: 'basis',
-        padding: 20
-      },
-      
-      sequence: {
-        diagramMarginX: 50,
-        diagramMarginY: 10,
-        actorMargin: 50,
-        width: 150,
-        height: 65,
-        boxMargin: 10,
-        boxTextMargin: 5,
-        noteMargin: 10,
-        messageMargin: 35
-      },
-      
-      gantt: {
-        numberSectionStyles: 4,
-        axisFormat: '%m/%d',
-        gridLineStartPadding: 350,
-        fontSize: 11,
-        sectionFontSize: 12,
-        bottomPadding: 25,
-        leftPadding: 75,
-        rightPadding: 50
-      }
-    });
-  };
-
-  // 초기 Mermaid 설정
-  initializeMermaid(isDarkMode);
-
-  // 테마 변경 감지 및 다이어그램 다시 렌더링
-  const handleThemeChange = async () => {
-    const newIsDarkMode = detectDarkMode();
-    if (newIsDarkMode !== isDarkMode) {
-      isDarkMode = newIsDarkMode;
-      
-      // Mermaid 재초기화
-      initializeMermaid(isDarkMode);
-      
-      // 기존 다이어그램 다시 렌더링
-      const mermaidElements = document.querySelectorAll('.mermaid');
-      for (const element of mermaidElements) {
-        if (element.getAttribute('data-processed')) {
-          element.removeAttribute('data-processed');
-          const originalText = element.getAttribute('data-original-text');
-          if (originalText) {
-            element.textContent = originalText;
-            await mermaid.run({
-              querySelector: `#${element.id || Math.random().toString(36).substr(2, 9)}`,
-              nodes: [element]
-            });
-          }
-        }
-      }
+  // Mermaid 초기화
+  mermaid.initialize({ 
+    startOnLoad: true,
+    theme: 'default',
+    securityLevel: 'loose',
+    fontFamily: 'noto-sans-kr, -apple-system, BlinkMacSystemFont, sans-serif',
+    themeVariables: {
+      primaryColor: '#667eea',
+      secondaryColor: '#764ba2',
+      tertiaryColor: '#8b7cf8',
+      quaternaryColor: '#a78bfa',
     }
-  };
-
-  // 테마 변경 감지를 위한 이벤트 리스너
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleThemeChange);
-  
-  // DOM 변경 감지 (data-theme 속성 변경 등)
-  const themeObserver = new MutationObserver(handleThemeChange);
-  themeObserver.observe(document.documentElement, { 
-    attributes: true, 
-    attributeFilter: ['data-theme', 'class'] 
-  });
-  themeObserver.observe(document.body, { 
-    attributes: true, 
-    attributeFilter: ['class'] 
   });
   
   // 페이지 로드 완료 후 실행
@@ -123,40 +41,3 @@
     });
   });
 </script>
-
-<!-- 기본 Mermaid 스타일 -->
-<style>
-  .mermaid {
-    text-align: center;
-    margin: 2rem 0;
-    background: transparent;
-    border: 1px solid var(--border, #e2e8f0);
-    border-radius: var(--radius-lg, 0.75rem);
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px var(--shadow, rgba(0, 0, 0, 0.1));
-  }
-  
-  .mermaid svg {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-  
-  /* 다크모드 테두리 조정 */
-  [data-theme="dark"] .mermaid {
-    border-color: var(--dark-border, #374151);
-    box-shadow: 0 2px 8px var(--dark-shadow, rgba(0, 0, 0, 0.3));
-  }
-  
-  /* 반응형 */
-  @media (max-width: 768px) {
-    .mermaid {
-      margin: 1.5rem 0;
-      padding: 1rem;
-    }
-  }
-</style>
-
- 
