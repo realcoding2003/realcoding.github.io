@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mermaid 다이어그램 테스트 포스트"
-date: 2025-01-01 10:00:00 +0900
+date: 2025-06-06 23:00:00 +0900
 categories: [Test, Mermaid]
 tags: [mermaid, diagram, flowchart, test]
 author: "Kevin Park"

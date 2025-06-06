@@ -2,12 +2,155 @@
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
+  // 사이트 색상 체계에 맞는 커스텀 테마 설정
+  const siteThemeVariables = {
+    // 기본 색상 (사이트 CSS 변수와 매칭)
+    primaryColor: '#667eea',
+    primaryTextColor: '#ffffff',
+    primaryBorderColor: '#5a67d8',
+    
+    secondaryColor: '#764ba2',
+    secondaryTextColor: '#ffffff',
+    secondaryBorderColor: '#6b46c1',
+    
+    tertiaryColor: '#f093fb',
+    tertiaryTextColor: '#1a202c',
+    tertiaryBorderColor: '#e879f9',
+    
+    // 배경 및 표면
+    background: '#ffffff',
+    mainBkg: '#f7fafc',
+    secondaryBkg: '#e2e8f0',
+    tertiaryBkg: '#fed7e2',
+    
+    // 텍스트 색상
+    textColor: '#2d3748',
+    lineColor: '#cbd5e0',
+    
+    // 특별한 색상들
+    noteBkgColor: '#ebf8ff',
+    noteTextColor: '#2d3748',
+    noteBorderColor: '#667eea',
+    
+    // 폰트 설정
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+    fontSize: '14px',
+    
+    // 플로우차트 전용
+    nodeBorder: '#5a67d8',
+    clusterBkg: '#fed7e2',
+    clusterBorder: '#e879f9',
+    defaultLinkColor: '#667eea',
+    titleColor: '#2d3748',
+    nodeTextColor: '#2d3748',
+    
+    // 시퀀스 다이어그램
+    actorBkg: 'linear-gradient(135deg, #667eea, #764ba2)',
+    actorBorder: '#5a67d8',
+    actorTextColor: '#ffffff',
+    signalColor: '#667eea',
+    signalTextColor: '#2d3748',
+    
+    // 간트 차트
+    gridColor: '#e2e8f0',
+    section0: '#667eea',
+    section1: '#764ba2',
+    section2: '#f093fb',
+    section3: '#4ade80',
+    
+    // 파이 차트
+    pie1: '#667eea',
+    pie2: '#764ba2', 
+    pie3: '#f093fb',
+    pie4: '#4ade80',
+    pie5: '#fbbf24',
+    pie6: '#f87171',
+    pie7: '#a78bfa',
+    pie8: '#34d399',
+    pie9: '#60a5fa',
+    pie10: '#fb7185',
+    pie11: '#c084fc',
+    pie12: '#22d3ee'
+  };
+
+  // 다크모드 감지 및 테마 변수 조정
+  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || 
+                     document.documentElement.getAttribute('data-theme') === 'dark';
+  
+  let themeVariables = siteThemeVariables;
+  
+  if (isDarkMode) {
+    themeVariables = {
+      ...siteThemeVariables,
+      // 다크모드 색상 재정의
+      background: '#0f1419',
+      mainBkg: '#1a1f2e',
+      secondaryBkg: '#242938',
+      tertiaryBkg: '#2d3748',
+      
+      textColor: '#e6e6e6',
+      primaryTextColor: '#e6e6e6',
+      secondaryTextColor: '#e6e6e6',
+      tertiaryTextColor: '#e6e6e6',
+      
+      lineColor: '#374151',
+      nodeBorder: '#667eea',
+      
+      // 다크모드 노트
+      noteBkgColor: '#1a365d',
+      noteTextColor: '#e6e6e6',
+      noteBorderColor: '#667eea',
+      
+      // 다크모드 클러스터
+      clusterBkg: '#2d3748',
+      clusterBorder: '#667eea',
+      
+      // 시퀀스 다이어그램 다크모드
+      actorBkg: '#242938',
+      actorTextColor: '#e6e6e6',
+      signalTextColor: '#e6e6e6',
+      
+      // 그리드 색상
+      gridColor: '#374151'
+    };
+  }
+
   // Mermaid 초기화
   mermaid.initialize({ 
     startOnLoad: true,
-    theme: 'default',
+    theme: 'base',
     securityLevel: 'loose',
-    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+    themeVariables: themeVariables,
+    
+    // 각 다이어그램별 세부 설정
+    flowchart: {
+      curve: 'basis',
+      padding: 20
+    },
+    
+    sequence: {
+      diagramMarginX: 50,
+      diagramMarginY: 10,
+      actorMargin: 50,
+      width: 150,
+      height: 65,
+      boxMargin: 10,
+      boxTextMargin: 5,
+      noteMargin: 10,
+      messageMargin: 35
+    },
+    
+    gantt: {
+      numberSectionStyles: 4,
+      axisFormat: '%m/%d',
+      gridLineStartPadding: 350,
+      fontSize: 11,
+      sectionFontSize: 12,
+      bottomPadding: 25,
+      leftPadding: 75,
+      rightPadding: 50
+    }
   });
   
   // 페이지 로드 완료 후 실행
@@ -44,6 +187,16 @@
     background: transparent;
     border: none;
     overflow: visible;
+    padding: 1rem;
+    border-radius: var(--radius-lg, 0.75rem);
+    box-shadow: 0 4px 15px var(--shadow, rgba(0, 0, 0, 0.1));
+    background: var(--surface, #f7fafc);
+    transition: var(--transition, all 0.3s ease);
+  }
+  
+  .mermaid:hover {
+    box-shadow: 0 8px 25px var(--shadow, rgba(0, 0, 0, 0.15));
+    transform: translateY(-2px);
   }
   
   .mermaid svg {
@@ -51,16 +204,157 @@
     height: auto;
     display: block;
     margin: 0 auto;
+    font-family: var(--font-family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+  }
+  
+  /* 다이어그램 제목 스타일링 */
+  .mermaid .titleText {
+    font-weight: 600;
+    font-size: 1.25rem;
+    fill: var(--text-primary, #2d3748);
+    font-family: var(--font-family, 'Inter', sans-serif);
+  }
+  
+  /* 노드 그라데이션 스타일 */
+  .mermaid .node rect,
+  .mermaid .node circle,
+  .mermaid .node polygon {
+    fill: url(#siteGradient);
+    stroke: var(--primary-color, #667eea);
+    stroke-width: 2px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+  
+  /* 그라데이션 정의 */
+  .mermaid svg defs {
+    background: transparent;
+  }
+  
+  /* 화살표와 연결선 스타일 */
+  .mermaid .edgePath path,
+  .mermaid .edgePath line {
+    stroke: var(--primary-color, #667eea);
+    stroke-width: 2px;
+  }
+  
+  .mermaid .arrowheadPath {
+    fill: var(--primary-color, #667eea);
+    stroke: var(--primary-color, #667eea);
+  }
+  
+  /* 텍스트 스타일 */
+  .mermaid .nodeLabel,
+  .mermaid .edgeLabel {
+    font-family: var(--font-family, 'Inter', sans-serif);
+    font-weight: 500;
+    font-size: 14px;
   }
   
   /* 다크모드 대응 */
+  [data-theme="dark"] .mermaid {
+    background: var(--dark-surface, #1a1f2e);
+    border: 1px solid var(--dark-border, #374151);
+  }
+  
+  [data-theme="dark"] .mermaid .titleText {
+    fill: var(--dark-text-primary, #e6e6e6);
+  }
+  
   @media (prefers-color-scheme: dark) {
     .mermaid {
-      filter: invert(1) hue-rotate(180deg);
+      background: #1a1f2e;
+      border: 1px solid #374151;
+    }
+    
+    .mermaid .titleText {
+      fill: #e6e6e6;
+    }
+  }
+  
+  /* 반응형 대응 */
+  @media (max-width: 768px) {
+    .mermaid {
+      margin: 1.5rem 0;
+      padding: 0.75rem;
+      font-size: 0.9rem;
     }
     
     .mermaid svg {
-      background: transparent;
+      font-size: 12px;
     }
   }
-</style> 
+  
+  /* 인쇄용 스타일 */
+  @media print {
+    .mermaid {
+      box-shadow: none;
+      border: 1px solid #ccc;
+      background: white;
+    }
+    
+    .mermaid:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+  
+  /* 접근성 개선 */
+  @media (prefers-reduced-motion: reduce) {
+    .mermaid {
+      transition: none;
+    }
+    
+    .mermaid:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<!-- 사이트 그라데이션을 Mermaid에 적용하기 위한 SVG 정의 -->
+<script type="module">
+  // DOM 로드 후 그라데이션 정의 추가
+  document.addEventListener('DOMContentLoaded', function() {
+    const addSiteGradientToMermaid = () => {
+      const mermaidElements = document.querySelectorAll('.mermaid svg');
+      
+      mermaidElements.forEach(svg => {
+        // 이미 정의되어 있으면 건너뛰기
+        if (svg.querySelector('#siteGradient')) return;
+        
+        // defs 요소 생성 또는 가져오기
+        let defs = svg.querySelector('defs');
+        if (!defs) {
+          defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+          svg.insertBefore(defs, svg.firstChild);
+        }
+        
+        // 사이트 그라데이션 정의
+        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        gradient.setAttribute('id', 'siteGradient');
+        gradient.setAttribute('x1', '0%');
+        gradient.setAttribute('y1', '0%');
+        gradient.setAttribute('x2', '100%');
+        gradient.setAttribute('y2', '100%');
+        
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('stop-color', '#667eea');
+        
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '100%');
+        stop2.setAttribute('stop-color', '#764ba2');
+        
+        gradient.appendChild(stop1);
+        gradient.appendChild(stop2);
+        defs.appendChild(gradient);
+      });
+    };
+    
+    // Mermaid 렌더링 완료 후 그라데이션 적용
+    setTimeout(addSiteGradientToMermaid, 500);
+    
+    // 동적으로 생성되는 다이어그램에도 적용
+    const observer = new MutationObserver(addSiteGradientToMermaid);
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+</script> 
