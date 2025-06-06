@@ -108,7 +108,7 @@
         secondaryBorderColor: '#a78bfa',
         
         tertiaryColor: '#fbbf24',
-        tertiaryTextColor: '#ffffff',
+        tertiaryTextColor: '#1a202c',
         tertiaryBorderColor: '#f59e0b',
         
         // 텍스트 색상 (다크모드 - 더 밝게)
@@ -116,31 +116,47 @@
         lineColor: '#8b7cf8',
         
         // 노트 색상
-        noteBkgColor: 'transparent',
+        noteBkgColor: 'rgba(167, 139, 250, 0.1)',
         noteTextColor: '#ffffff',
         noteBorderColor: '#a78bfa',
         
         // 플로우차트
         nodeBorder: '#a78bfa',
-        clusterBkg: 'transparent',
+        clusterBkg: 'rgba(167, 139, 250, 0.05)',
         clusterBorder: '#c084fc',
         defaultLinkColor: '#a78bfa',
         titleColor: '#ffffff',
         nodeTextColor: '#ffffff',
         
-        // 시퀀스 다이어그램
-        actorBkg: 'transparent',
+        // 시퀀스 다이어그램 (개선된 가시성)
+        actorBkg: 'rgba(31, 41, 55, 0.8)',
         actorBorder: '#a78bfa',
         actorTextColor: '#ffffff',
         signalColor: '#a78bfa',
         signalTextColor: '#ffffff',
+        labelBoxBkgColor: 'rgba(55, 65, 81, 0.8)',
+        labelTextColor: '#ffffff',
+        activationBkgColor: 'rgba(167, 139, 250, 0.2)',
+        activationBorderColor: '#a78bfa',
         
-        // 간트 차트
+        // 간트 차트 (개선된 텍스트 가시성)
         gridColor: '#6b7280',
         section0: '#a78bfa',
         section1: '#c084fc',
         section2: '#fbbf24',
         section3: '#34d399',
+        cScale0: '#a78bfa',
+        cScale1: '#c084fc',
+        cScale2: '#fbbf24',
+        taskBkgColor: 'rgba(167, 139, 250, 0.8)',
+        taskTextColor: '#ffffff',
+        taskTextOutsideColor: '#ffffff',
+        taskTextLightColor: '#ffffff',
+        taskTextDarkColor: '#1a202c',
+        activeTaskBkgColor: '#c084fc',
+        activeTaskBorderColor: '#a78bfa',
+        gridColor: '#4b5563',
+        todayLineColor: '#fbbf24',
         
         // 파이 차트
         pie1: '#a78bfa',
@@ -177,27 +193,42 @@
         lineColor: '#667eea',
         
         // 노트 색상
-        noteBkgColor: 'transparent',
+        noteBkgColor: 'rgba(102, 126, 234, 0.1)',
         noteTextColor: '#2d3748',
         noteBorderColor: '#667eea',
         
         // 플로우차트
         nodeBorder: '#5a67d8',
-        clusterBkg: 'transparent',
+        clusterBkg: 'rgba(102, 126, 234, 0.05)',
         clusterBorder: '#e879f9',
         defaultLinkColor: '#667eea',
         titleColor: '#2d3748',
         nodeTextColor: '#ffffff',
         
-        // 시퀀스 다이어그램
-        actorBkg: 'transparent',
+        // 시퀀스 다이어그램 (개선된 가시성)
+        actorBkg: 'rgba(247, 250, 252, 0.9)',
         actorBorder: '#5a67d8',
-        actorTextColor: '#ffffff',
+        actorTextColor: '#2d3748',
         signalColor: '#667eea',
         signalTextColor: '#2d3748',
+        labelBoxBkgColor: 'rgba(229, 231, 235, 0.9)',
+        labelTextColor: '#2d3748',
+        activationBkgColor: 'rgba(102, 126, 234, 0.15)',
+        activationBorderColor: '#667eea',
         
-        // 간트 차트
+        // 간트 차트 (개선된 텍스트 가시성)
         gridColor: '#e2e8f0',
+        cScale0: '#667eea',
+        cScale1: '#764ba2',
+        cScale2: '#f093fb',
+        taskBkgColor: 'rgba(102, 126, 234, 0.8)',
+        taskTextColor: '#ffffff',
+        taskTextOutsideColor: '#2d3748',
+        taskTextLightColor: '#2d3748',
+        taskTextDarkColor: '#ffffff',
+        activeTaskBkgColor: '#764ba2',
+        activeTaskBorderColor: '#667eea',
+        todayLineColor: '#f59e0b',
         section0: '#667eea',
         section1: '#764ba2',
         section2: '#f093fb',
@@ -407,6 +438,53 @@
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   }
   
+  /* 시퀀스 다이어그램 텍스트 강화 */
+  .mermaid .actor {
+    font-weight: 600 !important;
+  }
+  
+  .mermaid .actor-box {
+    fill: var(--surface, rgba(247, 250, 252, 0.9)) !important;
+    stroke: var(--primary-color, #667eea) !important;
+    stroke-width: 2px !important;
+  }
+  
+  .mermaid .messageText {
+    font-weight: 500 !important;
+    fill: var(--text-primary, #2d3748) !important;
+  }
+  
+  .mermaid .labelText {
+    font-weight: 600 !important;
+    fill: var(--text-primary, #2d3748) !important;
+  }
+  
+  /* 간트 차트 텍스트 강화 */
+  .mermaid .taskText,
+  .mermaid .taskText0,
+  .mermaid .taskText1,
+  .mermaid .taskText2,
+  .mermaid .taskText3 {
+    font-weight: 600 !important;
+    fill: #ffffff !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  .mermaid .gridLabel {
+    font-weight: 500 !important;
+    fill: var(--text-primary, #2d3748) !important;
+  }
+  
+  /* 모든 텍스트 요소 기본 강화 */
+  .mermaid text {
+    font-family: var(--font-family, 'Inter', sans-serif) !important;
+    font-weight: 500;
+  }
+  
+  .mermaid .label {
+    font-weight: 600 !important;
+  }
+  
   /* 그라데이션 정의 */
   .mermaid svg defs {
     background: transparent;
@@ -465,6 +543,26 @@
     color: #f7fafc !important;
   }
   
+  /* 다크모드 시퀀스 다이어그램 최적화 */
+  [data-theme="dark"] .mermaid .actor-box,
+  .dark .mermaid .actor-box {
+    fill: rgba(31, 41, 55, 0.8) !important;
+    stroke: #a78bfa !important;
+  }
+  
+  [data-theme="dark"] .mermaid .messageText,
+  [data-theme="dark"] .mermaid .labelText,
+  .dark .mermaid .messageText,
+  .dark .mermaid .labelText {
+    fill: #ffffff !important;
+  }
+  
+  /* 다크모드 간트 차트 최적화 */
+  [data-theme="dark"] .mermaid .gridLabel,
+  .dark .mermaid .gridLabel {
+    fill: #f7fafc !important;
+  }
+  
   @media (prefers-color-scheme: dark) {
     .mermaid {
       border: 1px solid rgba(139, 124, 248, 0.3);
@@ -482,6 +580,20 @@
     
     .mermaid .edgeLabel .label {
       color: #f7fafc !important;
+    }
+    
+    .mermaid .actor-box {
+      fill: rgba(31, 41, 55, 0.8) !important;
+      stroke: #a78bfa !important;
+    }
+    
+    .mermaid .messageText,
+    .mermaid .labelText {
+      fill: #ffffff !important;
+    }
+    
+    .mermaid .gridLabel {
+      fill: #f7fafc !important;
     }
   }
   
