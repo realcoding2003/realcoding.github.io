@@ -1,0 +1,66 @@
+<!-- Mermaid 다이어그램 지원 -->
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  // Mermaid 초기화
+  mermaid.initialize({ 
+    startOnLoad: true,
+    theme: 'default',
+    securityLevel: 'loose',
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+  });
+  
+  // 페이지 로드 완료 후 실행
+  document.addEventListener('DOMContentLoaded', async function() {
+    // .language-mermaid 클래스를 가진 코드 블록 찾기
+    const mermaidBlocks = document.querySelectorAll('pre > code.language-mermaid');
+    
+    // 각 코드 블록을 mermaid 클래스 pre 태그로 변환
+    mermaidBlocks.forEach((codeBlock) => {
+      const preElement = codeBlock.parentElement;
+      const mermaidContent = codeBlock.textContent;
+      
+      // 새로운 pre 요소 생성
+      const newPre = document.createElement('pre');
+      newPre.className = 'mermaid';
+      newPre.textContent = mermaidContent;
+      
+      // 기존 요소를 새 요소로 교체
+      preElement.parentNode.replaceChild(newPre, preElement);
+    });
+    
+    // Mermaid 렌더링 실행
+    await mermaid.run({
+      querySelector: '.mermaid',
+    });
+  });
+</script>
+
+<!-- Mermaid 다이어그램 스타일 최적화 -->
+<style>
+  .mermaid {
+    text-align: center;
+    margin: 2rem 0;
+    background: transparent;
+    border: none;
+    overflow: visible;
+  }
+  
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* 다크모드 대응 */
+  @media (prefers-color-scheme: dark) {
+    .mermaid {
+      filter: invert(1) hue-rotate(180deg);
+    }
+    
+    .mermaid svg {
+      background: transparent;
+    }
+  }
+</style> 
