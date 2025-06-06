@@ -116,63 +116,58 @@ gantt
 
 ```mermaid
 classDiagram
-    class BlogPost {
-        +String title
-        +String content
-        +Date publishedAt
-        +String[] tags
-        +Category category
-        +Author author
-        +Boolean mermaid
-        +publish()
-        +draft()
-        +addTag(tag)
-        +setCategory(category)
-    }
+    class BlogPost
+    BlogPost : +String title
+    BlogPost : +String content
+    BlogPost : +Date publishedAt
+    BlogPost : +String[] tags
+    BlogPost : +Category category
+    BlogPost : +Author author
+    BlogPost : +Boolean mermaid
+    BlogPost : +publish()
+    BlogPost : +draft()
+    BlogPost : +addTag(tag)
+    BlogPost : +setCategory(category)
     
-    class Author {
-        +String name
-        +String email
-        +String bio
-        +String avatar
-        +Date joinedAt
-        +write(post)
-        +updateProfile()
-    }
+    class Author
+    Author : +String name
+    Author : +String email
+    Author : +String bio
+    Author : +String avatar
+    Author : +Date joinedAt
+    Author : +write(post)
+    Author : +updateProfile()
     
-    class Category {
-        +String name
-        +String description
-        +String color
-        +Integer postCount
-        +addPost(post)
-        +removePost(post)
-    }
+    class Category
+    Category : +String name
+    Category : +String description
+    Category : +String color
+    Category : +Integer postCount
+    Category : +addPost(post)
+    Category : +removePost(post)
     
-    class Comment {
-        +String content
-        +Date createdAt
-        +Author author
-        +BlogPost post
-        +Boolean approved
-        +create()
-        +approve()
-        +delete()
-    }
+    class Comment
+    Comment : +String content
+    Comment : +Date createdAt
+    Comment : +Author author
+    Comment : +BlogPost post
+    Comment : +Boolean approved
+    Comment : +create()
+    Comment : +approve()
+    Comment : +delete()
     
-    class Tag {
-        +String name
-        +String color
-        +Integer usageCount
-        +increaseUsage()
-        +decreaseUsage()
-    }
+    class Tag
+    Tag : +String name
+    Tag : +String color
+    Tag : +Integer usageCount
+    Tag : +increaseUsage()
+    Tag : +decreaseUsage()
     
-    Author ||--o{ BlogPost : writes
-    Category ||--o{ BlogPost : contains
-    BlogPost ||--o{ Comment : has
-    BlogPost }|--|| Tag : tagged_with
-    Author ||--o{ Comment : writes
+    Author --> BlogPost
+    Category --> BlogPost
+    BlogPost --> Comment
+    BlogPost --> Tag
+    Author --> Comment
 ```
 
 ## 🌊 **상태 다이어그램 - 포스트 게시 워크플로우**

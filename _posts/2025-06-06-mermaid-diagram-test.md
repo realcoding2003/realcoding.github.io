@@ -67,35 +67,32 @@ gantt
 
 ```mermaid
 classDiagram
-    class User {
-        +String name
-        +String email
-        +Date createdAt
-        +login()
-        +logout()
-    }
+    class User
+    User : +String name
+    User : +String email
+    User : +Date createdAt
+    User : +login()
+    User : +logout()
     
-    class Post {
-        +String title
-        +String content
-        +Date publishedAt
-        +User author
-        +publish()
-        +draft()
-    }
+    class Post
+    Post : +String title
+    Post : +String content
+    Post : +Date publishedAt
+    Post : +User author
+    Post : +publish()
+    Post : +draft()
     
-    class Comment {
-        +String content
-        +Date createdAt
-        +User author
-        +Post post
-        +create()
-        +delete()
-    }
+    class Comment
+    Comment : +String content
+    Comment : +Date createdAt
+    Comment : +User author
+    Comment : +Post post
+    Comment : +create()
+    Comment : +delete()
     
-    User ||--o{ Post : writes
-    User ||--o{ Comment : writes
-    Post ||--o{ Comment : has
+    User --> Post
+    User --> Comment
+    Post --> Comment
 ```
 
 ## 🔢 파이 차트

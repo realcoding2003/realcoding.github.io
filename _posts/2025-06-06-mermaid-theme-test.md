@@ -100,47 +100,40 @@ gantt
 
 ```mermaid
 classDiagram
-    class ThemeDetector {
-        +Boolean isDarkMode
-        +detectDarkMode()
-        +handleThemeChange()
-        +addEventListener()
-    }
-    
-    class ThemeVariables {
-        +Object lightTheme
-        +Object darkTheme
-        +getThemeVariables(isDark)
-        +updateColors()
-    }
-    
-    class MermaidRenderer {
-        +initialize(themeVars)
-        +rerender()
-        +addGradients()
-        +updateElements()
-    }
-    
-    class GradientManager {
-        +createGradient()
-        +updateGradient()
-        +removeGradient()
-        +applyToSVG()
-    }
-    
-    ThemeDetector --> ThemeVariables : provides theme state
-    ThemeVariables --> MermaidRenderer : supplies color config
-    MermaidRenderer --> GradientManager : manages gradients
-    
+    class ThemeDetector
+    ThemeDetector : +Boolean isDarkMode
+    ThemeDetector : +detectDarkMode()
+    ThemeDetector : +handleThemeChange()
+    ThemeDetector : +addEventListener()
     ThemeDetector : +MediaQueryList mediaQuery
     ThemeDetector : +MutationObserver observer
     
+    class ThemeVariables
+    ThemeVariables : +Object lightTheme
+    ThemeVariables : +Object darkTheme
+    ThemeVariables : +getThemeVariables(isDark)
+    ThemeVariables : +updateColors()
     ThemeVariables : +String primaryColor
     ThemeVariables : +String secondaryColor
     ThemeVariables : +String textColor
     
+    class MermaidRenderer
+    MermaidRenderer : +initialize(themeVars)
+    MermaidRenderer : +rerender()
+    MermaidRenderer : +addGradients()
+    MermaidRenderer : +updateElements()
     MermaidRenderer : +Array diagrams
     MermaidRenderer : +Object config
+    
+    class GradientManager
+    GradientManager : +createGradient()
+    GradientManager : +updateGradient()
+    GradientManager : +removeGradient()
+    GradientManager : +applyToSVG()
+    
+    ThemeDetector --> ThemeVariables
+    ThemeVariables --> MermaidRenderer
+    MermaidRenderer --> GradientManager
 ```
 
 ## 🔢 **파이 차트 - 색상 사용률 분석**
