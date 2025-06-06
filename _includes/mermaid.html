@@ -436,9 +436,10 @@
     font-weight: 600 !important;
   }
   
-  /* 시퀀스 다이어그램 텍스트 강화 */
+  /* 라이트모드 기본 - 시퀀스 다이어그램 Actor 텍스트 */
   .mermaid .actor {
     font-weight: 600 !important;
+    fill: #2d3748 !important;
   }
   
   .mermaid .actor-box {
@@ -447,14 +448,15 @@
     stroke-width: 2px !important;
   }
   
+  /* 라이트모드 기본 - 시퀀스 다이어그램 텍스트 */
   .mermaid .messageText {
     font-weight: 500 !important;
-    fill: var(--text-primary, #2d3748) !important;
+    fill: #2d3748 !important;
   }
   
   .mermaid .labelText {
     font-weight: 600 !important;
-    fill: var(--text-primary, #2d3748) !important;
+    fill: #2d3748 !important;
   }
   
   /* 간트 차트 텍스트 강화 */
@@ -467,9 +469,10 @@
     fill: #ffffff !important;
   }
   
+  /* 라이트모드 기본 - 간트 차트 그리드 라벨 */
   .mermaid .gridLabel {
     font-weight: 500 !important;
-    fill: var(--text-primary, #2d3748) !important;
+    fill: #2d3748 !important;
   }
   
   /* 모든 텍스트 요소 기본 강화 */
@@ -562,10 +565,17 @@
     stroke: #a78bfa !important;
   }
   
+  /* 다크모드 - 시퀀스 다이어그램 텍스트 흰색 강제 적용 */
   [data-theme="dark"] .mermaid .messageText,
   [data-theme="dark"] .mermaid .labelText,
   .dark .mermaid .messageText,
   .dark .mermaid .labelText {
+    fill: #ffffff !important;
+  }
+  
+  /* 다크모드 - Actor 텍스트도 흰색 */
+  [data-theme="dark"] .mermaid .actor,
+  .dark .mermaid .actor {
     fill: #ffffff !important;
   }
   
@@ -607,7 +617,8 @@
     }
     
     .mermaid .messageText,
-    .mermaid .labelText {
+    .mermaid .labelText,
+    .mermaid .actor {
       fill: #ffffff !important;
     }
     
