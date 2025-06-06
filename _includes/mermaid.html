@@ -83,79 +83,77 @@
 
   // 테마에 따른 변수 설정 함수
   const getThemeVariables = (isDark) => {
-    const baseVariables = {
-      // 투명 배경 설정
-      background: 'transparent',
-      mainBkg: 'transparent',
-      
-      // 폰트 설정
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-      fontSize: '14px',
-    };
+      const baseVariables = {
+    // 완전 투명 배경 설정
+    background: 'transparent',
+    mainBkg: 'transparent',
+    secondaryBkg: 'transparent',
+    tertiaryBkg: 'transparent',
+    
+    // 폰트 설정
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+    fontSize: '14px',
+  };
 
     if (isDark) {
       return {
         ...baseVariables,
-        // 다크모드 색상
-        primaryColor: '#8b7cf8',
-        primaryTextColor: '#f7fafc',
-        primaryBorderColor: '#7c3aed',
+        // 다크모드 색상 (더 밝고 선명하게)
+        primaryColor: '#a78bfa',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#8b7cf8',
         
-        secondaryColor: '#a78bfa',
-        secondaryTextColor: '#f7fafc',
-        secondaryBorderColor: '#8b5cf6',
+        secondaryColor: '#c084fc',
+        secondaryTextColor: '#ffffff',
+        secondaryBorderColor: '#a78bfa',
         
         tertiaryColor: '#fbbf24',
-        tertiaryTextColor: '#1a202c',
+        tertiaryTextColor: '#ffffff',
         tertiaryBorderColor: '#f59e0b',
         
-        // 배경과 표면 (투명/반투명)
-        secondaryBkg: 'rgba(79, 70, 229, 0.1)',
-        tertiaryBkg: 'rgba(168, 85, 247, 0.1)',
-        
-        // 텍스트 색상 (다크모드)
-        textColor: '#f7fafc',
-        lineColor: '#6b7280',
+        // 텍스트 색상 (다크모드 - 더 밝게)
+        textColor: '#ffffff',
+        lineColor: '#8b7cf8',
         
         // 노트 색상
-        noteBkgColor: 'rgba(59, 130, 246, 0.15)',
-        noteTextColor: '#f7fafc',
-        noteBorderColor: '#3b82f6',
+        noteBkgColor: 'transparent',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#a78bfa',
         
         // 플로우차트
-        nodeBorder: '#8b7cf8',
-        clusterBkg: 'rgba(168, 85, 247, 0.1)',
-        clusterBorder: '#a78bfa',
-        defaultLinkColor: '#8b7cf8',
-        titleColor: '#f7fafc',
-        nodeTextColor: '#1a202c',
+        nodeBorder: '#a78bfa',
+        clusterBkg: 'transparent',
+        clusterBorder: '#c084fc',
+        defaultLinkColor: '#a78bfa',
+        titleColor: '#ffffff',
+        nodeTextColor: '#ffffff',
         
         // 시퀀스 다이어그램
-        actorBkg: 'rgba(139, 124, 248, 0.2)',
-        actorBorder: '#8b7cf8',
-        actorTextColor: '#f7fafc',
-        signalColor: '#8b7cf8',
-        signalTextColor: '#f7fafc',
+        actorBkg: 'transparent',
+        actorBorder: '#a78bfa',
+        actorTextColor: '#ffffff',
+        signalColor: '#a78bfa',
+        signalTextColor: '#ffffff',
         
         // 간트 차트
-        gridColor: '#4b5563',
-        section0: '#8b7cf8',
-        section1: '#a78bfa',
+        gridColor: '#6b7280',
+        section0: '#a78bfa',
+        section1: '#c084fc',
         section2: '#fbbf24',
         section3: '#34d399',
         
         // 파이 차트
-        pie1: '#8b7cf8',
-        pie2: '#a78bfa',
+        pie1: '#a78bfa',
+        pie2: '#c084fc',
         pie3: '#fbbf24',
         pie4: '#34d399',
         pie5: '#f87171',
         pie6: '#60a5fa',
-        pie7: '#c084fc',
+        pie7: '#e879f9',
         pie8: '#22d3ee',
         pie9: '#fb7185',
         pie10: '#4ade80',
-        pie11: '#818cf8',
+        pie11: '#8b7cf8',
         pie12: '#f472b6'
       };
     } else {
@@ -174,31 +172,27 @@
         tertiaryTextColor: '#1a202c',
         tertiaryBorderColor: '#e879f9',
         
-        // 배경과 표면 (투명/반투명)
-        secondaryBkg: 'rgba(102, 126, 234, 0.1)',
-        tertiaryBkg: 'rgba(240, 147, 251, 0.1)',
-        
         // 텍스트 색상 (라이트모드)
         textColor: '#2d3748',
-        lineColor: '#cbd5e0',
+        lineColor: '#667eea',
         
         // 노트 색상
-        noteBkgColor: 'rgba(102, 126, 234, 0.1)',
+        noteBkgColor: 'transparent',
         noteTextColor: '#2d3748',
         noteBorderColor: '#667eea',
         
         // 플로우차트
         nodeBorder: '#5a67d8',
-        clusterBkg: 'rgba(240, 147, 251, 0.1)',
+        clusterBkg: 'transparent',
         clusterBorder: '#e879f9',
         defaultLinkColor: '#667eea',
         titleColor: '#2d3748',
-        nodeTextColor: '#1a202c',
+        nodeTextColor: '#ffffff',
         
         // 시퀀스 다이어그램
-        actorBkg: 'rgba(102, 126, 234, 0.15)',
+        actorBkg: 'transparent',
         actorBorder: '#5a67d8',
-        actorTextColor: '#1a202c',
+        actorTextColor: '#ffffff',
         signalColor: '#667eea',
         signalTextColor: '#2d3748',
         
@@ -373,6 +367,7 @@
     display: block;
     margin: 0 auto;
     font-family: var(--font-family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+    background: transparent !important;
   }
   
   /* 다이어그램 제목 스타일링 */
@@ -387,10 +382,29 @@
   .mermaid .node rect,
   .mermaid .node circle,
   .mermaid .node polygon {
-    fill: url(#siteGradient);
-    stroke: var(--primary-color, #667eea);
-    stroke-width: 2px;
+    fill: url(#siteGradient) !important;
+    stroke: var(--primary-color, #667eea) !important;
+    stroke-width: 2px !important;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+  
+  /* SVG 배경 강제 투명 처리 */
+  .mermaid svg rect[fill="#ffffff"],
+  .mermaid svg rect[fill="white"],
+  .mermaid svg rect[style*="fill: #ffffff"],
+  .mermaid svg rect[style*="fill: white"],
+  .mermaid svg rect[fill="#1a202c"],
+  .mermaid svg rect[fill="#000000"],
+  .mermaid svg rect[style*="fill: #1a202c"],
+  .mermaid svg rect[style*="fill: #000000"] {
+    fill: transparent !important;
+  }
+  
+  /* 노드 라벨 색상 강제 적용 */
+  .mermaid .nodeLabel {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   }
   
   /* 그라데이션 정의 */
@@ -414,8 +428,18 @@
   .mermaid .nodeLabel,
   .mermaid .edgeLabel {
     font-family: var(--font-family, 'Inter', sans-serif);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
+  }
+  
+  /* 에지 라벨 배경 투명 처리 */
+  .mermaid .edgeLabel rect {
+    fill: transparent !important;
+  }
+  
+  /* 에지 라벨 텍스트 색상 */
+  .mermaid .edgeLabel .label {
+    color: var(--text-primary, #2d3748) !important;
   }
   
   /* 다크모드 대응 */
@@ -436,6 +460,11 @@
     fill: #f7fafc;
   }
   
+  [data-theme="dark"] .mermaid .edgeLabel .label,
+  .dark .mermaid .edgeLabel .label {
+    color: #f7fafc !important;
+  }
+  
   @media (prefers-color-scheme: dark) {
     .mermaid {
       border: 1px solid rgba(139, 124, 248, 0.3);
@@ -449,6 +478,10 @@
     
     .mermaid .titleText {
       fill: #f7fafc;
+    }
+    
+    .mermaid .edgeLabel .label {
+      color: #f7fafc !important;
     }
   }
   
