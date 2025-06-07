@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Vertex AI Imagen으로 블로그 이미지 자동 생성하기: NPM 패키지부터 MCP 서버까지"
+title: "Vertex AI Imagen으로 블로그 이미지 자동 생성하기: Python 패키지부터 MCP 서버까지"
 date: 2025-06-07 10:30:00 +0900
 categories: [Development, Project]
-tags: [ai, imagen, mcp, automation, blog, nodejs, typescript, vertex-ai]
+tags: [ai, imagen, mcp, automation, blog, python, pypi, vertex-ai]
 author: "Kevin Park"
-excerpt: "블로그 포스팅 시 필요한 이미지를 AI로 자동 생성하는 완전한 워크플로우 구축기. NPM 패키지 개발부터 MCP 서버 통합까지"
+excerpt: "블로그 포스팅 시 필요한 이미지를 AI로 자동 생성하는 완전한 워크플로우 구축기. Python 패키지 개발부터 MCP 서버 통합까지"
 image: "/assets/images/posts/vertex-ai-imagen-mcp-blog-automation/hero.png"
 mermaid: true
 ---
 
-# Vertex AI Imagen으로 블로그 이미지 자동 생성하기: NPM 패키지부터 MCP 서버까지
+# Vertex AI Imagen으로 블로그 이미지 자동 생성하기: Python 패키지부터 MCP 서버까지
 
 ![Vertex AI Imagen MCP 블로그 자동화 Hero 이미지](/assets/images/posts/vertex-ai-imagen-mcp-blog-automation/hero.png)
 
@@ -18,16 +18,19 @@ mermaid: true
 
 블로그 포스팅 시 매번 적절한 이미지를 찾거나 제작하는 것은 시간이 많이 걸리는 작업입니다. 이 문제를 해결하기 위해 Vertex AI Imagen을 활용한 자동 이미지 생성 시스템을 구축했습니다.
 
-**핵심 해결책: NPM 패키지 → MCP 서버 → 블로그 자동화**
+**핵심 해결책: Python 패키지 → MCP 서버 → 블로그 자동화**
 
-```javascript
-// MCP 서버에서 이미지 생성 (최종 결과)
-const result = await generateImage({
-  prompt: "Modern development workspace with AI automation",
-  filename: "hero.png",
-  aspect_ratio: "16:9",
-  save_path: "/path/to/blog/assets/"
-});
+```python
+# MCP 서버에서 이미지 생성 (최종 결과)
+from vertex_ai_imagen import ImageGenerator
+
+generator = ImageGenerator()
+result = await generator.generate_image(
+    prompt="Modern development workspace with AI automation",
+    filename="hero.png",
+    aspect_ratio="16:9",
+    save_path="/path/to/blog/assets/"
+)
 ```
 
 이 시스템을 통해 블로그 포스팅 시 필요한 모든 이미지를 자동으로 생성하고 적절한 경로에 저장할 수 있습니다.
@@ -40,8 +43,8 @@ const result = await generateImage({
 
 ```mermaid
 flowchart TD
-    A[요구사항 분석] --> B[NPM 패키지 개발]
-    B --> C[패키지 테스트 및 배포]
+    A[요구사항 분석] --> B[Python 패키지 개발]
+    B --> C[PyPI 배포 및 테스트]
     C --> D[MCP 서버 설계]
     D --> E[MCP 서버 구현]
     E --> F[Claude와 통합 테스트]
@@ -65,86 +68,151 @@ flowchart TD
 
 ![문제 상황과 해결책 개념도](/assets/images/posts/vertex-ai-imagen-mcp-blog-automation/concept-problem-solution.png)
 
-### 2단계: vertex-ai-imagen NPM 패키지 개발
+### 2단계: vertex-ai-imagen Python 패키지 개발
 
 **패키지 설계 목표**
 - Google Vertex AI Imagen API 래핑
 - 다양한 이미지 생성 옵션 지원
-- TypeScript 완전 지원
+- 타입 힌트 완전 지원
 - 에러 처리 및 재시도 로직
+- PyPI 배포를 위한 표준 패키지 구조
 
 **핵심 기능 구현**
 
-```javascript
-// 주요 API 인터페이스
-interface ImageGenerationOptions {
-  prompt: string;
-  negativePrompt?: string;
-  aspectRatio?: AspectRatio;
-  safetySettings?: SafetySettings;
-  seed?: number;
-  guidanceScale?: number;
-  outputOptions?: OutputOptions;
-}
+```python
+from typing import Optional, Dict, Any
+from dataclasses import dataclass
+from google.cloud import aiplatform
 
-class VertexAIImageGenerator {
-  async generateImage(options: ImageGenerationOptions): Promise<GeneratedImage> {
-    // Vertex AI API 호출 로직
-    const response = await this.vertexAI.predict({
-      instances: [this.buildInstanceFromOptions(options)],
-      parameters: this.buildParameters(options)
-    });
+@dataclass
+class ImageGenerationOptions:
+    prompt: str
+    negative_prompt: Optional[str] = None
+    aspect_ratio: Optional[str] = "1:1"
+    safety_settings: Optional[Dict[str, Any]] = None
+    seed: Optional[int] = None
+    guidance_scale: Optional[float] = None
+    output_format: str = "PNG"
+
+class VertexAIImageGenerator:
+    def __init__(self, project_id: str, location: str = "us-central1"):
+        self.project_id = project_id
+        self.location = location
+        aiplatform.init(project=project_id, location=location)
     
-    return this.processResponse(response);
-  }
-}
+    async def generate_image(self, options: ImageGenerationOptions) -> Dict[str, Any]:
+        """Vertex AI API를 통해 이미지 생성"""
+        endpoint = aiplatform.Endpoint(
+            endpoint_name=f"projects/{self.project_id}/locations/{self.location}/endpoints/imagen"
+        )
+        
+        instances = [self._build_instance_from_options(options)]
+        response = endpoint.predict(instances=instances)
+        
+        return self._process_response(response)
 ```
 
 **개발 과정의 주요 도전과제**
 
-1. **인증 시스템 구현**
-```javascript
-// Google Cloud 인증 처리
-private async initializeVertexAI() {
-  const auth = new GoogleAuth({
-    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-    keyFilename: this.serviceAccountPath
-  });
-  
-  this.vertexAI = new VertexAI({
-    project: this.projectId,
-    location: this.location,
-    googleAuthOptions: { auth }
-  });
-}
+1. **Google Cloud 인증 시스템 구현**
+```python
+import os
+from google.auth import default
+from google.cloud import aiplatform
+
+class AuthManager:
+    def __init__(self):
+        self.credentials = None
+        self.project_id = None
+    
+    def initialize_auth(self):
+        """Google Cloud 인증 초기화"""
+        if os.getenv('GOOGLE_APPLICATION_CREDENTIALS'):
+            self.credentials, self.project_id = default()
+        else:
+            raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS 환경변수가 설정되지 않았습니다.")
+        
+        aiplatform.init(
+            project=self.project_id,
+            location="us-central1",
+            credentials=self.credentials
+        )
 ```
 
-2. **이미지 포맷 및 저장 처리**
-```javascript
-// Base64 이미지 데이터 처리 및 저장
-async saveImage(base64Data: string, outputPath: string): Promise<void> {
-  const imageBuffer = Buffer.from(base64Data, 'base64');
-  await fs.promises.writeFile(outputPath, imageBuffer);
-}
+2. **이미지 데이터 처리 및 저장**
+```python
+import base64
+import asyncio
+from pathlib import Path
+
+async def save_image(self, base64_data: str, output_path: str) -> None:
+    """Base64 이미지 데이터를 파일로 저장"""
+    image_bytes = base64.b64decode(base64_data)
+    
+    # 비동기적으로 파일 저장
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    
+    with open(path, 'wb') as f:
+        f.write(image_bytes)
 ```
 
-### 3단계: NPM 패키지 테스트 및 배포
+### 3단계: PyPI 패키지 배포 및 테스트
 
-**테스트 전략**
+**PyPI 배포 전략**
 
 ```mermaid
 flowchart LR
-    A[단위 테스트] --> B[통합 테스트]
-    B --> C[실제 API 테스트]
-    C --> D[성능 테스트]
-    D --> E[배포 준비]
+    A[로컬 개발] --> B[단위 테스트]
+    B --> C[PyPI 테스트 서버]
+    C --> D[실제 API 테스트]
+    D --> E[PyPI 배포]
+    E --> F[문서화 업데이트]
 ```
 
-**배포 과정**
+**setup.py 및 패키지 구조**
+
+```python
+# setup.py
+from setuptools import setup, find_packages
+
+setup(
+    name="vertex-ai-imagen",
+    version="1.0.0",
+    author="Kevin Park",
+    description="Python wrapper for Google Vertex AI Imagen API",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/realcoding2003/vertex-ai-imagen",
+    packages=find_packages(),
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+    ],
+    python_requires=">=3.8",
+    install_requires=[
+        "google-cloud-aiplatform>=1.25.0",
+        "google-auth>=2.17.0",
+        "Pillow>=9.0.0",
+        "aiofiles>=0.8.0",
+    ],
+)
+```
+
+**패키지 배포 과정**
 1. GitHub 저장소 생성 및 코드 푸시
-2. NPM 패키지 빌드 및 타입 정의 생성
-3. NPM 레지스트리 배포
-4. 문서화 및 예시 코드 작성
+2. 테스트 서버에서 사전 검증: `python -m twine upload --repository testpypi dist/*`
+3. PyPI 정식 배포: `python -m twine upload dist/*`
+4. 설치 테스트: `pip install vertex-ai-imagen`
+5. 문서화 및 예시 코드 작성
+
+**PyPI 패키지 링크**: https://pypi.org/project/vertex-ai-imagen/
 
 ### 4단계: MCP 서버 설계
 
@@ -160,15 +228,15 @@ flowchart LR
 sequenceDiagram
     participant Claude
     participant MCP_Server
-    participant NPM_Package
+    participant Python_Package
     participant Vertex_AI
     participant File_System
     
     Claude->>MCP_Server: 이미지 생성 요청
-    MCP_Server->>NPM_Package: generateImage() 호출
-    NPM_Package->>Vertex_AI: API 요청
-    Vertex_AI-->>NPM_Package: 이미지 데이터 반환
-    NPM_Package-->>MCP_Server: Base64 이미지
+    MCP_Server->>Python_Package: generate_image() 호출
+    Python_Package->>Vertex_AI: API 요청
+    Vertex_AI-->>Python_Package: 이미지 데이터 반환
+    Python_Package-->>MCP_Server: Base64 이미지
     MCP_Server->>File_System: 이미지 파일 저장
     MCP_Server-->>Claude: 생성 결과 반환
 ```
@@ -177,78 +245,87 @@ sequenceDiagram
 
 **핵심 구현 코드**
 
-```typescript
-// MCP 서버의 메인 핸들러
-export class ImagenMCPServer {
-  private generator: VertexAIImageGenerator;
-  
-  constructor() {
-    this.generator = new VertexAIImageGenerator({
-      projectId: process.env.GOOGLE_CLOUD_PROJECT,
-      location: process.env.GOOGLE_CLOUD_LOCATION,
-      serviceAccountPath: process.env.GOOGLE_APPLICATION_CREDENTIALS
-    });
-  }
-  
-  async handleGenerateImage(params: GenerateImageParams): Promise<GenerateImageResult> {
-    try {
-      // 이미지 생성
-      const generatedImage = await this.generator.generateImage({
-        prompt: params.prompt,
-        negativePrompt: params.negative_prompt,
-        aspectRatio: params.aspect_ratio,
-        seed: params.seed
-      });
-      
-      // 파일 저장 경로 생성
-      const savePath = this.buildSavePath(params);
-      await this.ensureDirectoryExists(savePath);
-      
-      // 이미지 저장
-      const filename = params.filename || this.generateFilename();
-      const fullPath = path.join(savePath, filename);
-      await this.saveImageToFile(generatedImage.imageData, fullPath);
-      
-      return {
-        success: true,
-        filename,
-        path: fullPath,
-        size: generatedImage.size
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error: error.message
-      };
-    }
-  }
-}
+```python
+# MCP 서버의 메인 핸들러
+import asyncio
+from typing import Dict, Any, Optional
+from vertex_ai_imagen import VertexAIImageGenerator
+
+class ImagenMCPServer:
+    def __init__(self):
+        self.generator = VertexAIImageGenerator(
+            project_id=os.getenv('GOOGLE_CLOUD_PROJECT'),
+            location=os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
+        )
+    
+    async def handle_generate_image(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        try:
+            # Python 패키지를 통한 이미지 생성
+            result = await self.generator.generate_image(
+                prompt=params.get('prompt'),
+                negative_prompt=params.get('negative_prompt'),
+                aspect_ratio=params.get('aspect_ratio', '1:1'),
+                seed=params.get('seed')
+            )
+            
+            # 파일 저장 경로 생성
+            save_path = self._build_save_path(params)
+            await self._ensure_directory_exists(save_path)
+            
+            # 이미지 저장
+            filename = params.get('filename') or self._generate_filename()
+            full_path = os.path.join(save_path, filename)
+            await self._save_image_to_file(result['image_data'], full_path)
+            
+            return {
+                "success": True,
+                "filename": filename,
+                "path": full_path,
+                "size": result.get('size', 0)
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    
+    async def _save_image_to_file(self, base64_data: str, file_path: str):
+        """Base64 이미지 데이터를 파일로 저장"""
+        import base64
+        from pathlib import Path
+        
+        image_bytes = base64.b64decode(base64_data)
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        
+        with open(path, 'wb') as f:
+            f.write(image_bytes)
 ```
 
 **MCP 도구 등록**
 
-```typescript
-// Claude가 사용할 수 있는 도구로 등록
-const tools = {
-  generate_image: {
-    name: "generate_image",
-    description: "텍스트 프롬프트로부터 고품질 이미지 생성",
-    inputSchema: {
-      type: "object",
-      properties: {
-        prompt: { type: "string", description: "이미지 생성을 위한 텍스트 프롬프트" },
-        aspect_ratio: { 
-          type: "string", 
-          enum: ["1:1", "3:4", "4:3", "16:9", "9:16"],
-          default: "1:1"
-        },
-        filename: { type: "string", description: "저장할 파일명" },
-        save_path: { type: "string", description: "이미지를 저장할 경로" }
-      },
-      required: ["prompt"]
+```python
+# Claude가 사용할 수 있는 도구로 등록
+tools = {
+    "generate_image": {
+        "name": "generate_image",
+        "description": "텍스트 프롬프트로부터 고품질 이미지 생성",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "prompt": {"type": "string", "description": "이미지 생성을 위한 텍스트 프롬프트"},
+                "aspect_ratio": {
+                    "type": "string",
+                    "enum": ["1:1", "3:4", "4:3", "16:9", "9:16"],
+                    "default": "1:1"
+                },
+                "filename": {"type": "string", "description": "저장할 파일명"},
+                "save_path": {"type": "string", "description": "이미지를 저장할 경로"}
+            },
+            "required": ["prompt"]
+        }
     }
-  }
-};
+}
 ```
 
 ### 6단계: Claude와 통합 테스트
@@ -297,34 +374,34 @@ stateDiagram-v2
 **실제 블로그 포스팅 예시**
 
 1. **포스트 시작 시 Hero 이미지 자동 생성**
-```javascript
-// Claude가 자동으로 실행하는 코드
-generate_image({
-  prompt: "Modern React development workspace with custom hooks visualization",
-  filename: "hero.png",
-  aspect_ratio: "16:9",
-  save_path: "/assets/images/posts/react-custom-hooks/"
-});
+```python
+# Claude가 자동으로 실행하는 코드
+await generate_image(
+    prompt="Modern React development workspace with custom hooks visualization",
+    filename="hero.png",
+    aspect_ratio="16:9",
+    save_path="/assets/images/posts/react-custom-hooks/"
+)
 ```
 
 2. **개념 설명 시 보조 이미지 생성**
-```javascript
-generate_image({
-  prompt: "Abstract visualization of React useState and useEffect hooks interaction",
-  filename: "concept-hooks-interaction.png",
-  aspect_ratio: "4:3",
-  save_path: "/assets/images/posts/react-custom-hooks/"
-});
+```python
+await generate_image(
+    prompt="Abstract visualization of React useState and useEffect hooks interaction",
+    filename="concept-hooks-interaction.png",
+    aspect_ratio="4:3",
+    save_path="/assets/images/posts/react-custom-hooks/"
+)
 ```
 
 3. **개발 환경 소개 시 환경 이미지 생성**
-```javascript
-generate_image({
-  prompt: "Clean development environment with VS Code, terminal, and React project structure",
-  filename: "environment-setup.png",
-  aspect_ratio: "16:9",
-  save_path: "/assets/images/posts/react-custom-hooks/"
-});
+```python
+await generate_image(
+    prompt="Clean development environment with VS Code, terminal, and React project structure",
+    filename="environment-setup.png",
+    aspect_ratio="16:9",
+    save_path="/assets/images/posts/react-custom-hooks/"
+)
 ```
 
 ### 8단계: 실제 운영 및 최적화
@@ -342,7 +419,7 @@ gantt
     section 기존 방식
     수동 이미지 제작    :done, manual, 2024-01-01, 2024-05-01
     section 자동화 도입
-    NPM 패키지 개발     :done, npm, 2024-05-01, 2024-05-15
+    Python 패키지 개발  :done, python, 2024-05-01, 2024-05-15
     MCP 서버 구축       :done, mcp, 2024-05-15, 2024-05-25
     실제 운영           :active, production, 2024-05-25, 2024-07-01
 ```
@@ -355,36 +432,29 @@ gantt
 
 ## 🔧 기술적 세부사항
 
-### NPM 패키지 주요 의존성
-```json
-{
-  "dependencies": {
-    "@google-cloud/vertexai": "^1.4.0",
-    "@google-cloud/storage": "^7.5.0",
-    "google-auth-library": "^9.2.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.2.0",
-    "@types/node": "^20.8.0",
-    "jest": "^29.7.0"
-  }
-}
+### Python 패키지 주요 의존성
+```python
+# requirements.txt 또는 setup.py dependencies
+google-cloud-aiplatform>=1.25.0
+google-auth>=2.17.0
+Pillow>=9.0.0
+aiofiles>=0.8.0
+asyncio
+pathlib
 ```
 
 ### MCP 서버 설정
-```typescript
-// MCP 서버 초기화
-const server = new Server(
-  {
-    name: "vertex-ai-imagen-mcp",
-    version: "1.0.0"
-  },
-  {
-    capabilities: {
-      tools: {}
+```python
+# MCP 서버 초기화
+from mcp import Server
+
+server = Server(
+    name="vertex-ai-imagen-mcp",
+    version="1.0.0",
+    capabilities={
+        "tools": {}
     }
-  }
-);
+)
 ```
 
 ### 환경 변수 설정
@@ -403,10 +473,11 @@ export BLOG_POSTS_PATH="/path/to/blog/_posts"
 
 ### 개발 과정에서 얻은 교훈
 
-1. **모듈화의 중요성**: NPM 패키지로 분리함으로써 재사용성과 테스트 용이성 확보
+1. **모듈화의 중요성**: Python 패키지로 분리함으로써 재사용성과 테스트 용이성 확보
 2. **적절한 추상화**: MCP 서버가 Claude와 Vertex AI 사이의 완벽한 중간 계층 역할
 3. **사용자 경험 우선**: 복잡한 설정 없이 자연스러운 대화로 이미지 생성 가능
 4. **확장 가능한 설계**: 다른 AI 이미지 생성 서비스로 쉽게 확장 가능한 구조
+5. **Python 생태계 활용**: PyPI를 통한 쉬운 배포와 pip을 통한 간단한 설치
 
 ### 실제 사용 효과
 
