@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Vertex AI Imagen으로 블로그 이미지 자동 생성하기: NPM 패키지부터 MCP 서버까지"
-date: 2025-06-07 14:30:00 +0900
+date: 2025-06-07 10:30:00 +0900
 categories: [Development, Project]
 tags: [ai, imagen, mcp, automation, blog, nodejs, typescript, vertex-ai]
 author: "Kevin Park"
