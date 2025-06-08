@@ -1679,32 +1679,7 @@ a:hover {
     }
 }
 
-/* AdSense Styles */
-.ad-container {
-    margin: 2rem 0;
-    text-align: center;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem 0;
-    background-color: var(--background-secondary);
-}
 
-.ad-container::before {
-    content: "Advertisement";
-    display: block;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-@media (max-width: 768px) {
-    .ad-container {
-        margin: 1.5rem 0;
-        padding: 0.75rem 0;
-    }
-}
 
 @media (max-width: 480px) {
     .main-content {
