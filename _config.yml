@@ -23,7 +23,7 @@ adsense:
 comments:
   provider: utterances
   utterances:
-    repo: realcoding/realcoding.github.io
+    repo: realcoding2003/realcoding2003.github.io
     issue_term: pathname
     theme: github-light
 
