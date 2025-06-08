@@ -10,6 +10,9 @@ email: "info@realcoding.co.kr"
 languages: ["ko", "en", "ja"]
 default_lang: "ko"
 
+# Google Analytics
+google_analytics: G-492068205  # 실제 GA4 측정 ID로 교체 필요
+
 # Build settings
 markdown: kramdown
 highlighter: rouge
