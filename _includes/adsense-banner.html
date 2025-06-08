@@ -1,0 +1,14 @@
+{% if site.adsense.client and site.adsense.show_ads and jekyll.environment == 'production' %}
+<!-- AdSense 배너 광고 -->
+<div class="ad-container">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="{{ site.adsense.client }}"
+       data-ad-slot="{{ include.slot | default: 'auto' }}"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+{% endif %} 
