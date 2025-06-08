@@ -19,6 +19,14 @@ adsense:
   auto_ads: true
   show_ads: true
 
+# Comments system
+comments:
+  provider: utterances
+  utterances:
+    repo: realcoding/realcoding.github.io
+    issue_term: pathname
+    theme: github-light
+
 # Build settings
 markdown: kramdown
 highlighter: rouge

@@ -41,4 +41,16 @@ ui:
   next_post: "次の投稿"
   toggle_dark_mode: "ダークモード切り替え"
   rss_feed: "RSSフィード"
-  translation_not_available: "翻訳がありません。ホームページに移動します" 
+  translation_not_available: "翻訳がありません。ホームページに移動します"
+
+footer:
+  categories_title: "カテゴリー"
+  recent_posts_title: "最新記事"
+  information_title: "情報"
+  about_link: "概要"
+  archive_link: "記事"
+  privacy_link: "プライバシーポリシー"
+  sitemap_link: "サイトマップ"
+  rss_link: "RSSフィード"
+  copyright: "全ての権利を保有します。"
+  powered_by: "JekyllとGitHub Pagesで制作" 

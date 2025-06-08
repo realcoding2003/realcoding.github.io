@@ -43,8 +43,14 @@ ui:
   rss_feed: "RSS Feed"
   translation_not_available: "Translation not available, redirecting to homepage"
 
-posts:
-  recent: "Recent Posts"
-  view_all: "View All Posts"
-  date_format: "%B %d, %Y"
-  read_more: "Read More" 
+footer:
+  categories_title: "Categories"
+  recent_posts_title: "Recent Posts"
+  information_title: "Information"
+  about_link: "About"
+  archive_link: "Archive"
+  privacy_link: "Privacy Policy"
+  sitemap_link: "Sitemap"
+  rss_link: "RSS Feed"
+  copyright: "All rights reserved."
+  powered_by: "Built with Jekyll and GitHub Pages" 

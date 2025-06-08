@@ -58,20 +58,44 @@ layout: default
         <div class="container">
             <!-- 네비게이션 -->
             <nav class="post-navigation">
-                {% if page.previous.url %}
+                {% assign current_lang = page.lang | default: site.default_lang %}
+                {% assign lang_data = site.data[current_lang] %}
+                
+                <!-- 현재 언어의 이전 포스트 찾기 -->
+                {% assign prev_post = null %}
+                {% for post in site.posts %}
+                    {% assign post_lang = post.lang | default: site.default_lang %}
+                    {% if post_lang == current_lang and post.date < page.date %}
+                        {% assign prev_post = post %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                
+                <!-- 현재 언어의 다음 포스트 찾기 -->
+                {% assign next_post = null %}
+                {% assign posts_reversed = site.posts | reverse %}
+                {% for post in posts_reversed %}
+                    {% assign post_lang = post.lang | default: site.default_lang %}
+                    {% if post_lang == current_lang and post.date > page.date %}
+                        {% assign next_post = post %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if prev_post %}
                     <div class="nav-previous">
-                        <a href="{{ page.previous.url | relative_url }}">
-                            <span class="nav-label">이전 포스트</span>
-                            <span class="nav-title">{{ page.previous.title }}</span>
+                        <a href="{{ prev_post.url | relative_url }}">
+                            <span class="nav-label">{{ lang_data.ui.previous_post }}</span>
+                            <span class="nav-title">{{ prev_post.title }}</span>
                         </a>
                     </div>
                 {% endif %}
                 
-                {% if page.next.url %}
+                {% if next_post %}
                     <div class="nav-next">
-                        <a href="{{ page.next.url | relative_url }}">
-                            <span class="nav-label">다음 포스트</span>
-                            <span class="nav-title">{{ page.next.title }}</span>
+                        <a href="{{ next_post.url | relative_url }}">
+                            <span class="nav-label">{{ lang_data.ui.next_post }}</span>
+                            <span class="nav-title">{{ next_post.title }}</span>
                         </a>
                     </div>
                 {% endif %}

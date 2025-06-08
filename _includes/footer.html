@@ -1,9 +1,12 @@
 <footer class="site-footer">
     <div class="container">
+        {% assign current_lang = page.lang | default: site.default_lang %}
+        {% assign lang_data = site.data[current_lang] %}
+        
         <div class="footer-content">
             <div class="footer-section">
-                <h3>{{ site.title }}</h3>
-                <p>{{ site.description }}</p>
+                <h3>{{ lang_data.site.title }}</h3>
+                <p>{{ lang_data.site.description }}</p>
                 <div class="social-links">
                     {% if site.github_username %}
                         <a href="https://github.com/{{ site.github_username }}" class="social-link" target="_blank" rel="noopener">
@@ -27,13 +30,31 @@
             </div>
 
             <div class="footer-section">
-                <h4>카테고리</h4>
+                <h4>{{ lang_data.footer.categories_title }}</h4>
                 <ul class="footer-links">
-                    {% assign categories = site.categories | sort %}
-                    {% for category in categories limit:5 %}
+                    {% assign lang_categories = '' | split: '' %}
+                    {% for post in site.posts %}
+                        {% assign post_lang = post.lang | default: site.default_lang %}
+                        {% if post_lang == current_lang %}
+                            {% for category in post.categories %}
+                                {% unless lang_categories contains category %}
+                                    {% assign lang_categories = lang_categories | push: category %}
+                                {% endunless %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    {% assign sorted_categories = lang_categories | sort %}
+                    {% for category in sorted_categories limit:5 %}
                         <li>
-                            <a href="/categories#{{ category[0] | slugify }}">
-                                {{ category[0] }} ({{ category[1].size }})
+                            {% assign cat_count = 0 %}
+                            {% for post in site.posts %}
+                                {% assign post_lang = post.lang | default: site.default_lang %}
+                                {% if post_lang == current_lang and post.categories contains category %}
+                                    {% assign cat_count = cat_count | plus: 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            <a href="{% if current_lang != site.default_lang %}/{{ current_lang }}{% endif %}/categories#{{ category | slugify }}">
+                                {{ category }} ({{ cat_count }})
                             </a>
                         </li>
                     {% endfor %}
@@ -41,9 +62,16 @@
             </div>
 
             <div class="footer-section">
-                <h4>최근 포스트</h4>
+                <h4>{{ lang_data.footer.recent_posts_title }}</h4>
                 <ul class="footer-links">
-                    {% for post in site.posts limit:5 %}
+                    {% assign lang_posts = '' | split: '' %}
+                    {% for post in site.posts %}
+                        {% assign post_lang = post.lang | default: site.default_lang %}
+                        {% if post_lang == current_lang %}
+                            {% assign lang_posts = lang_posts | push: post %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for post in lang_posts limit:5 %}
                         <li>
                             <a href="{{ post.url | relative_url }}">
                                 {{ post.title | truncate: 30 }}
@@ -54,23 +82,23 @@
             </div>
 
             <div class="footer-section">
-                <h4>정보</h4>
+                <h4>{{ lang_data.footer.information_title }}</h4>
                 <ul class="footer-links">
-                    <li><a href="{{ '/about' | relative_url }}">소개</a></li>
-                    <li><a href="{{ '/archive' | relative_url }}">아카이브</a></li>
-                    <li><a href="{{ '/privacy' | relative_url }}">개인정보 처리방침</a></li>
-                    <li><a href="{{ '/sitemap.xml' | relative_url }}">사이트맵</a></li>
-                    <li><a href="{{ '/feed.xml' | relative_url }}">RSS 피드</a></li>
+                    <li><a href="{% if current_lang != site.default_lang %}/{{ current_lang }}{% endif %}/about">{{ lang_data.footer.about_link }}</a></li>
+                    <li><a href="{% if current_lang != site.default_lang %}/{{ current_lang }}{% endif %}/archive">{{ lang_data.footer.archive_link }}</a></li>
+                    <li><a href="{{ '/privacy' | relative_url }}">{{ lang_data.footer.privacy_link }}</a></li>
+                    <li><a href="{{ '/sitemap.xml' | relative_url }}">{{ lang_data.footer.sitemap_link }}</a></li>
+                    <li><a href="{{ '/feed.xml' | relative_url }}">{{ lang_data.footer.rss_link }}</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
             <div class="footer-bottom-content">
-                <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. 모든 권리 보유.</p>
+                <p>&copy; {{ 'now' | date: "%Y" }} {{ lang_data.site.title }}. {{ lang_data.footer.copyright }}</p>
                 <p>
                     <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>과 
-                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>로 제작
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>로 {{ lang_data.footer.powered_by }}
                 </p>
             </div>
         </div>

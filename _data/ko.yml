@@ -39,6 +39,18 @@ ui:
   rss_feed: "RSS 피드"
   translation_not_available: "번역이 없어 홈페이지로 이동합니다"
 
+footer:
+  categories_title: "카테고리"
+  recent_posts_title: "최근 포스트"
+  information_title: "정보"
+  about_link: "소개"
+  archive_link: "아카이브"
+  privacy_link: "개인정보 처리방침"
+  sitemap_link: "사이트맵"
+  rss_link: "RSS 피드"
+  copyright: "모든 권리 보유."
+  powered_by: "Jekyll과 GitHub Pages로 제작"
+
 language:
   name: "한국어"
   code: "ko" 
