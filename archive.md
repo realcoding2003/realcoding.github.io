@@ -9,35 +9,41 @@ permalink: /archive/
   {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
   
   {% for year in posts_by_year %}
-    <div class="archive-year">
-      <h2 class="year-title">{{ year.name }}년</h2>
-      <div class="year-stats">{{ year.items | size }}개 포스트</div>
-      
-      <div class="posts-list">
-        {% for post in year.items %}
-          <article class="archive-post">
-            <div class="post-date">
-              {{ post.date | date: "%m.%d" }}
-            </div>
-            <div class="post-info">
-              <h3 class="post-title">
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-              </h3>
-              {% if post.excerpt %}
-                <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
-              {% endif %}
-              {% if post.tags %}
-                <div class="post-tags">
-                  {% for tag in post.tags limit: 3 %}
-                    <span class="tag">{{ tag }}</span>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-          </article>
-        {% endfor %}
+    {% comment %} 현재 언어의 포스트만 필터링 {% endcomment %}
+    {% assign current_lang = page.lang | default: site.default_lang %}
+    {% assign korean_posts = year.items | where_exp: "item", "item.lang == nil or item.lang == current_lang" %}
+    
+    {% if korean_posts.size > 0 %}
+      <div class="archive-year">
+        <h2 class="year-title">{{ year.name }}년</h2>
+        <div class="year-stats">{{ korean_posts | size }}개 포스트</div>
+        
+        <div class="posts-list">
+          {% for post in korean_posts %}
+            <article class="archive-post">
+              <div class="post-date">
+                {{ post.date | date: "%m.%d" }}
+              </div>
+              <div class="post-info">
+                <h3 class="post-title">
+                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h3>
+                {% if post.excerpt %}
+                  <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                {% endif %}
+                {% if post.tags %}
+                  <div class="post-tags">
+                    {% for tag in post.tags limit: 3 %}
+                      <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   {% endfor %}
 </div>
 

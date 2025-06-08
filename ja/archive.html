@@ -9,13 +9,13 @@ permalink: /ja/archive/
   {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
   
   {% for year in posts_by_year %}
-    <div class="archive-year">
-      <h2 class="year-title">{{ year.name }}年</h2>
-      <div class="year-stats">{{ year.items | size }}件の記事</div>
-      
-      <div class="posts-list">
-        {% assign japanese_posts = year.items | where: "lang", "ja" %}
-        {% if japanese_posts.size > 0 %}
+    {% assign japanese_posts = year.items | where: "lang", "ja" %}
+    {% if japanese_posts.size > 0 %}
+      <div class="archive-year">
+        <h2 class="year-title">{{ year.name }}年</h2>
+        <div class="year-stats">{{ japanese_posts | size }}件の記事</div>
+        
+                <div class="posts-list">
           {% for post in japanese_posts %}
           <article class="archive-post">
             <div class="post-date">
@@ -38,14 +38,9 @@ permalink: /ja/archive/
             </div>
           </article>
           {% endfor %}
-        {% else %}
-          <div class="no-posts-message">
-            <p>まだ日本語の記事はありません。近日中に追加予定です！</p>
-            <p>現在、すべての記事は<a href="{{ '/' | relative_url }}">韓国語</a>でご利用いただけます。</p>
-          </div>
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   {% endfor %}
 </div>
 

@@ -9,13 +9,13 @@ permalink: /en/archive/
   {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
   
   {% for year in posts_by_year %}
-    <div class="archive-year">
-      <h2 class="year-title">{{ year.name }}</h2>
-      <div class="year-stats">{{ year.items | size }} posts</div>
-      
-      <div class="posts-list">
-        {% assign english_posts = year.items | where: "lang", "en" %}
-        {% if english_posts.size > 0 %}
+    {% assign english_posts = year.items | where: "lang", "en" %}
+    {% if english_posts.size > 0 %}
+      <div class="archive-year">
+        <h2 class="year-title">{{ year.name }}</h2>
+        <div class="year-stats">{{ english_posts | size }} posts</div>
+        
+                <div class="posts-list">
           {% for post in english_posts %}
           <article class="archive-post">
             <div class="post-date">
@@ -38,14 +38,9 @@ permalink: /en/archive/
             </div>
           </article>
           {% endfor %}
-        {% else %}
-          <div class="no-posts-message">
-            <p>No English posts are available yet. Posts will be added soon!</p>
-            <p>Currently, all posts are available in <a href="{{ '/' | relative_url }}">Korean</a>.</p>
-          </div>
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   {% endfor %}
 </div>
 
