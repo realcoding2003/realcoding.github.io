@@ -11,7 +11,11 @@ permalink: /archive/
   {% for year in posts_by_year %}
     {% comment %} 현재 언어의 포스트만 필터링 {% endcomment %}
     {% assign current_lang = page.lang | default: site.default_lang %}
-    {% assign korean_posts = year.items | where_exp: "item", "item.lang == nil or item.lang == current_lang" %}
+    
+    {% comment %} 한국어 포스트 필터링: lang 속성이 없거나 ko인 포스트들 {% endcomment %}
+    {% assign posts_without_lang = year.items | where: "lang", null %}
+    {% assign posts_with_ko = year.items | where: "lang", "ko" %}
+    {% assign korean_posts = posts_without_lang | concat: posts_with_ko %}
     
     {% if korean_posts.size > 0 %}
       <div class="archive-year">
