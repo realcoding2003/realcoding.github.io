@@ -1,33 +1,75 @@
 ---
-layout: page
+layout: default
 title: 카테고리
-subtitle: 주제별로 포스트 찾기
+lang: ko
 permalink: /categories/
 ---
 
 <div class="categories-container">
-  {% assign categories = site.categories | sort %}
+  {% comment %} 한국어 포스트만 필터링하여 카테고리 생성 {% endcomment %}
+  {% assign korean_posts = '' | split: '' %}
+  {% for post in site.posts %}
+    {% assign post_lang = post.lang | default: site.default_lang %}
+    {% if post_lang == 'ko' %}
+      {% assign korean_posts = korean_posts | push: post %}
+    {% endif %}
+  {% endfor %}
+  
+  {% comment %} 한국어 포스트들을 카테고리별로 그룹화 {% endcomment %}
+  {% assign categories_hash = '' | split: '' %}
+  {% for post in korean_posts %}
+    {% for category in post.categories %}
+      {% assign category_posts = categories_hash[category] | default: '' | split: '' %}
+      {% assign category_posts = category_posts | push: post %}
+      {% assign categories_hash = categories_hash | push: category | push: category_posts %}
+    {% endfor %}
+  {% endfor %}
+  
+  {% comment %} 카테고리 목록 생성 {% endcomment %}
+  {% assign unique_categories = '' | split: '' %}
+  {% for post in korean_posts %}
+    {% for category in post.categories %}
+      {% unless unique_categories contains category %}
+        {% assign unique_categories = unique_categories | push: category %}
+      {% endunless %}
+    {% endfor %}
+  {% endfor %}
+  {% assign unique_categories = unique_categories | sort %}
   
   <div class="categories-overview">
     <h2>전체 카테고리</h2>
     <div class="categories-grid">
-      {% for category in categories %}
+      {% for category in unique_categories %}
+        {% assign category_count = 0 %}
+        {% for post in korean_posts %}
+          {% if post.categories contains category %}
+            {% assign category_count = category_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        
         <div class="category-card">
-          <h3><a href="#{{ category[0] | slugify }}">{{ category[0] }}</a></h3>
-          <p>{{ category[1].size }}개 포스트</p>
+          <h3><a href="#{{ category | slugify }}">{{ category }}</a></h3>
+          <p>{{ category_count }}개 포스트</p>
         </div>
       {% endfor %}
     </div>
   </div>
   
   <div class="categories-detail">
-    {% for category in categories %}
-      <div class="category-section" id="{{ category[0] | slugify }}">
-        <h2 class="category-title">{{ category[0] }}</h2>
-        <p class="category-description">{{ category[1].size }}개의 포스트</p>
+    {% for category in unique_categories %}
+      {% assign category_posts = '' | split: '' %}
+      {% for post in korean_posts %}
+        {% if post.categories contains category %}
+          {% assign category_posts = category_posts | push: post %}
+        {% endif %}
+      {% endfor %}
+      
+      <div class="category-section" id="{{ category | slugify }}">
+        <h2 class="category-title">{{ category }}</h2>
+        <p class="category-description">{{ category_posts | size }}개의 포스트</p>
         
         <div class="category-posts">
-          {% for post in category[1] %}
+          {% for post in category_posts %}
             <article class="category-post">
               <div class="post-meta">
                 <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
@@ -57,6 +99,7 @@ permalink: /categories/
 .categories-container {
   max-width: 1000px;
   margin: 0 auto;
+  padding: 2rem 0;
 }
 
 .categories-overview {
@@ -66,6 +109,8 @@ permalink: /categories/
 .categories-overview h2 {
   text-align: center;
   margin-bottom: 2rem;
+  font-size: 2rem;
+  color: var(--primary-color);
 }
 
 .categories-grid {
@@ -200,5 +245,9 @@ permalink: /categories/
   .category-title {
     font-size: 1.5rem;
   }
+  
+  .categories-container {
+    padding: 1rem;
+  }
 }
-</style>
+</style> 
