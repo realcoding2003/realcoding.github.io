@@ -1,26 +1,44 @@
 # Site settings
-title: 실전코딩 기술 블로그
-description: 실무에서 배운 개발 노하우와 기술적 인사이트를 공유합니다
-url: "https://realcoding.blog"
-baseurl: ""
+title: "실전코딩 기술 블로그"
+description: "실무에서 배운 개발 노하우와 기술적 인사이트를 공유합니다"
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://realcoding.github.io" # the base hostname & protocol for your site
+author: "실전코딩"
+email: "info@realcoding.co.kr"
 
-# Author information
-author:
-  name: Kevin Park
-  email: kevinpark@okyc.kr
-  github: realcoding2003
-  linkedin: realcoding
+# 다국어 설정
+languages: ["ko", "en", "ja"]
+default_lang: "ko"
 
 # Build settings
 markdown: kramdown
 highlighter: rouge
-permalink: /:year/:month/:day/:title/
+theme: minima
 
-# Plugins
+# GitHub Pages 호환 플러그인 (plugins 키워드 사용)
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-paginate
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - .git/
+  - .github/
+  - _plugins/
 
 # Collections
 collections:
@@ -35,36 +53,13 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "Kevin Park"
+      author: "실전코딩"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
 
-# Exclude from processing
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
-
-# Timezone
-timezone: Asia/Seoul
-
-# Pagination
-paginate: 10
-paginate_path: "/page:num/"
-
-# Social media
-github_username: realcoding2003
-linkedin_username: realcoding
-
-# Google AdSense
-google_adsense: ca-pub-4992764083187170
-
-# Comments (utterances 사용)
-comments:
-  provider: utterances
-  utterances:
-    repo: realcoding2003/realcoding2003.github.io
-    issue_term: pathname
-    theme: github-light
+# Syntax highlighting
+rouge:
+  default_lang: python
+  css_class: 'highlight'

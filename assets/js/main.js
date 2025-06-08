@@ -10,9 +10,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Mobile menu functionality
 function initMobileMenu() {
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    
+    // Legacy support
     const navbarToggle = document.getElementById('navbarToggle');
     const navbarMenu = document.getElementById('navbarMenu');
     
+    // New mobile menu
+    if (mobileToggle && mainNav) {
+        mobileToggle.addEventListener('click', function() {
+            mainNav.classList.toggle('active');
+            
+            // Animate hamburger menu
+            const lines = mobileToggle.querySelectorAll('.hamburger-line');
+            if (mainNav.classList.contains('active')) {
+                lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                lines[0].style.transform = '';
+                lines[1].style.opacity = '';
+                lines[2].style.transform = '';
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileToggle.contains(e.target) && !mainNav.contains(e.target)) {
+                mainNav.classList.remove('active');
+                const lines = mobileToggle.querySelectorAll('.hamburger-line');
+                lines[0].style.transform = '';
+                lines[1].style.opacity = '';
+                lines[2].style.transform = '';
+            }
+        });
+    }
+    
+    // Legacy navbar menu support
     if (navbarToggle && navbarMenu) {
         navbarToggle.addEventListener('click', function() {
             navbarMenu.classList.toggle('active');

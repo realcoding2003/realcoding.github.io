@@ -1,61 +1,128 @@
+{% assign current_lang = page.lang | default: site.default_lang %}
+{% assign lang_data = site.data[current_lang] %}
+
 <header class="site-header">
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-brand">
-                <a href="{{ '/' | relative_url }}" class="site-logo">
-                    <img src="{{ '/assets/images/character.svg' | relative_url }}" alt="Kevin Park" class="logo-avatar">
-                    <span>{{ site.title }}</span>
+    <div class="container">
+        <div class="header-content">
+            <!-- 로고/브랜드 -->
+            <div class="site-brand">
+                {% if current_lang == site.default_lang %}
+                    <a href="{{ '/' | relative_url }}" class="brand-link">
+                {% else %}
+                    <a href="{{ '/' | append: current_lang | append: '/' | relative_url }}" class="brand-link">
+                {% endif %}
+                    <img src="{{ '/assets/images/character.svg' | relative_url }}" alt="Logo" class="brand-logo">
+                    <span class="brand-text">{{ lang_data.site.title }}</span>
                 </a>
             </div>
 
-            <div class="navbar-menu" id="navbarMenu">
-                <ul class="navbar-nav">
+            <!-- 네비게이션 메뉴 -->
+            <nav class="main-nav">
+                <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">
-                            <i class="fas fa-home"></i> 홈
+                        {% if current_lang == site.default_lang %}
+                            <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">
+                        {% else %}
+                            <a href="{{ '/' | append: current_lang | append: '/' | relative_url }}" class="nav-link {% if page.url contains current_lang and page.url contains 'index' %}active{% endif %}">
+                        {% endif %}
+                            <i class="fas fa-home"></i> {{ lang_data.nav.home }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ '/about' | relative_url }}" class="nav-link {% if page.url == '/about/' %}active{% endif %}">
-                            <i class="fas fa-user"></i> 소개
+                        {% if current_lang == site.default_lang %}
+                            <a href="{{ '/about' | relative_url }}" class="nav-link {% if page.url == '/about/' %}active{% endif %}">
+                        {% else %}
+                            <a href="{{ '/' | append: current_lang | append: '/about' | relative_url }}" class="nav-link {% if page.url contains current_lang and page.url contains 'about' %}active{% endif %}">
+                        {% endif %}
+                            <i class="fas fa-user"></i> {{ lang_data.nav.about }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ '/archive' | relative_url }}" class="nav-link {% if page.url == '/archive/' %}active{% endif %}">
-                            <i class="fas fa-archive"></i> 아카이브
+                        {% if current_lang == site.default_lang %}
+                            <a href="{{ '/archive' | relative_url }}" class="nav-link {% if page.url == '/archive/' %}active{% endif %}">
+                        {% else %}
+                            <a href="{{ '/' | append: current_lang | append: '/archive' | relative_url }}" class="nav-link {% if page.url contains current_lang and page.url contains 'archive' %}active{% endif %}">
+                        {% endif %}
+                            <i class="fas fa-archive"></i> {{ lang_data.nav.archive }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ '/categories' | relative_url }}" class="nav-link {% if page.url == '/categories/' %}active{% endif %}">
-                            <i class="fas fa-folder"></i> 카테고리
+                        {% if current_lang == site.default_lang %}
+                            <a href="{{ '/categories' | relative_url }}" class="nav-link {% if page.url == '/categories/' %}active{% endif %}">
+                        {% else %}
+                            <a href="{{ '/' | append: current_lang | append: '/categories' | relative_url }}" class="nav-link {% if page.url contains current_lang and page.url contains 'categories' %}active{% endif %}">
+                        {% endif %}
+                            <i class="fas fa-folder"></i> {{ lang_data.nav.categories }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ '/tags' | relative_url }}" class="nav-link {% if page.url == '/tags/' %}active{% endif %}">
-                            <i class="fas fa-tags"></i> 태그
+                        {% if current_lang == site.default_lang %}
+                            <a href="{{ '/tags' | relative_url }}" class="nav-link {% if page.url == '/tags/' %}active{% endif %}">
+                        {% else %}
+                            <a href="{{ '/' | append: current_lang | append: '/tags' | relative_url }}" class="nav-link {% if page.url contains current_lang and page.url contains 'tags' %}active{% endif %}">
+                        {% endif %}
+                            <i class="fas fa-tags"></i> {{ lang_data.nav.tags }}
                         </a>
                     </li>
                 </ul>
+            </nav>
 
-                <div class="navbar-extras">
-                    <!-- 다크모드 토글 -->
-                    <button class="theme-toggle" id="themeToggle">
-                        <i class="fas fa-moon"></i>
+            <!-- 헤더 유틸리티 영역 -->
+            <div class="header-utilities">
+                <!-- 언어 전환 드롭다운 -->
+                <div class="language-switcher">
+                    <button class="lang-toggle" aria-label="{{ lang_data.ui.language_selector }}" title="{{ lang_data.ui.language_selector }}">
+                                    {% case current_lang %}
+              {% when 'ko' %}
+                🇰🇷 {{ lang_data.ui.korean }}
+              {% when 'en' %}
+                🇺🇸 {{ lang_data.ui.english }}
+              {% when 'ja' %}
+                🇯🇵 {{ lang_data.ui.japanese }}
+              {% else %}
+                🇰🇷 {{ lang_data.ui.korean }}
+            {% endcase %}
+                        <span class="dropdown-arrow">▼</span>
                     </button>
                     
-                    <!-- RSS 피드 -->
-                    <a href="{{ '/feed.xml' | relative_url }}" class="rss-link" title="RSS Feed">
-                        <i class="fas fa-rss"></i>
-                    </a>
+                    <div class="lang-dropdown">
+                        {% for lang in site.languages %}
+                            {% assign target_lang_data = site.data[lang] %}
+                            {% if lang != current_lang %}
+                                <a href="{% if lang == site.default_lang %}{{ page.url | remove: '/en' | remove: '/ja' | relative_url }}{% else %}/{{ lang }}{{ page.url | remove: '/en' | remove: '/ja' }}{% endif %}" 
+                                   class="lang-option" 
+                                   data-lang="{{ lang }}">
+                                    {% case lang %}
+                                        {% when 'ko' %}
+                                            🇰🇷 {{ target_lang_data.ui.korean }}
+                                        {% when 'en' %}
+                                            🇺🇸 {{ target_lang_data.ui.english }}
+                                        {% when 'ja' %}
+                                            🇯🇵 {{ target_lang_data.ui.japanese }}
+                                    {% endcase %}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
+
+                <!-- 다크모드 토글 -->
+                <button class="theme-toggle" id="themeToggle" title="{{ lang_data.ui.toggle_dark_mode | default: 'Toggle Dark Mode' }}" aria-label="{{ lang_data.ui.toggle_dark_mode | default: 'Toggle Dark Mode' }}">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <!-- RSS 피드 -->
+                <a href="{{ '/feed.xml' | relative_url }}" class="rss-link" title="{{ lang_data.ui.rss_feed | default: 'RSS Feed' }}" aria-label="{{ lang_data.ui.rss_feed | default: 'RSS Feed' }}">
+                    <i class="fas fa-rss"></i>
+                </a>
             </div>
 
             <!-- 모바일 메뉴 토글 -->
-            <button class="navbar-toggle" id="navbarToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="mobile-menu-toggle" aria-label="{{ lang_data.ui.menu_toggle }}" title="{{ lang_data.ui.menu_toggle }}">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
             </button>
         </div>
-    </nav>
+    </div>
 </header>

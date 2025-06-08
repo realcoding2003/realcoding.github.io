@@ -1,0 +1,43 @@
+nav:
+  home: "ホーム"
+  about: "概要"
+  archive: "記事"
+  categories: "分類"
+  tags: "タグ"
+
+site:
+  title: "RealCoding技術ブログ"
+  description: "実務で学んだ開発ノウハウと技術的な洞察を共有します"
+  greeting: "RealCodingへようこそ！実際のプロジェクトで学んだ実践的な開発の洞察と技術的な解決策を共有しています。"
+
+posts:
+  recent: "最新記事"
+  view_all: "すべての記事を見る"
+  date_format: "%Y年%m月%d日"
+  read_more: "続きを読む"
+
+sidebar:
+  about_title: "About"
+  about_description: "実務を中心とした開発の話を記録しています。問題解決のプロセスと学んだことを共有し、他の開発者の助けになれればと思います。"
+  learn_more: "詳しく見る"
+  categories_title: "カテゴリー"
+  tags_title: "人気タグ"
+  view_all_categories: "すべてのカテゴリーを見る"
+
+language:
+  name: "日本語"
+  code: "ja"
+
+ui:
+  language_selector: "言語選択"
+  menu_toggle: "メニュー切り替え"
+  korean: "韓国語"
+  english: "英語"
+  japanese: "日本語"
+  search_placeholder: "投稿を検索..."
+  read_more: "続きを読む"
+  share_post: "この投稿を共有"
+  previous_post: "前の投稿"
+  next_post: "次の投稿"
+  toggle_dark_mode: "ダークモード切り替え"
+  rss_feed: "RSSフィード" 
