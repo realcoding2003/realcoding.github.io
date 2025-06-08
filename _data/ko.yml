@@ -37,6 +37,7 @@ ui:
   next_post: "다음 포스트"
   toggle_dark_mode: "다크모드 전환"
   rss_feed: "RSS 피드"
+  translation_not_available: "번역이 없어 홈페이지로 이동합니다"
 
 language:
   name: "한국어"

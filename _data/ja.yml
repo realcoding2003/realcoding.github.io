@@ -40,4 +40,5 @@ ui:
   previous_post: "前の投稿"
   next_post: "次の投稿"
   toggle_dark_mode: "ダークモード切り替え"
-  rss_feed: "RSSフィード" 
+  rss_feed: "RSSフィード"
+  translation_not_available: "翻訳がありません。ホームページに移動します" 

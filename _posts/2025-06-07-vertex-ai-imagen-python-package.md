@@ -8,6 +8,7 @@ author: "Kevin Park"
 excerpt: "Google Vertex AI의 Imagen 이미지 생성 API를 더 쉽게 사용할 수 있는 Python 패키지를 소개합니다. 복잡한 설정 없이 간단한 코드로 AI 이미지 생성을 시작하세요."
 image: "/assets/images/posts/vertex-ai-imagen-package-hero.png"
 mermaid: true
+translation_key: "vertex-ai-imagen-package"
 ---
 
 ![vertex-ai-imagen 패키지 Hero Image](/assets/images/posts/vertex-ai-imagen-package-hero.png)

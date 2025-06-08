@@ -89,9 +89,97 @@
                         {% for lang in site.languages %}
                             {% assign target_lang_data = site.data[lang] %}
                             {% if lang != current_lang %}
-                                <a href="{% if lang == site.default_lang %}{{ page.url | remove: '/en' | remove: '/ja' | relative_url }}{% else %}/{{ lang }}{{ page.url | remove: '/en' | remove: '/ja' }}{% endif %}" 
+                                {% comment %} 개선된 언어 전환 로직 {% endcomment %}
+                                {% assign target_url = '' %}
+                                {% assign has_translation = false %}
+                                {% assign page_type = '' %}
+                                
+                                {% comment %} 현재 페이지 타입 및 기본 URL 파악 {% endcomment %}
+                                {% comment %} URL에서 언어 부분을 정확히 제거 {% endcomment %}
+                                {% assign current_url = page.url %}
+                                {% if current_url contains '/en/' %}
+                                    {% assign clean_url = current_url | replace: '/en/', '/' %}
+                                {% elsif current_url contains '/ja/' %}
+                                    {% assign clean_url = current_url | replace: '/ja/', '/' %}
+                                {% elsif current_url == '/en' %}
+                                    {% assign clean_url = '/' %}
+                                {% elsif current_url == '/ja' %}
+                                    {% assign clean_url = '/' %}
+                                {% else %}
+                                    {% assign clean_url = current_url %}
+                                {% endif %}
+                                {% if clean_url == '/' or clean_url == '' or clean_url == '/index.html' %}
+                                    {% assign page_type = 'home' %}
+                                {% elsif page.layout == 'post' %}
+                                    {% assign page_type = 'post' %}
+                                {% elsif clean_url contains '/about' %}
+                                    {% assign page_type = 'about' %}
+                                {% elsif clean_url contains '/archive' %}
+                                    {% assign page_type = 'archive' %}
+                                {% elsif clean_url contains '/categories' %}
+                                    {% assign page_type = 'categories' %}
+                                {% elsif clean_url contains '/tags' %}
+                                    {% assign page_type = 'tags' %}
+                                {% else %}
+                                    {% assign page_type = 'other' %}
+                                {% endif %}
+                                
+                                {% comment %} 페이지 타입별 URL 생성 {% endcomment %}
+                                {% if page_type == 'home' %}
+                                    {% comment %} 홈페이지 {% endcomment %}
+                                    {% if lang == site.default_lang %}
+                                        {% assign target_url = '/' %}
+                                    {% else %}
+                                        {% assign target_url = '/' | append: lang | append: '/' %}
+                                    {% endif %}
+                                    {% assign has_translation = true %}
+                                    
+                                {% elsif page_type == 'post' %}
+                                    {% comment %} 포스트 페이지 - translation_key로 번역된 포스트 찾기 {% endcomment %}
+                                    {% assign translated_post = null %}
+                                    {% if page.translation_key %}
+                                        {% for post in site.posts %}
+                                            {% if post.lang == lang and post.translation_key == page.translation_key %}
+                                                {% assign translated_post = post %}
+                                                {% assign has_translation = true %}
+                                                {% break %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    
+                                    {% if translated_post %}
+                                        {% assign target_url = translated_post.url %}
+                                    {% else %}
+                                        {% comment %} 번역된 포스트가 없으면 해당 언어의 홈페이지로 {% endcomment %}
+                                        {% if lang == site.default_lang %}
+                                            {% assign target_url = '/' %}
+                                        {% else %}
+                                            {% assign target_url = '/' | append: lang | append: '/' %}
+                                        {% endif %}
+                                        {% assign has_translation = false %}
+                                    {% endif %}
+                                    
+                                {% else %}
+                                    {% comment %} 일반 페이지 (about, archive, categories, tags 등) {% endcomment %}
+                                    {% if lang == site.default_lang %}
+                                        {% assign target_url = clean_url %}
+                                    {% else %}
+                                        {% comment %} URL 안전하게 결합 {% endcomment %}
+                                        {% if clean_url == '/' %}
+                                            {% assign target_url = '/' | append: lang | append: '/' %}
+                                        {% else %}
+                                            {% assign target_url = '/' | append: lang | append: clean_url %}
+                                        {% endif %}
+                                    {% endif %}
+                                    {% assign has_translation = true %}
+                                {% endif %}
+                                
+                                <a href="{{ target_url | relative_url }}" 
                                    class="lang-option" 
-                                   data-lang="{{ lang }}">
+                                   data-lang="{{ lang }}"
+                                   {% unless has_translation %}
+                                   title="{{ target_lang_data.ui.translation_not_available | default: 'Translation not available, redirecting to homepage' }}"
+                                   {% endunless %}>
                                     {% case lang %}
                                         {% when 'ko' %}
                                             🇰🇷 {{ target_lang_data.ui.korean }}
@@ -100,6 +188,9 @@
                                         {% when 'ja' %}
                                             🇯🇵 {{ target_lang_data.ui.japanese }}
                                     {% endcase %}
+                                    {% unless has_translation %}
+                                        <span class="no-translation">*</span>
+                                    {% endunless %}
                                 </a>
                             {% endif %}
                         {% endfor %}

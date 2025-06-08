@@ -97,6 +97,21 @@ body {
     transition: var(--transition);
 }
 
+/* 메인 콘텐츠 영역 - 고정 헤더를 위한 마진 */
+.main-content {
+    margin-top: 80px; /* 헤더 높이만큼 상단 마진 추가 */
+    min-height: calc(100vh - 80px); /* 최소 높이 설정 */
+}
+
+/* 페이지 콘텐츠와 포스트 콘텐츠 상단 여백 확보 */
+.page-content,
+.post-content,
+.blog-main,
+.blog-layout {
+    position: relative;
+    z-index: 1; /* 헤더보다 낮은 z-index */
+}
+
 html {
     margin: 0;
     padding: 0;
@@ -116,6 +131,8 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: var(--spacing-md);
     color: var(--text-primary);
 }
+
+
 
 h1 { font-size: var(--font-size-4xl); }
 h2 { font-size: var(--font-size-3xl); }
@@ -194,8 +211,11 @@ a:hover {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 20px var(--shadow);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     z-index: 1000;
     transition: var(--transition);
     padding: var(--spacing-md) 0;
@@ -442,6 +462,19 @@ a:hover {
     background: var(--surface);
     color: var(--primary-color);
     text-decoration: none;
+}
+
+/* 번역이 없는 언어 옵션 표시 */
+.lang-option .no-translation {
+    color: var(--text-tertiary);
+    font-size: 0.8em;
+    margin-left: 4px;
+    opacity: 0.7;
+}
+
+.lang-option:hover .no-translation {
+    color: var(--primary-color);
+    opacity: 0.8;
 }
 
 .language-dropdown {
@@ -755,11 +788,8 @@ a:hover {
 .post-content pre:not(.mermaid),
 .page-content pre:not(.mermaid) {
     margin: 2rem 0;
-    padding: 1.5rem;
-    background: var(--dark-surface);
     border-radius: var(--radius-md);
     overflow-x: auto;
-    border: 1px solid var(--border);
 }
 
 /* Mermaid 다이어그램 전용 스타일 - 코드 블록 스타일 오버라이드 */
@@ -1509,6 +1539,11 @@ a:hover {
 
 /* Responsive Design - 블로그 레이아웃 */
 @media (max-width: 768px) {
+    .main-content {
+        margin-top: 100px !important; /* 모바일에서 헤더가 더 높아지므로 마진 증가 */
+        min-height: calc(100vh - 100px) !important;
+    }
+    
     .header-content {
         flex-wrap: wrap;
         gap: var(--spacing-md);
@@ -1645,6 +1680,11 @@ a:hover {
 }
 
 @media (max-width: 480px) {
+    .main-content {
+        margin-top: 90px !important; /* 작은 모바일에서는 약간 줄임 */
+        min-height: calc(100vh - 90px) !important;
+    }
+    
     .blog-intro {
         padding: var(--spacing-lg) 0;
     }

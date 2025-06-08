@@ -41,6 +41,7 @@ ui:
   next_post: "Next Post"
   toggle_dark_mode: "Toggle Dark Mode"
   rss_feed: "RSS Feed"
+  translation_not_available: "Translation not available, redirecting to homepage"
 
 posts:
   recent: "Recent Posts"

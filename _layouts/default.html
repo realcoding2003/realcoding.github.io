@@ -33,6 +33,10 @@
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
+    <!-- Highlight.js for Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+    
     <!-- Theme color -->
     <meta name="theme-color" content="#2563eb">
     
@@ -66,7 +70,29 @@
     <!-- Footer -->
     {% include footer.html %}
     
+    <!-- Highlight.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Highlight.js
+            hljs.highlightAll();
+            
+            // Dark mode toggle support for highlight.js
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    setTimeout(() => {
+                        hljs.highlightAll();
+                    }, 100);
+                });
+            }
+        });
+    </script>
+
     <!-- JavaScript -->
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    
+    <!-- Mermaid 다이어그램 지원 -->
+    {% include mermaid.html %}
 </body>
 </html>
