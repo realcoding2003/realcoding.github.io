@@ -133,6 +133,7 @@ bundle exec jekyll serve
 ```
 
 ### 2. 포스트 레이아웃 자동 수정
+{% raw %}
 ```html
 <!-- _layouts/post.html에 자동 추가 -->
 <article class="post">
@@ -143,6 +144,7 @@ bundle exec jekyll serve
   {% endif %}
 </article>
 ```
+{% endraw %}
 
 ### 3. 설정 파일 업데이트
 ```yaml
