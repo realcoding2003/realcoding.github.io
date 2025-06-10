@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "RAG 완전 해설: 제조업 MES 시스템으로 이해하는 진정한 데이터 통합 AI"
-date: 2025-06-10 14:30:00 +0900
+date: 2025-06-10 14:20:00 +0900
 categories: [Development, AI]
 tags: [RAG, MES, 데이터통합, VectorDB, 제조업AI, 데이터분석]
 author: "Kevin Park"
