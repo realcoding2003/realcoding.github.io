@@ -295,31 +295,67 @@ if (document.querySelectorAll('pre code').length > 0) {
 
 // Image Modal functionality
 function initImageModal() {
+    console.log('Initializing image modal...');
+    
     // Create modal elements first
     createImageModal();
     
-    // Initialize with current elements
-    setupImageModalListeners();
+    // Multiple initialization attempts for timing issues
+    function trySetupListeners(attemptNumber = 1) {
+        console.log(`Setup attempt ${attemptNumber}`);
+        setupImageModalListeners();
+        
+        // Try again if no mermaid diagrams found and we haven't tried too many times
+        const mermaidElements = document.querySelectorAll('.mermaid, pre.mermaid, div.mermaid');
+        console.log(`Found ${mermaidElements.length} mermaid elements on attempt ${attemptNumber}`);
+        
+        if (mermaidElements.length === 0 && attemptNumber < 5) {
+            setTimeout(() => trySetupListeners(attemptNumber + 1), 500 * attemptNumber);
+        }
+    }
+    
+    // Initial setup
+    trySetupListeners();
     
     // Also setup a mutation observer to detect when new mermaid elements are added
     const observer = new MutationObserver(function(mutations) {
+        let shouldReinitialize = false;
+        
         mutations.forEach(function(mutation) {
             if (mutation.addedNodes.length > 0) {
                 mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1 && (node.classList.contains('mermaid') || node.querySelector('.mermaid'))) {
-                        // New mermaid diagram detected, re-setup listeners
-                        setTimeout(() => {
-                            setupImageModalListeners();
-                        }, 100);
+                    if (node.nodeType === 1) {
+                        if (node.classList && (node.classList.contains('mermaid') || node.tagName === 'PRE' && node.classList.contains('mermaid'))) {
+                            console.log('New mermaid element detected:', node);
+                            shouldReinitialize = true;
+                        } else if (node.querySelector && node.querySelector('.mermaid, pre.mermaid')) {
+                            console.log('Container with mermaid elements detected:', node);
+                            shouldReinitialize = true;
+                        }
                     }
                 });
             }
         });
+        
+        if (shouldReinitialize) {
+            // Clear the old listeners flag to allow re-setup
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.removeAttribute('data-listeners-added');
+            }
+            
+            setTimeout(() => {
+                console.log('Re-initializing after mutation...');
+                setupImageModalListeners();
+            }, 200);
+        }
     });
     
     observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'data-processed']
     });
 }
 
@@ -370,12 +406,48 @@ function setupImageModalListeners() {
 
     // Get all images and mermaid diagrams in post content
     const images = document.querySelectorAll('.post-content img, .page-content img');
-    const mermaidDiagrams = document.querySelectorAll('.post-content pre.mermaid, .page-content pre.mermaid');
+    
+    // Try multiple selectors for mermaid diagrams
+    const mermaidSelectors = [
+        '.post-content pre.mermaid[data-processed="true"]',
+        '.page-content pre.mermaid[data-processed="true"]',
+        '.post-content .mermaid[data-processed="true"]',
+        '.page-content .mermaid[data-processed="true"]',
+        '.post-content div.mermaid',
+        '.page-content div.mermaid',
+        '.post-content pre.mermaid',
+        '.page-content pre.mermaid'
+    ];
+    
+    let mermaidDiagrams = [];
+    mermaidSelectors.forEach(selector => {
+        const found = document.querySelectorAll(selector);
+        if (found.length > 0) {
+            console.log(`Found ${found.length} mermaid diagrams with selector: ${selector}`);
+            mermaidDiagrams = [...mermaidDiagrams, ...Array.from(found)];
+        }
+    });
+    
+    // Remove duplicates
+    mermaidDiagrams = Array.from(new Set(mermaidDiagrams));
+    
+    // Debug logging
+    console.log('Image modal setup - Images found:', images.length);
+    console.log('Image modal setup - Mermaid diagrams found:', mermaidDiagrams.length);
+    mermaidDiagrams.forEach((diagram, index) => {
+        console.log(`Mermaid ${index}:`, diagram.outerHTML.substring(0, 200) + '...');
+    });
     
     let currentImageIndex = 0;
     let imageList = Array.from(images);
-    let diagramList = Array.from(mermaidDiagrams);
+    let diagramList = Array.from(mermaidDiagrams).filter(diagram => {
+        const hasSvg = diagram.querySelector('svg');
+        console.log(`Diagram ${diagram.className} has SVG:`, hasSvg);
+        return hasSvg;
+    });
     let allMediaList = [...imageList, ...diagramList];
+    
+    console.log('Final media list length:', allMediaList.length);
     
     if (allMediaList.length === 0) return;
     
@@ -402,9 +474,16 @@ function setupImageModalListeners() {
     });
     
     // Add click listeners to mermaid diagrams
-    mermaidDiagrams.forEach((diagram, index) => {
+    diagramList.forEach((diagram, index) => {
+        console.log(`Adding click listener to mermaid diagram ${index}:`, diagram);
+        
+        // Add visual cursor pointer
+        diagram.style.cursor = 'pointer';
+        
         diagram.addEventListener('click', function(e) {
+            console.log('Mermaid diagram clicked!', diagram);
             e.preventDefault();
+            e.stopPropagation();
             currentImageIndex = imageList.length + index; // Offset by image count
             openModal(diagram, 'mermaid');
         });
@@ -416,6 +495,7 @@ function setupImageModalListeners() {
         
         diagram.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
+                console.log('Mermaid diagram keyboard activated!', diagram);
                 e.preventDefault();
                 currentImageIndex = imageList.length + index;
                 openModal(diagram, 'mermaid');
@@ -467,10 +547,232 @@ function setupImageModalListeners() {
             // Handle mermaid diagrams
             modalImg.style.display = 'none';
             
-            // Create mermaid content container
+            // Create mermaid content container with zoom controls
             const mermaidContent = document.createElement('div');
             mermaidContent.className = 'mermaid-content';
-            mermaidContent.innerHTML = element.innerHTML;
+            
+            // Copy the SVG content
+            const originalSvg = element.querySelector('svg');
+            if (originalSvg) {
+                const clonedSvg = originalSvg.cloneNode(true);
+                
+                // Set initial zoom properties with larger base size
+                clonedSvg.style.width = 'auto';
+                clonedSvg.style.height = 'auto';
+                clonedSvg.style.minWidth = '600px';
+                clonedSvg.style.minHeight = '400px';
+                clonedSvg.style.maxWidth = '80vw';
+                clonedSvg.style.maxHeight = '70vh';
+                clonedSvg.style.transition = 'transform 0.3s ease';
+                clonedSvg.style.transform = 'scale(1)';
+                clonedSvg.setAttribute('data-zoom', '1');
+                
+                // Remove any existing width/height attributes that might constrain size
+                clonedSvg.removeAttribute('width');
+                clonedSvg.removeAttribute('height');
+                
+                // Set viewBox if not present for better scaling
+                if (!clonedSvg.getAttribute('viewBox')) {
+                    const bbox = originalSvg.getBBox ? originalSvg.getBBox() : {x: 0, y: 0, width: 800, height: 600};
+                    clonedSvg.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+                }
+                
+                mermaidContent.appendChild(clonedSvg);
+                
+                // Add zoom controls
+                const zoomControls = document.createElement('div');
+                zoomControls.className = 'mermaid-zoom-controls';
+                zoomControls.innerHTML = `
+                    <button class="zoom-btn zoom-in" title="확대">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="zoom-btn zoom-out" title="축소">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="zoom-btn zoom-reset" title="원본 크기">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                `;
+                
+                mermaidContent.appendChild(zoomControls);
+                
+                // Add zoom functionality
+                let currentZoom = 1;
+                const zoomStep = 0.2;
+                const minZoom = 0.5;
+                const maxZoom = 3;
+                
+                // Drag functionality variables
+                let isDragging = false;
+                let dragStartX = 0;
+                let dragStartY = 0;
+                let translateX = 0;
+                let translateY = 0;
+                let startTranslateX = 0;
+                let startTranslateY = 0;
+                
+                const zoomInBtn = zoomControls.querySelector('.zoom-in');
+                const zoomOutBtn = zoomControls.querySelector('.zoom-out');
+                const zoomResetBtn = zoomControls.querySelector('.zoom-reset');
+                
+                function updateZoom(newZoom) {
+                    currentZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
+                    
+                    // Ensure smooth transition for zoom operations (not during drag)
+                    if (!isDragging && !isTouchDragging) {
+                        clonedSvg.style.transition = 'transform 0.3s ease-out';
+                    }
+                    
+                    updateTransform();
+                    
+                    // Update button states
+                    zoomInBtn.disabled = currentZoom >= maxZoom;
+                    zoomOutBtn.disabled = currentZoom <= minZoom;
+                    
+                    // Reset position when zooming out to 1x or less
+                    if (currentZoom <= 1) {
+                        translateX = 0;
+                        translateY = 0;
+                        updateTransform();
+                    }
+                    
+                    // Update cursor based on zoom level
+                    if (currentZoom > 1) {
+                        clonedSvg.style.cursor = 'grab';
+                    } else {
+                        clonedSvg.style.cursor = 'default';
+                    }
+                }
+                
+                function updateTransform() {
+                    clonedSvg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+                    clonedSvg.setAttribute('data-zoom', currentZoom);
+                }
+                
+                zoomInBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    updateZoom(currentZoom + zoomStep);
+                });
+                
+                zoomOutBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    updateZoom(currentZoom - zoomStep);
+                });
+                
+                zoomResetBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    translateX = 0;
+                    translateY = 0;
+                    updateZoom(1);
+                });
+                
+                // Mouse wheel zoom
+                mermaidContent.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const delta = e.deltaY > 0 ? -zoomStep : zoomStep;
+                    updateZoom(currentZoom + delta);
+                });
+                
+                // Drag functionality for mouse
+                clonedSvg.addEventListener('mousedown', (e) => {
+                    if (currentZoom > 1) {
+                        isDragging = true;
+                        dragStartX = e.clientX;
+                        dragStartY = e.clientY;
+                        startTranslateX = translateX;
+                        startTranslateY = translateY;
+                        clonedSvg.style.cursor = 'grabbing';
+                        // Disable transition for immediate response during drag
+                        clonedSvg.style.transition = 'none';
+                        e.preventDefault();
+                    }
+                });
+                
+                document.addEventListener('mousemove', (e) => {
+                    if (isDragging && currentZoom > 1) {
+                        e.preventDefault();
+                        const deltaX = e.clientX - dragStartX;
+                        const deltaY = e.clientY - dragStartY;
+                        translateX = startTranslateX + deltaX;
+                        translateY = startTranslateY + deltaY;
+                        updateTransform();
+                    }
+                });
+                
+                document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        // Re-enable transition after drag ends
+                        clonedSvg.style.transition = 'transform 0.1s ease-out';
+                        if (currentZoom > 1) {
+                            clonedSvg.style.cursor = 'grab';
+                        } else {
+                            clonedSvg.style.cursor = 'default';
+                        }
+                    }
+                });
+                
+                // Touch/pinch zoom and drag for mobile
+                let initialDistance = 0;
+                let initialZoom = 1;
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let isTouchDragging = false;
+                let touchStartTranslateX = 0;
+                let touchStartTranslateY = 0;
+                
+                clonedSvg.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && currentZoom > 1) {
+                        // Single touch drag
+                        isTouchDragging = true;
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                        touchStartTranslateX = translateX;
+                        touchStartTranslateY = translateY;
+                        // Disable transition for immediate response during touch drag
+                        clonedSvg.style.transition = 'none';
+                        e.preventDefault();
+                    } else if (e.touches.length === 2) {
+                        // Two finger pinch zoom
+                        isTouchDragging = false;
+                        initialDistance = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                        initialZoom = currentZoom;
+                        e.preventDefault();
+                    }
+                });
+                
+                clonedSvg.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && isTouchDragging && currentZoom > 1) {
+                        // Single touch drag
+                        e.preventDefault();
+                        const deltaX = e.touches[0].clientX - touchStartX;
+                        const deltaY = e.touches[0].clientY - touchStartY;
+                        translateX = touchStartTranslateX + deltaX;
+                        translateY = touchStartTranslateY + deltaY;
+                        updateTransform();
+                    } else if (e.touches.length === 2) {
+                        // Two finger pinch zoom
+                        e.preventDefault();
+                        const distance = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                        const scale = distance / initialDistance;
+                        updateZoom(initialZoom * scale);
+                    }
+                });
+                
+                clonedSvg.addEventListener('touchend', () => {
+                    if (isTouchDragging) {
+                        // Re-enable transition after touch drag ends
+                        clonedSvg.style.transition = 'transform 0.1s ease-out';
+                    }
+                    isTouchDragging = false;
+                });
+            }
             
             modalContent.appendChild(mermaidContent);
             

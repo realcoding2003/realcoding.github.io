@@ -945,8 +945,12 @@ a:hover {
 
 /* Mermaid diagram in modal */
 .image-modal .mermaid-content {
-    max-width: 95%;
-    max-height: 95%;
+    width: 90vw;
+    height: 80vh;
+    min-width: 600px;
+    min-height: 400px;
+    max-width: 95vw;
+    max-height: 90vh;
     background: var(--background);
     border-radius: var(--radius-lg);
     padding: 2rem;
@@ -956,6 +960,24 @@ a:hover {
     transform: scale(0.8);
     transition: transform 0.3s ease;
     overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SVG inside mermaid content should scale properly */
+.image-modal .mermaid-content svg {
+    min-width: 600px !important;
+    min-height: 400px !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transition: transform 0.3s ease-out;
 }
 
 .image-modal.active .mermaid-content {
@@ -965,6 +987,94 @@ a:hover {
 [data-theme="dark"] .image-modal .mermaid-content {
     background: var(--dark-surface);
     border: 1px solid var(--dark-border);
+}
+
+/* Mermaid zoom controls */
+.mermaid-zoom-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10002;
+}
+
+.zoom-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-weight: bold;
+}
+
+.zoom-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 1);
+    color: #000;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.zoom-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.zoom-btn:disabled:hover {
+    transform: none;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+}
+
+[data-theme="dark"] .zoom-btn {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .zoom-btn:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile zoom controls */
+@media (max-width: 768px) {
+    .image-modal .mermaid-content {
+        width: 95vw;
+        height: 85vh;
+        min-width: 320px;
+        min-height: 240px;
+        padding: 1rem;
+    }
+    
+    .image-modal .mermaid-content svg {
+        min-width: 300px !important;
+        min-height: 200px !important;
+    }
+    
+    .mermaid-zoom-controls {
+        top: 15px;
+        left: 15px;
+        gap: 6px;
+    }
+    
+    .zoom-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
 }
 
 /* Modal Controls */
@@ -1900,10 +2010,6 @@ a:hover {
         text-align: left;
     }
     
-    .share-buttons {
-        justify-content: center;
-    }
-    
     /* Mermaid 모바일 최적화 */
     .post-content pre.mermaid,
     .page-content pre.mermaid {
@@ -1965,4 +2071,92 @@ a:hover {
         padding: 0.75rem;
         font-size: 0.8rem;
     }
+}
+
+/* Enhanced Mermaid diagram click styling */
+.post-content .mermaid,
+.page-content .mermaid,
+.post-content pre.mermaid,
+.page-content pre.mermaid,
+.post-content div.mermaid,
+.page-content div.mermaid {
+    cursor: pointer !important;
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 4px;
+    position: relative;
+}
+
+.post-content .mermaid:hover,
+.page-content .mermaid:hover,
+.post-content pre.mermaid:hover,
+.page-content pre.mermaid:hover,
+.post-content div.mermaid:hover,
+.page-content div.mermaid:hover {
+    opacity: 0.9;
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode shadow for mermaid hover */
+[data-theme="dark"] .post-content .mermaid:hover,
+[data-theme="dark"] .page-content .mermaid:hover,
+[data-theme="dark"] .post-content pre.mermaid:hover,
+[data-theme="dark"] .page-content pre.mermaid:hover,
+[data-theme="dark"] .post-content div.mermaid:hover,
+[data-theme="dark"] .page-content div.mermaid:hover {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure mermaid SVG elements don't interfere with click */
+.post-content .mermaid svg,
+.page-content .mermaid svg,
+.post-content pre.mermaid svg,
+.page-content pre.mermaid svg,
+.post-content div.mermaid svg,
+.page-content div.mermaid svg {
+    pointer-events: none; /* Let the parent handle clicks */
+}
+
+/* Add visual indicator for clickable mermaid */
+.post-content .mermaid::after,
+.page-content .mermaid::after,
+.post-content pre.mermaid::after,
+.page-content pre.mermaid::after,
+.post-content div.mermaid::after,
+.page-content div.mermaid::after {
+    content: "🔍";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+}
+
+.post-content .mermaid:hover::after,
+.page-content .mermaid:hover::after,
+.post-content pre.mermaid:hover::after,
+.page-content pre.mermaid:hover::after,
+.post-content div.mermaid:hover::after,
+.page-content div.mermaid:hover::after {
+    opacity: 1;
+}
+
+[data-theme="dark"] .post-content .mermaid::after,
+[data-theme="dark"] .page-content .mermaid::after,
+[data-theme="dark"] .post-content pre.mermaid::after,
+[data-theme="dark"] .page-content pre.mermaid::after,
+[data-theme="dark"] .post-content div.mermaid::after,
+[data-theme="dark"] .page-content div.mermaid::after {
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
 }
