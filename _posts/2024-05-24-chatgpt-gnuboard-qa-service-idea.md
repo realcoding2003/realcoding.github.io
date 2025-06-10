@@ -5,6 +5,7 @@ date: 2024-05-24 05:53:00 +0900
 categories: [AI, Side Project, 그누보드]
 tags: [ChatGPT, GPT-4o, 그누보드, AI, 사이드프로젝트, 수익모델, RAG]
 author: Kevin Park
+lang: ko
 excerpt: "요즘 화두인 생성형 AI 기술을 활용해서 그누보드 전용 질문 답변 사이트를 만들면 어떨까? 비용과 수익에 대한 고민과 함께 아이디어를 정리해본다."
 ---
 

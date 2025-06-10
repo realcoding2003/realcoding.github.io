@@ -5,9 +5,15 @@ date: 2025-06-07 10:30:00 +0900
 categories: [Development, Project]
 tags: [ai, imagen, mcp, automation, blog, python, pypi, vertex-ai]
 author: "Kevin Park"
+lang: ko
 excerpt: "블로그 포스팅 시 필요한 이미지를 AI로 자동 생성하는 완전한 워크플로우 구축기. Python 패키지 개발부터 MCP 서버 통합까지"
 image: "/assets/images/posts/vertex-ai-imagen-mcp-blog-automation/hero.png"
+keywords: "ai, imagen, mcp, automation, blog, python, pypi, vertex-ai"
+description: "블로그 포스팅 시 필요한 이미지를 AI로 자동 생성하는 완전한 워크플로우 구축기. Python 패키지 개발부터 MCP 서버 통합까지"
 mermaid: true
+sitemap:
+  changefreq: weekly
+  priority: 0.8
 ---
 
 # Vertex AI Imagen으로 블로그 이미지 자동 생성하기: Python 패키지부터 MCP 서버까지

@@ -5,8 +5,12 @@ date: 2025-06-06 23:00:00 +0900
 categories: [Test, Mermaid]
 tags: [mermaid, diagram, flowchart, test]
 author: "Kevin Park"
+lang: ko
 excerpt: "사이트에 추가된 Mermaid 다이어그램 기능을 테스트하는 포스트입니다."
 mermaid: true
+sitemap:
+  changefreq: weekly
+  priority: 0.8
 ---
 
 # Mermaid 다이어그램 기능 테스트

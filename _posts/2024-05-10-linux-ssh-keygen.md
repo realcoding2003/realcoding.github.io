@@ -5,6 +5,7 @@ date: 2024-05-10 09:00:00 +0900
 categories: [Development, Tutorial]
 tags: [linux, ssh, keygen, security, server, tutorial, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "SSH 키 생성부터 활용까지! ssh-keygen 명령어로 안전한 서버 접속 환경을 구축하는 완벽 가이드"
 ---
 

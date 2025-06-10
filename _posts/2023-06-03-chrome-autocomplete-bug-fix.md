@@ -5,6 +5,7 @@ date: 2023-06-03 09:00:00 +0900
 categories: [Troubleshooting, Browser]
 tags: [chrome, autocomplete, bug-fix, korean-input, browser-issue, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "크롬 자동완성 중복 입력 버그를 실험실 기능 리셋과 한글 입력기 재설정으로 완전히 해결하는 방법"
 ---
 

@@ -5,6 +5,7 @@ date: 2025-06-09 13:00:00 +0900
 categories: [AI, MCP, UI/UX]
 tags: [Claude, MCP, 다크모드, 테마시스템, Jekyll, CSS, JavaScript]
 author: "Kevin Park"
+lang: ko
 excerpt: "CSS 변수부터 utterances 동기화까지 MCP로 완전한 테마 전환 시스템을 자동 구축하는 포괄적 가이드"
 image: "/assets/images/posts/mcp-dark-light-mode-implementation/hero.png"
 ---

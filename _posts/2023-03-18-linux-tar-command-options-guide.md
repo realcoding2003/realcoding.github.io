@@ -5,6 +5,7 @@ date: 2023-03-18 09:00:00 +0900
 categories: [Linux, System Administration]
 tags: [Linux, tar, 압축, 명령어, CLI, 시스템관리]
 author: Kevin Park
+lang: ko
 excerpt: "리눅스에서 가장 많이 사용되는 tar 명령어의 옵션들과 실제 사용 예시를 정리했습니다. 압축과 해제, 다양한 옵션까지 한 번에 마스터하세요."
 ---
 

@@ -5,6 +5,7 @@ date: 2024-02-01 09:00:00 +0900
 categories: [Development, Project]
 tags: [aws, ec2, remote-desktop, cloud, windows, cost-analysis, automation, tutorial]
 author: "Kevin Park"
+lang: ko
 excerpt: "AWS EC2로 원격 데스크탑을 구축하여 월 5만원으로 10만원 PC 대체하기! 실제 비용 분석과 구축 가이드"
 ---
 

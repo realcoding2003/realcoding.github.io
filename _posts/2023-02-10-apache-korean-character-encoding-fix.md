@@ -5,7 +5,14 @@ date: 2023-02-10 04:22:00 +0900
 categories: [Apache, Web Server, 문제해결]
 tags: [Apache, 한글깨짐, charset, UTF-8, 인코딩, 서버이전]
 author: Kevin Park
+lang: ko
 excerpt: "아파치 서버 이전 후 발생하는 한글 깨짐 현상의 원인과 charset 설정을 통한 해결 방법을 알아봅니다."
+keywords: "Apache, 한글깨짐, charset, UTF-8, 인코딩, 서버이전"
+description: "아파치 서버 이전 후 발생하는 한글 깨짐 현상의 원인과 charset 설정을 통한 해결 방법을 알아봅니다."
+mermaid: true
+sitemap:
+  changefreq: weekly
+  priority: 0.8
 ---
 
 서버 이전이나 새로운 아파치 설치 후 웹사이트에서 한글이 깨져서 보이는 경우가 있습니다. 이런 현상은 대부분 **charset 설정이 제대로 되지 않아서** 발생하는 문제입니다.

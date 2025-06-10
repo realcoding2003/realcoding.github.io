@@ -5,6 +5,7 @@ date: 2025-06-09 12:00:00 +0900
 categories: [AI, MCP, Blog Features]
 tags: [Claude, MCP, utterances, 댓글시스템, GitHub, Jekyll]
 author: "Kevin Park"
+lang: ko
 excerpt: "GitHub Issues 설정부터 Jekyll 통합까지 MCP 한 번의 명령으로 완전한 댓글 시스템 구축"
 image: "/assets/images/posts/mcp-giscus-comments-setup/hero.png"
 ---

@@ -5,6 +5,7 @@ date: 2023-11-10 10:00:00 +0900
 categories: [Development, Tutorial]
 tags: [ubuntu, nginx, mariadb, php, lemp, server, hosting, tutorial, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "Ubuntu 18.04LTS에서 LEMP 스택을 빠르게 설치하는 완벽 가이드. 원클릭 스크립트와 멀티사이트 호스팅 설정까지 한번에 해결하세요."
 ---
 

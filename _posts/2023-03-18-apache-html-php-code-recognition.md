@@ -5,6 +5,7 @@ date: 2023-03-18 14:00:00 +0900
 categories: [Apache, PHP, Web Server]
 tags: [Apache, PHP, HTML, 웹서버, 설정, mime.conf]
 author: Kevin Park
+lang: ko
 excerpt: "아파치 웹서버에서 .html 확장자 파일에서도 PHP 코드를 실행할 수 있도록 설정하는 방법을 단계별로 알아봅니다."
 ---
 

@@ -5,6 +5,7 @@ date: 2025-06-10 08:30:00 +0900
 categories: [Development, DevDiary]
 tags: [AI개발, 깃헙페이지, 자동화, 개발경험, 신입개발자]
 author: "Kevin Park"
+lang: ko
 excerpt: "며칠간 깃헙 페이지 블로그를 AI로 만들면서 깨달은 현실적인 이야기. AI 개발의 명과 암"
 image: "/assets/images/posts/ai-dev-reality-diary/hero.png"
 ---

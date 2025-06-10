@@ -5,6 +5,7 @@ date: 2025-06-09 09:00:00 +0900
 categories: [AI, MCP, Blog Development]
 tags: [Claude, MCP, GitHub Pages, Jekyll, 시리즈가이드, AI Tools]
 author: "Kevin Park"
+lang: ko
 excerpt: "Claude Desktop MCP로 블로그 생성부터 다국어 지원까지 - 5편으로 완성하는 AI 기반 기술 블로그 구축 완전 가이드"
 image: "/assets/images/posts/ai-powered-blog-series/hero.png"
 series: "AI를 통해 Github Page 기술 블로그 만들기"

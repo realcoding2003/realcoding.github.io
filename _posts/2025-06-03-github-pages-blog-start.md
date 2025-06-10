@@ -5,6 +5,7 @@ date: 2025-06-04 14:30:00 +0900
 categories: [블로그, GitHub]
 tags: [github-pages, jekyll, 블로그, 시작]
 author: "Kevin Park"
+lang: ko
 excerpt: "GitHub Pages와 Jekyll을 사용해서 나만의 기술 블로그를 만드는 방법을 단계별로 알아보겠습니다."
 ---
 

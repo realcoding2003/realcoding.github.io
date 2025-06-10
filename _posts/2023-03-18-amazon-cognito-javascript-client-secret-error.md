@@ -5,6 +5,7 @@ date: 2023-03-18 10:00:00 +0900
 categories: [AWS, Authentication]
 tags: [Amazon Cognito, JavaScript, Authentication, AWS, 인증, 오류해결]
 author: Kevin Park
+lang: ko
 excerpt: "Amazon Cognito를 JavaScript로 연동할 때 가장 흔하게 발생하는 '클라이언트 보안키' 관련 오류와 해결 방법을 알아봅니다."
 ---
 

@@ -5,6 +5,7 @@ date: 2023-06-20 10:00:00 +0900
 categories: [Development, Database]
 tags: [mysql, mariadb, database, backup, restore, console, mysqldump]
 author: "Kevin Park"
+lang: ko
 excerpt: "GUI 툴 없이 콘솔에서 MySQL/MariaDB 데이터베이스를 백업하고 복구하는 방법. 호스팅 환경에서 바로 사용 가능한 명령어 모음집"
 ---
 

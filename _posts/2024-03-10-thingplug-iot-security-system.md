@@ -5,6 +5,7 @@ date: 2024-03-10 09:00:00 +0900
 categories: [Development, Project]
 tags: [iot, thingplug, aws, lambda, dynamodb, corecrypto, security, serverless]
 author: "Kevin Park"
+lang: ko
 excerpt: "Thingplug 2.0 플랫폼 기반 IoT 보안 시스템 설계 - AWS Serverless와 CoreCrypto를 활용한 하이브리드 아키텍처 구현"
 ---
 

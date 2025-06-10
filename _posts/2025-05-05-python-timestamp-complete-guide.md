@@ -5,6 +5,7 @@ date: 2025-05-05 14:30:00 +0900
 categories: [Development, Python]
 tags: [python, timestamp, time, datetime, database, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "Python에서 timestamp 값을 얻고 변환하는 방법부터 실제 프로젝트 활용까지. 바로 사용 가능한 코드 예시와 함께 설명합니다."
 ---
 

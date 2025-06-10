@@ -5,6 +5,7 @@ date: 2025-06-10 14:20:00 +0900
 categories: [Development, AI]
 tags: [RAG, MES, 데이터통합, VectorDB, 제조업AI, 데이터분석]
 author: "Kevin Park"
+lang: ko
 excerpt: "RAG는 벡터DB만이 아닙니다. VectorDB + RDS + RawData + LocalFile + API를 모두 연결하는 지능형 플랫폼의 진정한 의미를 제조업 MES 시스템 예시로 완전 해부합니다."
 image: "/assets/images/posts/2024-06-10-rag-mes-integration-guide/hero.png"
 keywords: "RAG, MES, 데이터통합, VectorDB, RDS, IoT, 제조업AI, 멀티소스RAG"

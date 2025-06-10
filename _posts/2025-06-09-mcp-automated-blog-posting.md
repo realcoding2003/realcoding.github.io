@@ -5,6 +5,7 @@ date: 2025-06-09 11:00:00 +0900
 categories: [AI, MCP, Content Creation]
 tags: [Claude, MCP, SEO, 자동화, 블로그작성, AI Writing]
 author: "Kevin Park"
+lang: ko
 excerpt: "아이디어만 제시하면 MCP가 SEO 메타데이터부터 이미지까지 완전한 기술 포스팅을 자동 생성하는 혁신적 워크플로우"
 image: "/assets/images/posts/mcp-automated-blog-posting/hero.png"
 ---

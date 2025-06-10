@@ -5,6 +5,7 @@ date: 2023-07-20 10:00:00 +0900
 categories: [Development, Tutorial]
 tags: [gnuboard, php, hooks, korean-cms, web-development]
 author: "Kevin Park"
+lang: ko
 excerpt: "그누보드 bbs 폴더 수정 없이 코드 삽입하는 훅 기능 사용법과 모든 이벤트 종류를 정리했습니다. extend 폴더 활용부터 실제 구현까지"
 ---
 

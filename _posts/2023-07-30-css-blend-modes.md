@@ -5,6 +5,7 @@ date: 2023-07-30 14:30:00 +0900
 categories: [Development, Tutorial]
 tags: [css, blend-mode, frontend, design, visual-effects]
 author: "Kevin Park"
+lang: ko
 excerpt: "CSS만으로 포토샵 블랜딩 효과를 구현하는 방법. background-blend-mode와 mix-blend-mode의 실무 활용법과 반응형 레이아웃 적용 예시까지."
 ---
 

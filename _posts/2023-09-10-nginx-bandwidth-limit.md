@@ -5,6 +5,7 @@ date: 2023-09-10 15:30:00 +0900
 categories: [Development, Tutorial]
 tags: [nginx, server, bandwidth, limit_rate, optimization, devops]
 author: "Kevin Park"
+lang: ko
 excerpt: "nginx에서 limit_rate와 limit_rate_after 지시어를 사용하여 대역폭을 효과적으로 제한하는 방법과 실제 테스트 가이드"
 ---
 

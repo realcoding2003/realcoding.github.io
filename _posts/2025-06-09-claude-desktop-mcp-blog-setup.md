@@ -5,6 +5,7 @@ date: 2025-06-09 10:00:00 +0900
 categories: [AI, MCP, Blog Development]
 tags: [Claude, MCP, GitHub Pages, Jekyll, 로컬개발, AI Tools]
 author: "Kevin Park"
+lang: ko
 excerpt: "복사/붙여넣기 없이 MCP 서버로 로컬 파일시스템에 완전한 Jekyll 블로그를 직접 생성하는 혁신적 방법"
 image: "/assets/images/posts/claude-desktop-blog-setup/hero.png"
 ---

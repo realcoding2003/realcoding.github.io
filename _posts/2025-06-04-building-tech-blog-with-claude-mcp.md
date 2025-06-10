@@ -5,6 +5,7 @@ date: 2025-06-04 14:30:00 +0900
 categories: [AI, 개발, 블로그, MCP]
 tags: [Claude, MCP, Jekyll, GitHub Pages, AI, 페어프로그래밍, 기술블로그, 개발자도구, Claude Desktop]
 author: Kevin Park
+lang: ko
 excerpt: "수년간 미뤄왔던 기술 블로그를 Claude Desktop + MCP 서버와 함께 하루 만에 완성했습니다. MD 포맷의 번거로움, 설정의 복잡함, 유지보수의 부담... 모든 걸림돌이 AI 페어 프로그래밍으로 해결된 실제 경험을 공유합니다."
 ---
 

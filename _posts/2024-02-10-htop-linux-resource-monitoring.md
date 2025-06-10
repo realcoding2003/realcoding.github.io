@@ -5,6 +5,7 @@ date: 2024-02-10 09:00:00 +0900
 categories: [Development, Tutorial]
 tags: [linux, htop, monitoring, system-admin, troubleshooting, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "htop을 활용한 리눅스 시스템 리소스 실시간 모니터링 완전 가이드. CPU, 메모리, 프로세스 상태를 효율적으로 분석하는 방법"
 ---
 

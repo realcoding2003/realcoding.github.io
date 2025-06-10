@@ -5,6 +5,7 @@ date: 2023-04-05 12:00:00 +0900
 categories: [Development, Tutorial]
 tags: [javascript, jquery, ajax, http-header, beforeSend, authorization]
 author: "Kevin Park"
+lang: ko
 excerpt: "AJAX 통신 시 beforeSend와 setRequestHeader를 사용하여 HTTP 헤더에 인증 토큰을 추가하는 핵심 방법과 실제 활용 예시를 알아봅니다."
 ---
 

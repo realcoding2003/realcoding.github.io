@@ -6,7 +6,14 @@ categories: [AI, MCP, Internationalization]
 tags: [Claude, MCP, 다국어, i18n, Jekyll, 국제화, 시리즈완결]
 author: "Kevin Park"
 excerpt: "Jekyll 다국어 시스템부터 시리즈 전체 회고까지, MCP로 완성하는 글로벌 기술 블로그의 최종 단계"
+lang: ko
 image: "/assets/images/posts/mcp-jekyll-multilingual-blog/hero.png"
+keywords: "Claude, MCP, 다국어, i18n, Jekyll, 국제화, 시리즈완결"
+description: "Jekyll 다국어 시스템부터 시리즈 전체 회고까지, MCP로 완성하는 글로벌 기술 블로그의 최종 단계"
+mermaid: true
+sitemap:
+  changefreq: weekly
+  priority: 0.8
 ---
 
 # AI를 통해 Github Page 기술 블로그 만들기 (5) - MCP로 Jekyll 다국어 블로그 완성하기

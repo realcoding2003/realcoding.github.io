@@ -5,6 +5,7 @@ date: 2023-03-20 09:00:00 +0900
 categories: [Development, Architecture]
 tags: [architecture, microservices, addon, plugin, nodejs, system-design, docker, api-gateway, themepress]
 author: "Kevin Park"
+lang: ko
 excerpt: "100% 무료 웹사이트 스트리밍 서비스를 위한 확장 가능한 애드온 아키텍처 설계. 마이크로서비스와 플러그인 패턴으로 무한 확장하기"
 ---
 

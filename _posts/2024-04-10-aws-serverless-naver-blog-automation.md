@@ -5,6 +5,7 @@ date: 2024-04-10 10:00:00 +0900
 categories: [Development, Project]
 tags: [aws, lambda, s3, cloudwatch, sns, naver-blog, serverless, automation, python, selenium]
 author: "Kevin Park"
+lang: ko
 excerpt: "기존 온프레미스 서버의 복잡성을 해결하고 AWS 서버리스 아키텍처로 네이버 블로그 자동 포스팅 시스템을 구축하는 완전한 가이드"
 ---
 

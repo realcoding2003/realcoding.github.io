@@ -5,6 +5,7 @@ date: 2023-07-10 10:00:00 +0900
 categories: [Development, Tips]
 tags: [javascript, string-manipulation, formatting, utility, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "JavaScript에서 숫자 앞에 0을 붙이는 모든 방법! padStart() 메서드부터 커스텀 함수까지 바로 사용 가능한 코드와 실무 예시를 제공합니다."
 ---
 

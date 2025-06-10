@@ -5,6 +5,7 @@ date: 2023-12-10 09:00:00 +0900
 categories: [Development, Tutorial]
 tags: [bitbucket, ssh, git, devops, setup, tutorial]
 author: "Kevin Park"
+lang: ko
 excerpt: "Bitbucket Private Repository에 SSH Key를 사용하여 비밀번호 없이 안전하게 push하는 완전한 설정 가이드"
 ---
 

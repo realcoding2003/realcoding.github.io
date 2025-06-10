@@ -5,6 +5,7 @@ date: 2025-06-05 14:30:00 +0900
 categories: [Tips, Development]
 tags: [mcp, playwright, automation, installation, filesystem, desktop-commander, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "이미 설치된 filesystem, desktop-commander MCP를 활용해 새로운 MCP를 Claude가 직접 자동 설치하는 실전 방법을 알아보세요."
 ---
 

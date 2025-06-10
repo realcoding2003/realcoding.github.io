@@ -5,6 +5,7 @@ date: 2023-10-10 09:00:00 +0900
 categories: [Development, Database]
 tags: [mariadb, mysql, database, server, configuration, troubleshooting]
 author: "Kevin Park"
+lang: ko
 excerpt: "MariaDB 외부 접속을 위한 bind-address 설정 변경과 사용자 권한 설정 방법을 단계별로 설명합니다."
 ---
 

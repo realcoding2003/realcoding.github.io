@@ -5,6 +5,7 @@ date: 2024-01-10 09:00:00 +0900
 categories: [Development, Tips]
 tags: [git, gitignore, version-control, troubleshooting, beginner]
 author: "Kevin Park"
+lang: ko
 excerpt: "디렉토리는 무시하되 특정 파일만 포함시키는 .gitignore 설정 방법. ** 패턴 활용으로 즉시 해결 가능"
 ---
 

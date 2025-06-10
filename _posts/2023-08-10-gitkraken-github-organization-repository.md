@@ -5,6 +5,7 @@ date: 2023-08-10 14:30:00 +0900
 categories: [Tips, Development]
 tags: [gitkraken, github, organization, repository, oauth, git-tools]
 author: "Kevin Park"
+lang: ko
 excerpt: "GitKraken에서 조직 계정의 private 레파지토리가 안 보이는 문제를 OAuth 권한 설정으로 해결하는 방법"
 ---
 
