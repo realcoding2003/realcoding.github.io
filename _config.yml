@@ -2,7 +2,7 @@
 title: "실전코딩 기술 블로그"
 description: "실무에서 배운 개발 노하우와 기술적 인사이트를 공유합니다"
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://realcoding.github.io" # the base hostname & protocol for your site
+url: "https://realcoding.blog" # the base hostname & protocol for your site
 author: "실전코딩"
 email: "info@realcoding.co.kr"
 
