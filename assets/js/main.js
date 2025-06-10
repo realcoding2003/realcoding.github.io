@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollToTop();
     initSmoothScrolling();
     initImageModal();
+    initResponsiveTables();
 });
 
 // Mobile menu functionality
@@ -291,6 +292,28 @@ function initCodeCopyButtons() {
 // Initialize code copy buttons if code blocks exist
 if (document.querySelectorAll('pre code').length > 0) {
     initCodeCopyButtons();
+}
+
+// Initialize responsive tables
+function initResponsiveTables() {
+    // Find all tables in post content
+    const tables = document.querySelectorAll('.post-content table, .page-content table');
+    
+    console.log(`Found ${tables.length} tables to wrap`);
+    
+    tables.forEach((table, index) => {
+        // Check if table is not already wrapped
+        if (!table.parentElement.classList.contains('table-wrapper')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'table-wrapper';
+            
+            // Insert wrapper before table and move table inside
+            table.parentNode.insertBefore(wrapper, table);
+            wrapper.appendChild(table);
+            
+            console.log(`Table ${index + 1} wrapped for responsive design`);
+        }
+    });
 }
 
 // Image Modal functionality

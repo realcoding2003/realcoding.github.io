@@ -853,6 +853,74 @@ a:hover {
     overflow: hidden;
 }
 
+/* Table wrapper for horizontal scrolling */
+.table-wrapper {
+    overflow-x: auto;
+    margin: 2rem 0;
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.table-wrapper table {
+    margin: 0;
+    min-width: 100%;
+}
+
+/* 표 스크롤바 스타일링 */
+.table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--radius-sm);
+    transition: background 0.3s ease;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* 다크 모드 스크롤바 */
+[data-theme="dark"] .table-wrapper::-webkit-scrollbar-track {
+    background: var(--dark-surface);
+}
+
+[data-theme="dark"] .table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--dark-border);
+}
+
+[data-theme="dark"] .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* 스크롤 힌트 표시 */
+.table-wrapper::after {
+    content: "← 가로로 스크롤하세요 →";
+    display: none;
+    position: absolute;
+    bottom: -1.5rem;
+    right: 0;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .table-wrapper {
+        position: relative;
+    }
+    
+    .table-wrapper::after {
+        display: block;
+    }
+}
+
 .post-content th,
 .post-content td,
 .page-content th,
@@ -2018,6 +2086,26 @@ a:hover {
         font-size: 0.9rem;
     }
     
+    /* 모바일에서 표 가로 스크롤 최적화 */
+    .table-wrapper {
+        margin: 1.5rem 0;
+        -webkit-overflow-scrolling: touch; /* 부드러운 터치 스크롤 */
+    }
+    
+    .post-content table,
+    .page-content table {
+        min-width: 600px; /* 최소 너비 보장 */
+        font-size: 0.9rem; /* 모바일에서 글자 크기 조정 */
+    }
+    
+    .post-content th,
+    .post-content td,
+    .page-content th,
+    .page-content td {
+        padding: 0.6rem 0.8rem; /* 모바일에서 패딩 줄임 */
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
@@ -2070,6 +2158,24 @@ a:hover {
         margin: 1rem 0;
         padding: 0.75rem;
         font-size: 0.8rem;
+    }
+    
+    /* 작은 모바일에서 표 스크롤 최적화 */
+    .table-wrapper {
+        margin: 1rem 0;
+    }
+    
+    .post-content table,
+    .page-content table {
+        min-width: 500px; /* 작은 화면에서 최소 너비 */
+        font-size: 0.85rem; /* 더 작은 글자 크기 */
+    }
+    
+    .post-content th,
+    .post-content td,
+    .page-content th,
+    .page-content td {
+        padding: 0.5rem 0.6rem; /* 더 작은 패딩 */
     }
 }
 
