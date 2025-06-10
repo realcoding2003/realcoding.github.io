@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI 개발 현실 체크: 블로그 자동화로 깨달은 것들"
-date: 2024-06-10 14:30:00 +0900
+date: 2025-06-10 14:30:00 +0900
 categories: [Development, DevDiary]
 tags: [AI개발, 깃헙페이지, 자동화, 개발경험, 신입개발자]
 author: "Kevin Park"
