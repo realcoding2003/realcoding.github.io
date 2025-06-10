@@ -295,9 +295,39 @@ if (document.querySelectorAll('pre code').length > 0) {
 
 // Image Modal functionality
 function initImageModal() {
+    // Create modal elements first
+    createImageModal();
+    
+    // Initialize with current elements
+    setupImageModalListeners();
+    
+    // Also setup a mutation observer to detect when new mermaid elements are added
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && (node.classList.contains('mermaid') || node.querySelector('.mermaid'))) {
+                        // New mermaid diagram detected, re-setup listeners
+                        setTimeout(() => {
+                            setupImageModalListeners();
+                        }, 100);
+                    }
+                });
+            }
+        });
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+function createImageModal() {
     // Create modal elements
     const modal = document.createElement('div');
     modal.className = 'image-modal';
+    modal.id = 'imageModal';
     modal.innerHTML = `
         <div class="image-modal-content">
             <button class="image-modal-close" aria-label="Close modal">
@@ -319,8 +349,13 @@ function initImageModal() {
     `;
     
     document.body.appendChild(modal);
+}
+
+function setupImageModalListeners() {
+    // Get existing modal elements
+    const modal = document.getElementById('imageModal');
+    if (!modal) return;
     
-    // Get modal elements
     const modalContent = modal.querySelector('.image-modal-content');
     const modalImg = modal.querySelector('img');
     const modalInfo = modal.querySelector('.image-modal-info');
@@ -329,6 +364,10 @@ function initImageModal() {
     const modalNext = modal.querySelector('.image-modal-next');
     const modalLoading = modal.querySelector('.image-modal-loading');
     
+    // Remove existing listeners to prevent duplicates
+    const oldListeners = modal.getAttribute('data-listeners-added');
+    if (oldListeners === 'true') return;
+
     // Get all images and mermaid diagrams in post content
     const images = document.querySelectorAll('.post-content img, .page-content img');
     const mermaidDiagrams = document.querySelectorAll('.post-content pre.mermaid, .page-content pre.mermaid');
@@ -572,4 +611,7 @@ function initImageModal() {
     modal.addEventListener('touchmove', function(e) {
         e.preventDefault();
     }, { passive: false });
+    
+    // Mark listeners as added
+    modal.setAttribute('data-listeners-added', 'true');
 }
