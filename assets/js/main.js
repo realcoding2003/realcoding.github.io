@@ -329,19 +329,23 @@ function initImageModal() {
     const modalNext = modal.querySelector('.image-modal-next');
     const modalLoading = modal.querySelector('.image-modal-loading');
     
-    // Get all images in post content
+    // Get all images and mermaid diagrams in post content
     const images = document.querySelectorAll('.post-content img, .page-content img');
+    const mermaidDiagrams = document.querySelectorAll('.post-content pre.mermaid, .page-content pre.mermaid');
+    
     let currentImageIndex = 0;
     let imageList = Array.from(images);
+    let diagramList = Array.from(mermaidDiagrams);
+    let allMediaList = [...imageList, ...diagramList];
     
-    if (images.length === 0) return;
+    if (allMediaList.length === 0) return;
     
     // Add click listeners to images
     images.forEach((img, index) => {
         img.addEventListener('click', function(e) {
             e.preventDefault();
             currentImageIndex = index;
-            openModal(img);
+            openModal(img, 'image');
         });
         
         // Add keyboard accessibility
@@ -353,13 +357,35 @@ function initImageModal() {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 currentImageIndex = index;
-                openModal(img);
+                openModal(img, 'image');
+            }
+        });
+    });
+    
+    // Add click listeners to mermaid diagrams
+    mermaidDiagrams.forEach((diagram, index) => {
+        diagram.addEventListener('click', function(e) {
+            e.preventDefault();
+            currentImageIndex = imageList.length + index; // Offset by image count
+            openModal(diagram, 'mermaid');
+        });
+        
+        // Add keyboard accessibility
+        diagram.setAttribute('tabindex', '0');
+        diagram.setAttribute('role', 'button');
+        diagram.setAttribute('aria-label', 'Click to enlarge diagram');
+        
+        diagram.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                currentImageIndex = imageList.length + index;
+                openModal(diagram, 'mermaid');
             }
         });
     });
     
     // Open modal function
-    function openModal(img) {
+    function openModal(element, type) {
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
@@ -367,29 +393,56 @@ function initImageModal() {
         modalLoading.style.display = 'block';
         modalImg.style.display = 'none';
         
-        // Load image
-        const tempImg = new Image();
-        tempImg.onload = function() {
-            modalImg.src = img.src;
-            modalImg.alt = img.alt || 'Enlarged image';
-            modalInfo.textContent = img.alt || 'Image';
+        // Clear any existing mermaid content
+        const existingMermaidContent = modal.querySelector('.mermaid-content');
+        if (existingMermaidContent) {
+            existingMermaidContent.remove();
+        }
+        
+        if (type === 'image') {
+            // Handle regular images
+            const tempImg = new Image();
+            tempImg.onload = function() {
+                modalImg.src = element.src;
+                modalImg.alt = element.alt || 'Enlarged image';
+                modalInfo.textContent = element.alt || 'Image';
+                
+                modalLoading.style.display = 'none';
+                modalImg.style.display = 'block';
+                
+                // Add active class for animation
+                setTimeout(() => {
+                    modal.classList.add('active');
+                }, 10);
+            };
             
+            tempImg.onerror = function() {
+                modalLoading.style.display = 'none';
+                modalInfo.textContent = 'Failed to load image';
+                modal.classList.add('active');
+            };
+            
+            tempImg.src = element.src;
+            
+        } else if (type === 'mermaid') {
+            // Handle mermaid diagrams
+            modalImg.style.display = 'none';
+            
+            // Create mermaid content container
+            const mermaidContent = document.createElement('div');
+            mermaidContent.className = 'mermaid-content';
+            mermaidContent.innerHTML = element.innerHTML;
+            
+            modalContent.appendChild(mermaidContent);
+            
+            modalInfo.textContent = 'Mermaid Diagram';
             modalLoading.style.display = 'none';
-            modalImg.style.display = 'block';
             
             // Add active class for animation
             setTimeout(() => {
                 modal.classList.add('active');
             }, 10);
-        };
-        
-        tempImg.onerror = function() {
-            modalLoading.style.display = 'none';
-            modalInfo.textContent = 'Failed to load image';
-            modal.classList.add('active');
-        };
-        
-        tempImg.src = img.src;
+        }
         
         // Show/hide navigation buttons
         updateNavigationButtons();
@@ -406,12 +459,18 @@ function initImageModal() {
         setTimeout(() => {
             modal.style.display = 'none';
             modalImg.src = '';
+            
+            // Clean up mermaid content
+            const existingMermaidContent = modal.querySelector('.mermaid-content');
+            if (existingMermaidContent) {
+                existingMermaidContent.remove();
+            }
         }, 300);
     }
     
     // Update navigation buttons visibility
     function updateNavigationButtons() {
-        if (imageList.length <= 1) {
+        if (allMediaList.length <= 1) {
             modalPrev.style.display = 'none';
             modalNext.style.display = 'none';
         } else {
@@ -420,9 +479,9 @@ function initImageModal() {
             
             // Disable buttons at boundaries
             modalPrev.style.opacity = currentImageIndex === 0 ? '0.3' : '0.7';
-            modalNext.style.opacity = currentImageIndex === imageList.length - 1 ? '0.3' : '0.7';
+            modalNext.style.opacity = currentImageIndex === allMediaList.length - 1 ? '0.3' : '0.7';
             modalPrev.disabled = currentImageIndex === 0;
-            modalNext.disabled = currentImageIndex === imageList.length - 1;
+            modalNext.disabled = currentImageIndex === allMediaList.length - 1;
         }
     }
     
@@ -430,14 +489,18 @@ function initImageModal() {
     function showPrevImage() {
         if (currentImageIndex > 0) {
             currentImageIndex--;
-            openModal(imageList[currentImageIndex]);
+            const element = allMediaList[currentImageIndex];
+            const type = currentImageIndex < imageList.length ? 'image' : 'mermaid';
+            openModal(element, type);
         }
     }
     
     function showNextImage() {
-        if (currentImageIndex < imageList.length - 1) {
+        if (currentImageIndex < allMediaList.length - 1) {
             currentImageIndex++;
-            openModal(imageList[currentImageIndex]);
+            const element = allMediaList[currentImageIndex];
+            const type = currentImageIndex < imageList.length ? 'image' : 'mermaid';
+            openModal(element, type);
         }
     }
     

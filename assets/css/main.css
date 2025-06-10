@@ -811,6 +811,7 @@ a:hover {
     box-shadow: 0 4px 16px var(--shadow);
     border-color: var(--primary-color);
     transform: translateY(-1px);
+    cursor: pointer;
 }
 
 /* 다크모드 Mermaid 스타일 */
@@ -940,6 +941,30 @@ a:hover {
 .image-modal img:hover {
     transform: scale(1) !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Mermaid diagram in modal */
+.image-modal .mermaid-content {
+    max-width: 95%;
+    max-height: 95%;
+    background: var(--background);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    cursor: default;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+    overflow: auto;
+}
+
+.image-modal.active .mermaid-content {
+    transform: scale(1);
+}
+
+[data-theme="dark"] .image-modal .mermaid-content {
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-border);
 }
 
 /* Modal Controls */
