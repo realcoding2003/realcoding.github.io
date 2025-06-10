@@ -132,8 +132,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
 }
 
-
-
 h1 { font-size: var(--font-size-4xl); }
 h2 { font-size: var(--font-size-3xl); }
 h3 { font-size: var(--font-size-2xl); }
@@ -2117,8 +2115,6 @@ a:hover {
     }
 }
 
-
-
 @media (max-width: 480px) {
     .main-content {
         margin-top: 90px !important; /* 작은 모바일에서는 약간 줄임 */
@@ -2267,3 +2263,15 @@ a:hover {
     background: rgba(255, 255, 255, 0.8);
     color: black;
 }
+
+/* Index 페이지 전용 포스트 제목 간격 조정 */
+.posts-feed .post-title {
+    margin-top: 0 !important;
+}
+.posts-feed .post-content {
+    padding-bottom: 0 !important;
+}
+.posts-feed .posts-list {
+    gap: 0 !important;
+}
+
