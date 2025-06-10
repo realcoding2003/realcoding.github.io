@@ -31,7 +31,7 @@ permalink: /ja/
         <div class="posts-list">
           {% assign japanese_posts = site.posts | where: "lang", "ja" %}
           {% if japanese_posts.size > 0 %}
-            {% for post in japanese_posts limit:8 %}
+            {% for post in japanese_posts limit:20 %}
             <article class="post-item">
               <div class="post-content">
                 <h3 class="post-title">

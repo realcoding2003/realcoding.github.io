@@ -31,7 +31,7 @@ permalink: /en/
         <div class="posts-list">
           {% assign english_posts = site.posts | where: "lang", "en" %}
           {% if english_posts.size > 0 %}
-            {% for post in english_posts limit:8 %}
+            {% for post in english_posts limit:20 %}
             <article class="post-item">
               <div class="post-content">
                 <h3 class="post-title">

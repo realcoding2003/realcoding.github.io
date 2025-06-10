@@ -1575,11 +1575,11 @@ a:hover {
 .posts-list {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-md);
 }
 
 .post-item {
-    padding: var(--spacing-lg) 0;
+    padding: var(--spacing-sm) 0;
     border-bottom: 1px solid var(--border);
     transition: var(--transition);
 }

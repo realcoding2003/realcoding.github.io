@@ -27,7 +27,7 @@ title: Home
         </div>
 
         <div class="posts-list">
-          {% for post in site.posts limit:8 %}
+          {% for post in site.posts limit:20 %}
             {% assign post_lang = post.lang | default: site.default_lang %}
             {% if post_lang == current_lang %}
             <article class="post-item">
