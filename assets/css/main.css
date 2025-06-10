@@ -881,6 +881,224 @@ a:hover {
     margin: 2rem 0;
     border-radius: var(--radius-md);
     box-shadow: 0 4px 15px var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.post-content img:hover,
+.page-content img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+/* Image Modal Styles */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.image-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-modal img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    cursor: default;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.image-modal.active img {
+    transform: scale(1);
+}
+
+.image-modal img:hover {
+    transform: scale(1) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Modal Controls */
+.image-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    z-index: 10001;
+}
+
+.image-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.image-modal-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    display: none;
+}
+
+.image-modal-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Navigation */
+.image-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0.7;
+}
+
+.image-modal-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.image-modal-prev {
+    left: 20px;
+}
+
+.image-modal-next {
+    right: 20px;
+}
+
+/* Modal Info */
+.image-modal-info {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    max-width: 80%;
+    text-align: center;
+    opacity: 0.9;
+}
+
+/* Dark mode adjustments for modal */
+[data-theme="dark"] .image-modal {
+    background: rgba(0, 0, 0, 0.95);
+}
+
+[data-theme="dark"] .image-modal-close,
+[data-theme="dark"] .image-modal-nav {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .image-modal-close:hover,
+[data-theme="dark"] .image-modal-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .image-modal-content {
+        max-width: 95%;
+        max-height: 85%;
+    }
+    
+    .image-modal-close {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .image-modal-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .image-modal-prev {
+        left: 15px;
+    }
+    
+    .image-modal-next {
+        right: 15px;
+    }
+    
+    .image-modal-info {
+        bottom: 15px;
+        padding: 10px 16px;
+        font-size: 13px;
+        max-width: 90%;
+    }
 }
 
 /* Horizontal rules */

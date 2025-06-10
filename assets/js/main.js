@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initThemeToggle();
     initScrollToTop();
     initSmoothScrolling();
+    initImageModal();
 });
 
 // Mobile menu functionality
@@ -290,4 +291,222 @@ function initCodeCopyButtons() {
 // Initialize code copy buttons if code blocks exist
 if (document.querySelectorAll('pre code').length > 0) {
     initCodeCopyButtons();
+}
+
+// Image Modal functionality
+function initImageModal() {
+    // Create modal elements
+    const modal = document.createElement('div');
+    modal.className = 'image-modal';
+    modal.innerHTML = `
+        <div class="image-modal-content">
+            <button class="image-modal-close" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="image-modal-nav image-modal-prev" aria-label="Previous image">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="image-modal-nav image-modal-next" aria-label="Next image">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="image-modal-loading">
+                <div class="image-modal-spinner"></div>
+                <div>Loading...</div>
+            </div>
+            <img src="" alt="" />
+            <div class="image-modal-info"></div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Get modal elements
+    const modalContent = modal.querySelector('.image-modal-content');
+    const modalImg = modal.querySelector('img');
+    const modalInfo = modal.querySelector('.image-modal-info');
+    const modalClose = modal.querySelector('.image-modal-close');
+    const modalPrev = modal.querySelector('.image-modal-prev');
+    const modalNext = modal.querySelector('.image-modal-next');
+    const modalLoading = modal.querySelector('.image-modal-loading');
+    
+    // Get all images in post content
+    const images = document.querySelectorAll('.post-content img, .page-content img');
+    let currentImageIndex = 0;
+    let imageList = Array.from(images);
+    
+    if (images.length === 0) return;
+    
+    // Add click listeners to images
+    images.forEach((img, index) => {
+        img.addEventListener('click', function(e) {
+            e.preventDefault();
+            currentImageIndex = index;
+            openModal(img);
+        });
+        
+        // Add keyboard accessibility
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', 'Click to enlarge image');
+        
+        img.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                currentImageIndex = index;
+                openModal(img);
+            }
+        });
+    });
+    
+    // Open modal function
+    function openModal(img) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Show loading
+        modalLoading.style.display = 'block';
+        modalImg.style.display = 'none';
+        
+        // Load image
+        const tempImg = new Image();
+        tempImg.onload = function() {
+            modalImg.src = img.src;
+            modalImg.alt = img.alt || 'Enlarged image';
+            modalInfo.textContent = img.alt || 'Image';
+            
+            modalLoading.style.display = 'none';
+            modalImg.style.display = 'block';
+            
+            // Add active class for animation
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+        };
+        
+        tempImg.onerror = function() {
+            modalLoading.style.display = 'none';
+            modalInfo.textContent = 'Failed to load image';
+            modal.classList.add('active');
+        };
+        
+        tempImg.src = img.src;
+        
+        // Show/hide navigation buttons
+        updateNavigationButtons();
+        
+        // Focus management for accessibility
+        modalClose.focus();
+    }
+    
+    // Close modal function
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modalImg.src = '';
+        }, 300);
+    }
+    
+    // Update navigation buttons visibility
+    function updateNavigationButtons() {
+        if (imageList.length <= 1) {
+            modalPrev.style.display = 'none';
+            modalNext.style.display = 'none';
+        } else {
+            modalPrev.style.display = 'flex';
+            modalNext.style.display = 'flex';
+            
+            // Disable buttons at boundaries
+            modalPrev.style.opacity = currentImageIndex === 0 ? '0.3' : '0.7';
+            modalNext.style.opacity = currentImageIndex === imageList.length - 1 ? '0.3' : '0.7';
+            modalPrev.disabled = currentImageIndex === 0;
+            modalNext.disabled = currentImageIndex === imageList.length - 1;
+        }
+    }
+    
+    // Navigation functions
+    function showPrevImage() {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            openModal(imageList[currentImageIndex]);
+        }
+    }
+    
+    function showNextImage() {
+        if (currentImageIndex < imageList.length - 1) {
+            currentImageIndex++;
+            openModal(imageList[currentImageIndex]);
+        }
+    }
+    
+    // Event listeners
+    modalClose.addEventListener('click', closeModal);
+    modalPrev.addEventListener('click', showPrevImage);
+    modalNext.addEventListener('click', showNextImage);
+    
+    // Close modal when clicking outside image
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Prevent closing when clicking on modal content
+    modalContent.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!modal.classList.contains('active')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                closeModal();
+                break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                showPrevImage();
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                showNextImage();
+                break;
+        }
+    });
+    
+    // Touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    modal.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    modal.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - show next image
+                showNextImage();
+            } else {
+                // Swipe right - show previous image
+                showPrevImage();
+            }
+        }
+    }
+    
+    // Prevent scrolling when modal is open
+    modal.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    }, { passive: false });
 }
