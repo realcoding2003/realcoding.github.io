@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Unity + Firebase 인증 삽질기: Anonymous에서 Account Linking까지"
-date: 2025-06-21 15:00:00 +0900
+date: 2025-06-21 10:00:00 +0900
 categories: [Development, Unity]
 tags: [Unity, Firebase, Authentication, AccountLinking, AWS, Lambda, 인증시스템, 게임개발]
 author: "Kevin Park"
