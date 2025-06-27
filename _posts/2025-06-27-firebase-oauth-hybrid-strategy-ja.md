@@ -1,69 +1,109 @@
 ---
 layout: post
-title: "FirebaseにネイバーカカオOIDCを作る？現実は違った"
+title: "FirebaseにNaver/Kakao OIDCを作る？現実は違った"
 date: 2025-06-27 02:30:00 +0900
 categories: [Development, AI]
-tags: [Firebase, OAuth, ネイバーログイン, カカオログイン, Lambda, 奮闘記]
+tags: [Firebase, OAuth, Naverログイン, Kakaoログイン, Lambda, 苦労話]
 author: "Kevin Park"
-excerpt: "Firebaseにネイバーカカオ OIDCプロバイダーを追加しようとして徹夜した話"
+excerpt: "FirebaseにNaver/Kakao OIDCプロバイダーを追加しようとして徹夜した話"
 image: "/assets/images/posts/firebase-oauth-hybrid-strategy/firebase-oauth-hybrid-strategy-hero.png"
 lang: ja
 ---
 
-# FirebaseにネイバーカカオOIDCを作る？現実は違った
+# FirebaseにNaver/Kakao OIDCを作る？現実は違った
 
 ![Firebase OAuth ハイブリッド戦略](/assets/images/posts/firebase-oauth-hybrid-strategy/firebase-oauth-hybrid-strategy-hero.png)
-*午前2時、Firebase コンソールと格闘していたあの日...*
+*午前2時、Firebaseコンソールと格闘していたあの日...*
 
 ## 🤦‍♂️ こんなことが起きた
 
-先週のプロジェクトで、Firebase Authenticationにネイバー/カカオログインを追加する必要があった。「ああ、簡単だね。FirebaseでOIDC（OpenID Connect）プロバイダーを追加すればいいでしょう？」と思った私...
+先週のプロジェクトで、Firebase AuthenticationにNaver/Kakaoログインを追加する必要があった。「ああ、簡単だな。FirebaseでOIDC（OpenID Connect）プロバイダーを追加すればいいんでしょ？」と思っていた私...
 
 本当に甘かった。
 
-**問題**：FirebaseはOIDCプロバイダーの追加をサポートしているが、ネイバーとカカオは標準OIDC仕様を完全には準拠していない！
+**問題**: FirebaseはOIDCプロバイダーの追加をサポートしているが、NaverとKakaoは標準OIDC仕様を完全に準拠していない！
 
 ```javascript
-// こうすればいけると思ったのに...
+// こうすればできると思ったのに...
 const provider = new firebase.auth.OAuthProvider('naver.com');
 // ❌ Error: Invalid provider ID
 ```
 
-## 🔧 奮闘の過程
+## 🔧 苦労の過程
 
-### 最初の試み：OIDCディスカバリー文書を探す
+### 最初の試み：OIDC Discoveryドキュメントを探す
 
-標準OIDCプロバイダーは`/.well-known/openid-configuration`エンドポイントを提供する。それで探してみた：
+標準的なOIDCプロバイダーは`/.well-known/openid-configuration`エンドポイントを提供する。それで探してみた：
 
 ```bash
-# ネイバーを試す
+# Naverを試す
 curl https://nid.naver.com/.well-known/openid-configuration
 # 404 Not Found 😭
 
-# カカオを試す  
+# Kakaoを試す  
 curl https://kauth.kakao.com/.well-known/openid-configuration
 # 404 Not Found 😭
 ```
 
 どちらもなかった...
 
-### 二番目の試み：手動でOIDC設定
+面白いことに、[KakaoはKakao Login設定で「OpenID Connect Activation」を有効化できる](https://velog.io/@dginovker/How-to-use-Kakao-for-SSO-on-Android-and-iOS-Flutter-apps-with-Firebase)というので期待して確認してみたが、それでも標準Discoveryドキュメントは提供していなかった。
 
-Firebaseコンソールで手動で設定しようとした：
+### 2回目の試み：手動でOIDC設定
 
-| 設定項目 | 必要な値 | ネイバー/カカオの現実 |
-|---------|---------|-------------------|
+Firebaseコンソールで手動で設定してみようとした：
+
+| 設定項目 | 必要な値 | Naver/Kakaoの現実 |
+|----------|----------|-------------------|
 | Issuer URL | OIDC発行者URL | ❌ なし |
 | Client ID | OAuthクライアントID | ✅ あり |
 | Client Secret | OAuthクライアントシークレット | ✅ あり |
 | Token URL | トークンエンドポイント | ⚠️ OAuth 2.0のみサポート |
 | UserInfo URL | ユーザー情報エンドポイント | ⚠️ 非標準形式 |
 
-結論：**不可能**。ネイバーとカカオはOAuth 2.0はサポートしているが、OIDC標準はサポートしていない。
+結論：**不可能**。NaverとKakaoはOAuth 2.0はサポートしているが、完全なOIDC標準はサポートしていない。
 
-### 三番目の試み：カスタムトークン戦略
+### 3回目の試み：Firebase FunctionsでOIDCプロキシを作る
 
-「じゃあサーバーでカスタムトークンを作って渡せばいいね！」
+「じゃあ、Firebase Functionsで中間レイヤーを作って標準OIDCに変換すればいいんじゃない？」
+
+こんな構造を試した：
+
+```javascript
+// Firebase FunctionでOIDCプロキシ実装を試みる
+exports.oidcProxy = functions.https.onRequest(async (req, res) => {
+    const { provider } = req.query; // 'naver'または'kakao'
+    
+    if (req.path === '/.well-known/openid-configuration') {
+        // 偽のOIDC Discoveryドキュメントを提供
+        return res.json({
+            issuer: `https://us-central1-myproject.cloudfunctions.net/oidcProxy`,
+            authorization_endpoint: `https://us-central1-myproject.cloudfunctions.net/oidcProxy/authorize`,
+            token_endpoint: `https://us-central1-myproject.cloudfunctions.net/oidcProxy/token`,
+            userinfo_endpoint: `https://us-central1-myproject.cloudfunctions.net/oidcProxy/userinfo`,
+            // ... その他のOIDC必須フィールド
+        });
+    }
+    
+    // 各エンドポイントごとのプロキシロジック...
+});
+```
+
+しかし、この方式はいくつかの問題に直面した：
+
+1. **複雑度の爆発**：OIDCのすべてのエンドポイントを実装しなければならない
+2. **状態管理地獄**：Authorization Code、Access Tokenなどをどこに保存するか
+3. **セキュリティの問題**：中間者役割をしながら発生する追加のセキュリティ考慮事項
+4. **コスト増加**：すべての認証リクエストがFunctionsを経由しなければならない
+
+似たような試みをした事例を探してみると：
+- [Naverブログでも「韓国で活発に使われているKakaoログイン/Naverログインはまだサポートされていない」と言及](https://m.blog.naver.com/chltmddus23/221784299552)しCustom Token方式を提案
+- [GitHubのfirebase-custom-loginプロジェクト](https://github.com/zaiyou12/firebase-custom-login)でも「firebase functionを使用してCustom Tokenを返す方式」を採用
+- [AWS LambdaとFirebase Authを組み合わせた方式](https://goodgoodjm.github.io/kakao-and-naver-login-with-firebase-1/)も結局Custom Tokenに帰結
+
+### 4回目の試み：Custom Token戦略
+
+結局、Firebase FunctionsでOIDCを真似るよりも、サーバー（Lambda）でCustom Tokenを発行する方がずっとすっきりしているという結論に到達した。
 
 これが正解だった。でもここでまた問題が...
 
@@ -74,36 +114,36 @@ Firebaseコンソールで手動で設定しようとした：
 ```mermaid
 flowchart LR
     A[クライアント] -->|OAuth Code| B[Lambda Function]
-    B -->|アクセストークン要求| C[ネイバー/カカオ API]
+    B -->|Access Token要求| C[Naver/Kakao API]
     C -->|ユーザー情報| B
-    B -->|カスタムトークン生成| D[Firebase Admin SDK]
+    B -->|Custom Token生成| D[Firebase Admin SDK]
     B -->|ユーザー保存| E[DynamoDB]
-    D -->|カスタムトークン| A
+    D -->|Custom Token| A
     A -->|signInWithCustomToken| F[Firebase Auth]
 ```
 
-核心は**すべてのユーザーをFirebaseの匿名ユーザーとして先に作成し、後でアカウントを連携する方式**である。
+核心は**すべてのユーザーをFirebaseの匿名ユーザーとして最初に作り、後でアカウントを連携する方式**である。
 
 ## 💻 実際の実装コード
 
-### 1. Lambdaでネイバーログイン処理
+### 1. LambdaでNaverログイン処理
 
 ```javascript
-// ネイバーユーザー → Firebase UIDマッピング
+// Naverユーザー → Firebase UIDマッピング
 async function handleNaverLogin(naverUser) {
-    // 既存マッピング確認
+    // 既存のマッピング確認
     const mappedUid = await getNaverUidMapping(naverUser.id);
     
     if (mappedUid) {
         // 既存ユーザー - マッピングされたUIDを使用
         return await loginExistingUser(mappedUid);
     } else {
-        // 新規ユーザー - サーバーで匿名アカウント作成後に連携
+        // 新規ユーザー - サーバーで匿名アカウント作成後連携
         const anonymousUser = await admin.auth().createUser({
             disabled: false // 匿名ユーザー
         });
         
-        // ネイバー情報でアカウント更新（Account Linking）
+        // Naver情報でアカウント更新（Account Linking）
         await admin.auth().updateUser(anonymousUser.uid, {
             email: naverUser.email,
             displayName: naverUser.nickname,
@@ -124,22 +164,22 @@ async function handleNaverLogin(naverUser) {
 ### 2. DynamoDBにマッピング情報を保存
 
 ```javascript
-// ネイバー/カカオ ID → Firebase UIDマッピング
+// Naver/Kakao ID → Firebase UIDマッピング
 const mappingStructure = {
-    PK: 'NLOGIN#naver_user_12345',  // ネイバーユーザーID
+    PK: 'NLOGIN#naver_user_12345',  // NaverユーザーID
     SK: 'AbCdEfGhIjKlMnOpQrStUvWxYz', // Firebase UID
     createdAt: '2025-01-28T02:30:00Z'
 };
 ```
 
-これで同じネイバー/カカオアカウントでログインしても常に同じFirebase UIDを使用できる！
+これで同じNaver/Kakaoアカウントでログインしても常に同じFirebase UIDを使用できる！
 
-### 3. クライアントでカスタムトークン使用
+### 3. クライアントでCustom Token使用
 
 ```javascript
 // クライアント（Unity/Web）
 async function loginWithNaver(authCode) {
-    // 1. LambdaにAuthorization Codeを送信
+    // 1. LambdaにAuthorization Code送信
     const response = await fetch('/auth/naver', {
         method: 'POST',
         body: JSON.stringify({ code: authCode })
@@ -150,48 +190,63 @@ async function loginWithNaver(authCode) {
     // 2. Firebaseログイン
     await firebase.auth().signInWithCustomToken(customToken);
     
-    // 3. JWTトークンを保存（API呼び出し用）
+    // 3. JWTトークン保存（API呼び出し用）
     localStorage.setItem('authToken', jwt.accessToken);
 }
 ```
 
 ## 📈 結果と学んだこと
 
-### メリット
-- ✅ Firebaseのすべての機能を活用可能（Rules、Analyticsなど）
+### 長所
+- ✅ Firebaseのすべての機能活用可能（Rules、Analyticsなど）
 - ✅ 統合されたユーザー管理（すべてのユーザーがFirebase UIDを保有）
-- ✅ 匿名 → ソーシャルアカウント転換をサポート
+- ✅ 匿名 → ソーシャルアカウント転換サポート
 - ✅ マルチプロバイダー連携可能
 
-### デメリット
-- ❌ サーバーインフラが必要（Lambda + DynamoDB）
-- ❌ 追加費用発生
+### 短所
+- ❌ サーバーインフラ必要（Lambda + DynamoDB）
+- ❌ 追加コスト発生
 - ❌ 実装の複雑度増加
 
 ### 核心的な洞察
 
-1. **Firebaseはグローバル標準のみをサポートする**
+1. **Firebaseはグローバル標準のみサポートする**
    - 韓国のローカルサービスはほとんどOAuth 2.0のみサポート
    - OIDC標準を期待してはいけない
+   - [Firebase公式ドキュメント](https://firebase.google.com/docs/auth/web/openid-connect)でも「OIDC compliant provider」を明示
 
-2. **ハイブリッド戦略が正解である**
+2. **Firebase FunctionsでOIDCプロキシを作るのは非現実的である**
+   - 理論的には可能だが実装の複雑度が高すぎる
+   - セキュリティ脆弱性発生の可能性増加
+   - コストとメンテナンス負担が大きい
+   - 多くの開発者が試したがほとんどCustom Token方式に回帰
+
+3. **ハイブリッド戦略が正解である**
    - Firebase UIDで統合管理
    - ソーシャルログインはマッピングテーブルで処理
-   - 匿名ユーザーの活用が鍵
+   - 匿名ユーザー活用が核心
+   - Account Linkingで後でアカウント連携可能
 
-3. **サーバーレスが最適である**
+4. **サーバーレスが最適である**
    - Lambda + DynamoDBの組み合わせがコスト効率的
-   - Cold Startを考慮してNode.js 18.xを使用
+   - Cold Startを考慮してNode.js 18.x使用
    - Parameter Storeでシークレット管理
 
 ## 🎯 まとめ
 
-最初は「FirebaseでOIDCプロバイダーを追加すれば終わり！」と思っていたが、現実は違った。でもおかげでより柔軟な認証システムを作ることができた。
+最初は「FirebaseでOIDCプロバイダー追加すれば終わり！」と思ったが、現実は違った。しかしおかげでもっと柔軟な認証システムを作ることができた。
 
-もし同じような状況にある方は、最初からカスタムトークン方式で行ってください。OIDCプロバイダーを追加しようと時間を無駄にしないで... 😅
+インターネットを調べてみると私のような人が多かった：
+- [Kakao DevTalkでも2017年からFirebase連携の質問](https://devtalk.kakao.com/t/firebase/30575)が上がっている
+- [Stack OverflowでもOAuth 2.0設定関連の問題](https://stackoverflow.com/questions/79183709/oauth-2-0-not-working-properly-with-kakao-login-in-react-app)が継続的に報告されている
+- ほとんどの解決策がCustom Token方式に収束
 
-全体コードは[GitHubリポジトリ](https://github.com/realcoding2003/firebase-auth-apigateway)で確認できます！
+似たような状況にいる方々、最初からCustom Token方式で行ってください。OIDCプロバイダー追加しようと時間を無駄にしないで... 😅
+
+完全なコードは[GitHubリポジトリ](https://github.com/realcoding2003/firebase-auth-apigateway)で確認できます！
 
 ---
 
-**追伸** この方式で実装したら、後でAppleログインを追加するときも同じパターンで簡単に拡張できました。むしろ良かったかも...？ 🤔
+**P.S.** この方式で実装したら、後でAppleログインを追加する時も同じパターンで簡単に拡張できました。むしろ良かったのかも...？ 🤔
+
+**P.P.S.** KakaoがOIDCを部分的にサポートすると聞いて期待したけど、結局Firebaseが要求する標準とは距離がありました。Naverはそもそも OIDC計画がないみたい... 🥲
