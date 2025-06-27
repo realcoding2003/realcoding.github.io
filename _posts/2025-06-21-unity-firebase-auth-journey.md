@@ -5,6 +5,7 @@ date: 2025-06-21 10:00:00 +0900
 categories: [Development, Unity]
 tags: [Unity, Firebase, Authentication, AccountLinking, AWS, Lambda, 인증시스템, 게임개발]
 author: "Kevin Park"
+lang: ko
 excerpt: "비회원도 회원도 자연스럽게! Firebase Anonymous Auth부터 Account Linking까지 실제 구현 과정의 시행착오와 해결책"
 image: "/assets/images/posts/firebase-auth-journey/hero.png"
 mermaid: true

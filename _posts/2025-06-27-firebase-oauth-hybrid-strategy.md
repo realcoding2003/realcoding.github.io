@@ -5,6 +5,7 @@ date: 2025-06-27 02:30:00 +0900
 categories: [Development, AI]
 tags: [Firebase, OAuth, 네이버로그인, 카카오로그인, Lambda, 삽질기]
 author: "Kevin Park"
+lang: ko
 excerpt: "Firebase에 네이버/카카오 OIDC 프로바이더 추가하려다가 밤샜던 이야기"
 image: "/assets/images/posts/firebase-oauth-hybrid-strategy/firebase-oauth-hybrid-strategy-hero.png"
 ---
