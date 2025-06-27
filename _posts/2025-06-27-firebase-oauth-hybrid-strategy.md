@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Firebase에 네이버/카카오 OIDC 만들기? 현실은 다르더라"
-date: 2025-01-28 02:30:00 +0900
+date: 2025-06-27 02:30:00 +0900
 categories: [Development, AI]
 tags: [Firebase, OAuth, 네이버로그인, 카카오로그인, Lambda, 삽질기]
 author: "Kevin Park"
